@@ -130,4 +130,3 @@ Backup DB :
 ```bash
 docker exec app-boreal-db-1 pg_dump -U admin_boreal boreal_db > backup_$(date +%F).sql
 ```
-Une fois enregistré et poussé (`git push`), la preview sur GitHub sera parfaitement propre. Est-ce que c'est bon pour toi ?
