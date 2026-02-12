@@ -6,18 +6,18 @@ Dans le tumulte de la vie étudiante, l'information se perd souvent. Boreal appo
 
 ## 🛠️ Excellence Technique
 Développé avec une exigence de "Production-Ready", Boreal s'appuie sur une stack technologique de pointe :
-- **Architecture Next.js 15 & TypeScript : Pour une interface ultra-réactive et un code maintenable par les futures promotions.
-- **Maîtrise de la Donnée : Une base PostgreSQL orchestrée par Prisma pour une intégrité parfaite des informations.
-- **Dockerisation Totale : Déploiement en un clic via Docker Compose, garantissant que l'app tourne aussi bien sur un PC d'élève que sur un serveur dédié.
-- **Interconnectivité : Liaison native avec le système Borgia pour un suivi financier en temps réel.
+- **Architecture Next.js 15** & TypeScript : Pour une interface ultra-réactive et un code maintenable par les futures promotions.
+- **Maîtrise de la Donnée** : Une base PostgreSQL orchestrée par Prisma pour une intégrité parfaite des informations.
+- **Dockerisation Totale** : Déploiement en un clic via Docker Compose, garantissant que l'app tourne aussi bien sur un PC d'élève que sur un serveur dédié.
+- **Interconnectivité** : Liaison native avec le système Borgia pour un suivi financier en temps réel.
 - **Emails**: Nodemailer (SMTP OVH)
 - **Style**: Tailwind CSS & Lucide Icons
 
 ## 🚀 Fonctionnalités Majeures
-- **Le Hub d'Infos : Un flux de news structuré pour ne plus rien rater, des annonces administratives aux soirées mémorables.
-- **Le Planning Intelligent : Un calendrier communautaire gérant les événements et les créneaux sportifs de manière intuitive.
-- **Notifications Temps Réel : Grâce à l'intégration Pusher, la résidence reste connectée instantanément.
-- **Prêt pour la V2 : Une base déjà conçue pour intégrer la gestion logistique des stocks (boquettes)
+- **Le Hub d'Infos** : Un flux de news structuré pour ne plus rien rater, des annonces administratives aux soirées mémorables.
+- **Le Planning Intelligent** : Un calendrier communautaire gérant les événements et les créneaux sportifs de manière intuitive.
+- **Notifications Temps Réel** : Grâce à l'intégration Pusher, la résidence reste connectée instantanément.
+- **Prêt pour la V2** : Une base déjà conçue pour intégrer la gestion logistique des stocks (boquettes)
 
 L'engagement Boreal : Un projet open-source sous licence GPL v3, bâti par un Gadz pour les Gadz, garantissant un outil libre, évolutif et durable.
 
