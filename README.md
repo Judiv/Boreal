@@ -1,16 +1,25 @@
-# Boreal
-Boreal est une plateforme full-stack dédiée à la gestion des résidences étudiantes. Développée avec Next.js 15, Prisma et PostgreSQL, elle centralise la communication, les événements et le suivi financier Borgia au sein d'une infrastructure Docker isolée.
+##🏔️ Boreal
+Boreal est bien plus qu'une simple application web ; c'est le cœur battant numérique de la résidence. Conçue comme un véritable écosystème full-stack, cette plateforme centralise l'intégralité de la vie collective, de la communication officielle à la gestion financière, pour offrir aux résidents une expérience fluide et unifiée.
 
-# 🏔️ Boreal - Portail Résidence
+##✨ La Vision
+Dans le tumulte de la vie étudiante, l'information se perd souvent. Boreal apporte la clarté. En fusionnant des outils de planification moderne avec une infrastructure robuste, le projet pérennise les échanges et simplifie l'accès aux services essentiels de la résidence.
 
-Boreal est une plateforme moderne de gestion pour résidence étudiante (Gadzarts), permettant la gestion des actualités, des événements, de l'entraide et du solde Borgia.
-
-## 🚀 Technologies
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
-- **Base de données**: [PostgreSQL](https://www.postgresql.org/) avec [Prisma ORM](https://www.prisma.io/)
-- **Conteneurisation**: [Docker](https://www.docker.com/) & Docker Compose
+##🛠️ Excellence Technique
+Développé avec une exigence de "Production-Ready", Boreal s'appuie sur une stack technologique de pointe :
+- **Architecture Next.js 15 & TypeScript : Pour une interface ultra-réactive et un code maintenable par les futures promotions.
+- **Maîtrise de la Donnée : Une base PostgreSQL orchestrée par Prisma pour une intégrité parfaite des informations.
+- **Dockerisation Totale : Déploiement en un clic via Docker Compose, garantissant que l'app tourne aussi bien sur un PC d'élève que sur un serveur dédié.
+- **Interconnectivité : Liaison native avec le système Borgia pour un suivi financier en temps réel.
 - **Emails**: Nodemailer (SMTP OVH)
 - **Style**: Tailwind CSS & Lucide Icons
+
+##🚀 Fonctionnalités Majeures
+- **Le Hub d'Infos : Un flux de news structuré pour ne plus rien rater, des annonces administratives aux soirées mémorables.
+- **Le Planning Intelligent : Un calendrier communautaire gérant les événements et les créneaux sportifs de manière intuitive.
+- **Notifications Temps Réel : Grâce à l'intégration Pusher, la résidence reste connectée instantanément.
+- **Prêt pour la V2 : Une base déjà conçue pour intégrer la gestion logistique des stocks (boquettes)
+
+L'engagement Boreal : Un projet open-source sous licence GPL v3, bâti par un Gadz pour les Gadz, garantissant un outil libre, évolutif et durable.
 
 ## 🛠️ Installation (Local avec Docker)
 
