@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # --- BASE DE DONNÉES ---
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: admin_boreal
+      POSTGRES_PASSWORD: password_secret
+      POSTGRES_DB: boreal_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin_boreal -d boreal_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- APPLICATION BOREAL ---
+  app:
+    build: .
+    user: "root"
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      # Connexion DB interne au réseau Docker
+      DATABASE_URL: "postgresql://admin_boreal:password_secret@db:5432/boreal_db?schema=public"
+      NODE_ENV: production
+      
+      # Mapping des variables Email (OVH)
+      EMAIL_SERVER_HOST: ${EMAIL_HOST}
+      EMAIL_SERVER_PORT: ${EMAIL_PORT}
+      EMAIL_SERVER_USER: ${EMAIL_USER}
+      EMAIL_SERVER_PASSWORD: ${EMAIL_PASS}
+      EMAIL_FROM: ${EMAIL_USER}
+
+      # Mapping Pusher (Correction des clés)
+      PUSHER_APP_ID: ${PUSHER_APP_ID}
+      PUSHER_KEY: ${NEXT_PUBLIC_PUSHER_KEY}
+      PUSHER_SECRET: ${PUSHER_SECRET}
+      PUSHER_CLUSTER: ${NEXT_PUBLIC_PUSHER_CLUSTER}
+      
+      # Configuration URL
+      NEXTAUTH_URL: "http://localhost:3000"
+      NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./public/uploads:/app/public/uploads
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  db_data:

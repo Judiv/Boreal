@@ -1,0 +1,289 @@
+/* --- CONTENEUR PRINCIPAL --- */
+.container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #020617; /* Fond bleu nuit profond */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- EFFET AURORE (RALENTI) --- */
+.auroraWrapper {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 1;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.aurora {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 120deg at 50% 50%,
+    transparent 0deg,
+    rgba(59, 130, 246, 0.12) 60deg,
+    rgba(16, 185, 129, 0.1) 120deg,
+    transparent 180deg,
+    rgba(139, 92, 246, 0.08) 240deg,
+    transparent 360deg
+  );
+  animation: rotateAurora 80s linear infinite;
+}
+
+@keyframes rotateAurora {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.1); }
+}
+
+/* --- GRAIN DE BRUIT --- */
+.noise {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.02;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* --- CONTENU LANDING --- */
+.landingContent {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+}
+
+.brandName {
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  font-style: italic;
+  color: white;
+  text-transform: uppercase;
+  text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+  margin-bottom: 0.5rem;
+}
+
+.openButton {
+  margin-top: 2rem;
+  padding: 1.2rem 4rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: white;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(12px);
+}
+
+.openButton:hover {
+  background: white;
+  color: #020617;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+}
+
+/* --- MODALE --- */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.7);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.modalCard {
+  width: 90%;
+  max-width: 420px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3.5rem 2.5rem;
+  border-radius: 40px;
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
+  position: relative;
+  backdrop-filter: blur(30px);
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 480px;
+}
+
+/* --- FORMULAIRE --- */
+.inputGroup { 
+  margin-bottom: 1.5rem; 
+  width: 100%;
+}
+
+.label { 
+  font-size: 0.65rem; 
+  color: #64748b; 
+  margin-bottom: 0.75rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.2em; 
+  font-weight: 800;
+  display: block;
+  text-align: center;
+}
+
+.input {
+  width: 100%; 
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  border-radius: 20px;
+  color: white; 
+  text-align: center;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: block; 
+}
+
+.input::placeholder {
+  text-align: center;
+  color: #475569;
+}
+
+.input:focus { 
+  border-color: #3b82f6; 
+  background: rgba(59, 130, 246, 0.05); 
+  outline: none; 
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.rememberRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.submitBtn {
+  width: 100%; 
+  padding: 1.25rem; 
+  background: #3b82f6; 
+  color: white; 
+  border-radius: 20px; 
+  font-weight: 900;
+  text-transform: uppercase; 
+  letter-spacing: 0.1em;
+  border: none; 
+  cursor: pointer; 
+  transition: all 0.3s;
+}
+
+.submitBtn:hover:not(:disabled) { 
+  transform: scale(1.02); 
+  background: #2563eb; 
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.closeBtn { 
+  position: absolute; 
+  top: 2rem; 
+  right: 2rem; 
+  background: none; 
+  border: none; 
+  color: #475569; 
+  cursor: pointer; 
+  transition: color 0.3s;
+}
+
+.closeBtn:hover { color: white; }
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { 
+  from { opacity: 0; transform: translateY(40px) scale(0.98); } 
+  to { opacity: 1; transform: translateY(0) scale(1); } 
+}
+
+/* --- RESET PASSWORD SPECIFIC --- */
+.cancelBtn {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 24px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- BOUTON OUBLIÉ (Dans la vue Login) --- */
+.forgotBtn {
+  background: none;
+  border: none;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(99, 102, 241, 0.5); /* Indigo translucide */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.forgotBtn:hover {
+  color: #818cf8; /* Indigo brillant */
+  text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+/* --- BOUTON RETOUR (Dans la vue Reset) --- */
+.backBtn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 2rem;
+  width: fit-content;
+}
+
+.backBtn span {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.backBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(-4px); /* Petit mouvement vers la gauche */
+}

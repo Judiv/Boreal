@@ -1,0 +1,311 @@
+/* src/app/news/news.module.css */
+
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #0f0f11;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- EN-TÊTE --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.title span {
+  color: #3b82f6;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: white;
+  color: black;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.addButton:hover {
+  background-color: #3b82f6;
+  color: white;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+/* --- GRILLE --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+/* --- CARTE NEWS --- */
+.card {
+  position: relative;
+  background: rgba(26, 26, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.cardLink {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* --- IMAGE SECTION --- */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: #121215;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.08);
+}
+
+.noImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1e 0%, #0f0f11 100%);
+  color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- TEXT CONTENT --- */
+.cardBody {
+  padding: 1.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.category {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.date {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #71717a;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.cardContent {
+  color: #a1a1aa;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+/* Footer (Auteur) */
+.cardFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.authorName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: white;
+}
+
+/* --- ACTIONS (Edit/Delete) --- */
+.actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 50; /* Doit être au-dessus du lien de la carte */
+}
+
+.card:hover .actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: white;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  padding: 0; /* Reset pour le form button */
+}
+
+.actionBtn:hover {
+  background: white;
+  color: black;
+  transform: translateY(-2px);
+  border-color: white;
+}
+
+.deleteBtn:hover {
+  background: #ef4444 !important;
+  color: white !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Style spécifique pour la barre d'admin dans la vue détaillée */
+.adminBar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  padding: 12px;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.editBtn, 
+.deleteBtnAction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  border: none;
+}
+
+.editBtn {
+  background: #3b82f6;
+  color: white;
+  text-decoration: none;
+}
+
+.editBtn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.deleteBtnAction {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.deleteBtnAction:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 640px) {
+  .actions {
+    opacity: 1;
+    transform: none;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

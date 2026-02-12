@@ -1,0 +1,140 @@
+/* src/app/news/edit/[id]/edit.module.css */
+
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  
+  /* Fond Boreal */
+  background-color: #0f0f11;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-style: italic;
+  color: white;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.05em;
+}
+
+.title span {
+  color: #3b82f6; /* Bleu */
+}
+
+/* --- FORMULAIRE (Carte Verre) --- */
+.formCard {
+  background: rgba(26, 26, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* --- CHAMPS DE SAISIE --- */
+.fieldGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a1a1aa;
+  margin-bottom: 0.5rem;
+  margin-left: 0.2rem;
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.select option {
+  background-color: #1a1a1e;
+  color: white;
+}
+
+/* --- BOUTON SUBMIT --- */
+.submitButton {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.submitButton:hover {
+  background-color: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+}
+
+/* Bouton Quitter (X) */
+.closeButton {
+  position: absolute;
+  /* Correction ici aussi */
+  top: 0.75rem;
+  right: 0.75rem;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a1a1aa;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: rgba(239, 68, 68, 0.2); /* Fond rouge léger */
+  color: #f87171; /* Icône rouge */
+  border-color: #ef4444;
+  transform: rotate(90deg); /* Petite animation stylée */
+}

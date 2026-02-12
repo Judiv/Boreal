@@ -1,0 +1,720 @@
+.container {
+  min-height: 100vh;
+  background: #050507;
+  color: white;
+  padding: 100px 20px;
+}
+
+.header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.header h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+}
+
+.header h1 span { color: #a855f7; }
+
+/* --- TABS --- */
+.tabs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px;
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.tabs button {
+  padding: 12px 24px;
+  border-radius: 15px;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.activeTab {
+  background: #a855f7 !important;
+  color: white !important;
+  box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+}
+
+/* --- SEARCH --- */
+.searchBar {
+  max-width: 600px;
+  margin: 0 auto 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchBar svg {
+  position: absolute;
+  left: 20px;
+  color: #555;
+}
+
+.searchBar input {
+  width: 100%;
+  padding: 18px 20px 18px 60px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.searchBar input:focus {
+  border-color: #a855f7;
+}
+
+/* --- GRID OBJETS --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 25px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s;
+}
+
+.card:hover { transform: translateY(-5px); border-color: rgba(168, 85, 247, 0.4); }
+
+.cardInfo h3 { font-size: 1.4rem; margin-bottom: 10px; }
+.cardInfo p { color: #888; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
+
+.badge {
+  background: rgba(168, 85, 247, 0.1);
+  color: #d8b4fe;
+  padding: 6px 15px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.actions button {
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.actions button:first-child { background: #a855f7; color: white; }
+.returnBtn { background: rgba(255, 255, 255, 0.05); color: white; }
+.actions button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* --- LIST COVOIT --- */
+.list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.rideItem {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.route svg { color: #a855f7; }
+
+.rideDetails {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.driver {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 15px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* Utils */
+.deleteBtn {
+  margin-top: 15px;
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.topActions {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 50px;
+  align-items: center;
+}
+
+.mainAddBtn {
+  background: white;
+  color: black;
+  border: none;
+  padding: 18px 30px;
+  border-radius: 20px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s;
+}
+
+.mainAddBtn:hover {
+  transform: scale(1.05);
+  background: #a855f7;
+  color: white;
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #111;
+  padding: 40px;
+  border-radius: 30px;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.modal input, .modal textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 12px;
+  color: white;
+  outline: none;
+}
+
+.submitBtn {
+  background: #a855f7;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Stock Info */
+.stockInfo {
+  margin-top: 15px;
+}
+
+.progressBar {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: #a855f7;
+  transition: width 0.3s ease;
+}
+
+.rideMeta {
+  display: flex;
+  gap: 20px;
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.lieuBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #a855f7;
+  margin-bottom: 15px;
+  background: rgba(168, 85, 247, 0.1);
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.miniDelete {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: none;
+  padding: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.guestNote {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  padding: 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.deleteRideBtn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.sideActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.container {
+  min-height: 100vh;
+  background: #050508;
+  color: white;
+  padding: 120px 20px;
+  position: relative;
+}
+
+.glowBg {
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; height: 500px;
+  background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.header { text-align: center; margin-bottom: 60px; }
+.mainTitle { font-size: 5rem; font-weight: 950; letter-spacing: -3px; margin: 10px 0; }
+.mainTitle span { color: #a855f7; }
+
+.tabWrapper {
+  display: flex; gap: 10px; justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px; border-radius: 25px; width: fit-content; margin: 20px auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tabWrapper button {
+  padding: 12px 30px; border-radius: 20px; border: none; background: transparent;
+  color: #666; font-weight: 800; cursor: pointer; transition: 0.3s;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.activeTab { background: white !important; color: black !important; }
+
+/* Action Bar */
+.actionRow {
+  max-width: 900px; margin: 0 auto 50px;
+  display: flex; gap: 15px;
+}
+
+.searchBox {
+  flex: 1; position: relative; display: flex; align-items: center;
+}
+
+.searchBox svg { position: absolute; left: 20px; color: #555; }
+.searchBox input {
+  width: 100%; padding: 18px 20px 18px 60px; background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; color: white;
+}
+
+.addBtn {
+  background: #a855f7; color: white; border: none; padding: 0 30px;
+  border-radius: 20px; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+}
+
+/* Object Cards */
+.objectGrid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px; max-width: 1200px; margin: 0 auto;
+}
+
+.objectCard {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  padding: 30px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+}
+
+.objectCard:hover { border-color: #a855f7; transform: translateY(-5px); }
+
+.objHeader { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.objIcon { width: 45px; height: 45px; background: rgba(168, 85, 247, 0.1); color: #a855f7; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+
+.locationBadge { font-size: 0.8rem; color: #a855f7; background: rgba(168, 85, 247, 0.15); padding: 5px 12px; border-radius: 8px; width: fit-content; margin: 15px 0; }
+
+.stockStatus { margin-top: 20px; }
+.stockLabels { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
+.track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+.fill { height: 100%; background: #a855f7; transition: 0.5s ease; }
+
+/* Ride Items */
+.rideCard {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 15px; padding: 25px; border-radius: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 900px; margin: 0 auto 15px;
+}
+
+.ridePath { display: flex; align-items: center; gap: 20px; font-size: 1.4rem; font-weight: 800; }
+.arrowAnim { color: #a855f7; }
+
+/* Admin Tools */
+.adminTools { display: flex; gap: 8px; }
+.adminTools button { background: rgba(255,255,255,0.05); border: none; color: white; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; }
+.adminTools button:hover { background: #a855f7; }
+
+.submitBtn {
+  background: white; color: black; padding: 18px; border-radius: 15px;
+  font-weight: 800; border: none; cursor: pointer; margin-top: 20px;
+}
+
+.placesBadge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #a855f7;
+  margin-bottom: 8px;
+  text-align: right;
+}
+
+.regBtn {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.unregBtn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.regBtn:hover { transform: scale(1.05); background: #16a34a; }
+.unregBtn:hover { background: rgba(239, 68, 68, 0.2); }
+
+.regBtn:disabled {
+  background: #333;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.regBtn {
+  background: #22c55e; /* Vert pour s'inscrire */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.unregBtn {
+  background: rgba(239, 68, 68, 0.1); /* Rouge soft pour se désister */
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.regBtn:hover { transform: scale(1.05); background: #16a34a; }
+.unregBtn:hover { background: rgba(239, 68, 68, 0.2); }
+
+.fullBadge {
+  color: #666;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- BOUTONS DE GESTION DE STOCK (PRÊTÉ / RENDU) --- */
+.ownerActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.ownerActions button {
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Bouton Sortir 1 (Prêter) */
+.ownerActions button:first-child {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+}
+
+.ownerActions button:first-child:hover:not(:disabled) {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Bouton Rendu */
+.ownerActions button:last-child {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+}
+
+.ownerActions button:last-child:hover:not(:disabled) {
+  background: #22c55e;
+  color: white;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.ownerActions button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+/* --- BOUTON MODIFIER COVOIT (DESIGN CERCLE) --- */
+.editBtn {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editBtn:hover {
+  background: #a855f7;
+  color: white;
+  transform: rotate(15deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+.deleteBtn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.deleteBtn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* --- BOUTON CLOSE DU MODAL (X) --- */
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+  transform: rotate(90deg);
+}
+
+/* --- AJUSTEMENT MODAL HEADER --- */
+.modalHeader {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.modalHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #fff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* app/entraide/entraide.module.css */
+
+.requestBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  /* Style Gadz : Dégradé Violet vers Indigo */
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  
+  /* Effets de transition */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+}
+
+.requestBtn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+  filter: brightness(1.1);
+}
+
+.requestBtn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.requestBtn:disabled {
+  background: rgba(255, 255, 255, 0.05);
+  color: #555;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Animation pour l'icône de chargement (Loader2) */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optionnel : Ajout d'une petite lueur pulsante quand le bouton est actif */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(168, 85, 247, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+}
+
+.requestBtn:focus {
+  outline: none;
+  animation: pulseGlow 1.5s infinite;
+}
+

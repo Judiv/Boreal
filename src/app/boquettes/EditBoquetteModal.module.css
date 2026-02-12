@@ -1,0 +1,161 @@
+/* --- L'ARRIÈRE-PLAN (ISOLATION) --- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9); /* Fond quasi-noir pour isoler le contenu */
+  backdrop-filter: blur(15px);   /* Flou intense sur le site en arrière-plan */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999; /* Priorité absolue au-dessus de tout */
+  padding: 2rem;
+  animation: fadeIn 0.3s ease;
+}
+
+/* --- LA FENÊTRE (LA CARTE DE MODALE) --- */
+.modal {
+  background: #121215;
+  border: 1px solid rgba(59, 130, 246, 0.3); /* Bordure bleue Boreal lumineuse */
+  width: 100%;
+  max-width: 550px;
+  border-radius: 32px;
+  padding: 2.5rem;
+  /* Double ombre : une pour la profondeur (noir), une pour l'éclat (bleu) */
+  box-shadow: 
+    0 50px 100px -20px rgba(0, 0, 0, 1),
+    0 0 20px rgba(59, 130, 246, 0.1);
+  position: relative;
+  /* Animation d'apparition : zoom léger et montée */
+  animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- HEADER & TITRE --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-size: 1.7rem;
+  font-weight: 900;
+  font-style: italic;
+  color: #fff;
+}
+
+.title span { 
+  color: #3b82f6; 
+  text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #71717a;
+  padding: 0.6rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* --- FORMULAIRE & CHAMPS --- */
+.field {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input, .textarea {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input:focus, .textarea:focus { 
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+/* --- BOUTONS --- */
+.footer {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 2.5rem;
+}
+
+.cancelBtn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a1a1aa;
+  padding: 1rem;
+  border-radius: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.submitBtn {
+  flex: 2;
+  background: #3b82f6;
+  border: none;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s;
+}
+
+.submitBtn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.9) translateY(30px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}

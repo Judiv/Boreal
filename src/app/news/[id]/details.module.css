@@ -1,0 +1,298 @@
+/* ✅ On ajuste le conteneur pour s'assurer qu'il laisse de la place au bouton */
+.fullPageContainer {
+  background-color: #0a0a0c;
+  min-height: 100vh;
+  color: white;
+  position: relative;
+  padding-top: 0; /* On commence à 0 pour le Hero */
+}
+
+/* ✅ Correction du bouton Retour */
+.floatingBack {
+  position: absolute; /* Change fixed par absolute pour qu'il suive le scroll au début */
+  top: 100px; /* On le descend pour qu'il soit SOUS ta barre de navigation */
+  left: 40px;
+  z-index: 50; /* Assez haut pour être sur le Hero, mais pas sur le menu */
+  
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px 12px 18px;
+  
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px; /* Un look plus angulaire pour coller à ton style BOREAL */
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  
+  transition: all 0.3s ease;
+}
+
+.floatingBack:hover {
+  background: white;
+  color: black;
+  border-color: white;
+  transform: translateX(-5px); /* Petit effet de recul vers la gauche */
+}
+
+/* ✅ On gère le responsive pour éviter qu'il ne cache le titre sur mobile */
+@media (max-width: 1024px) {
+  .floatingBack {
+    top: 85px;
+    left: 20px;
+    padding: 8px 16px;
+    font-size: 0.7rem;
+  }
+}
+
+/* --- HERO SECTION (FULL WIDTH) --- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh; /* Couvre une grande partie de l'écran au chargement */
+  min-height: 450px;
+  display: flex;
+  align-items: flex-end;
+  background: #000;
+  overflow: hidden;
+}
+
+.heroImage {
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.heroContent {
+  position: relative;
+  width: 100%;
+  max-width: 1400px; /* Elargi pour ton grand écran */
+  margin: 0 auto;
+  padding: 0 4rem 4rem 4rem; /* Réduit le padding top pour remonter le titre */
+  z-index: 10;
+}
+
+.title {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.85;
+  text-transform: uppercase;
+  font-style: italic;
+  margin-top: 1.5rem;
+  letter-spacing: -0.04em;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.badge {
+  background: #3b82f6;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.dot { color: rgba(255,255,255,0.2); }
+
+/* --- BARRE D'ADMINISTRATION --- */
+.adminBar {
+  background: #111114;
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  border-bottom: 1px solid #1f1f23;
+}
+
+.editBtn, .deleteBtn {
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+
+.editBtn { background: #3b82f6; color: white; text-decoration: none; }
+.editBtn:hover { background: #2563eb; transform: translateY(-2px); }
+
+.deleteBtn { 
+  background: rgba(239, 68, 68, 0.1); 
+  color: #ef4444; 
+  border: 1px solid rgba(239, 68, 68, 0.2); 
+}
+.deleteBtn:hover { background: #ef4444; color: white; transform: translateY(-2px); }
+
+/* --- SECTION TEXTE (DESCRIPTION) --- */
+.textSection {
+  max-width: 850px;
+  margin: 5rem auto;
+  padding: 0 2rem;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 3.5rem;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.3rem;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.authorName { font-weight: 800; font-size: 1.2rem; margin: 0; }
+.subText { color: #64748b; font-size: 0.85rem; margin: 0; }
+
+.body {
+  font-size: 1.35rem;
+  line-height: 1.8;
+  color: #cbd5e1;
+}
+
+.body p { margin-bottom: 2.5rem; }
+
+/* --- SECTION PDF (FULL WIDTH) --- */
+.pdfSection {
+  width: 100%;
+  background: #000;
+  border-top: 1px solid #1f1f23;
+}
+
+.pdfBar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pdfLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #f8fafc;
+}
+
+.pdfIcon { color: #ef4444; }
+
+.pdfActions { display: flex; gap: 1rem; }
+
+.downloadBtn {
+  background: white;
+  color: black;
+  padding: 0.6rem 1.3rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: 0.2s;
+}
+
+.downloadBtn:hover { background: #3b82f6; color: white; }
+
+.externalBtn {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f1f23;
+  color: white;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.externalBtn:hover { background: #334155; }
+
+.iframeWrapper {
+  width: 100%;
+  height: 100vh; /* Le PDF prend tout l'écran en hauteur */
+  background: #121214;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* --- FOOTER & SORTIE --- */
+.footer {
+  padding: 8rem 2rem;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(to bottom, #000, #0a0a0c);
+}
+
+.bottomBackLink {
+  display: flex;
+  align-items: center;
+  position: relative;
+  bottom: 100px;
+  gap: 1rem;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  padding: 1.2rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.bottomBackLink:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.03);
+  border-color: #3b82f6;
+  transform: translateY(-5px);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .hero { height: 50vh; }
+  .heroContent { padding: 3rem 1.5rem; }
+  .title { font-size: 3rem; }
+  .floatingBack {
+    top: 20px;
+    left: 20px;
+    padding: 8px 15px;
+    font-size: 0.8rem;
+  }
+  .textSection { margin: 3rem auto; }
+  .body { font-size: 1.15rem; }
+  .pdfBar { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+  .iframeWrapper { height: 70vh; }
+}

@@ -1,0 +1,169 @@
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px); z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.modal {
+  background: #0f172a; width: 90%; max-width: 500px;
+  border-radius: 24px; border: 1px solid rgba(255,255,255,0.1);
+  padding: 2rem; animation: slideUp 0.3s ease-out;
+}
+
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 2rem;
+}
+
+.iconTitle { display: flex; align-items: center; gap: 12px; }
+.iconTitle h2 { font-size: 1.5rem; font-weight: 900; }
+
+.form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.inputGroup { display: flex; flex-direction: column; gap: 8px; }
+.inputGroup label { font-size: 0.8rem; font-weight: 700; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
+
+.inputGroup input, .inputGroup textarea {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px; border-radius: 12px; color: white; outline: none;
+}
+
+.submitBtn {
+  background: #3b82f6; color: white; padding: 14px; border-radius: 14px;
+  font-weight: 800; border: none; cursor: pointer; transition: 0.2s;
+}
+
+.submitBtn:hover { background: #2563eb; transform: translateY(-2px); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(3, 7, 18, 0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.modal {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  width: 95%; max-width: 450px;
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+              inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Lueur décorative derrière le contenu */
+.modalGlow {
+  position: absolute;
+  top: -20%; right: -20%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  z-index: 0; pointer-events: none;
+}
+
+.header { position: relative; z-index: 1; display: flex; justify-content: space-between; margin-bottom: 2rem; }
+.form { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* Styles Inputs */
+.inputGroup input, .inputGroup textarea {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inputGroup input:focus {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+.submitBtn {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px; /* Carré arrondi pour matcher les inputs */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #64748b; /* Gris neutre au repos */
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 10;
+}
+
+.closeBtn:hover {
+  background: rgba(239, 68, 68, 0.1); /* Rouge très léger en fond */
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444; /* Rouge vif pour l'icône X */
+  transform: rotate(90deg); /* Rotation stylée au survol */
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+.closeBtn:active {
+  transform: rotate(90deg) scale(0.9);
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.cancelBtn {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px); /* Effet verre dépoli */
+  position: relative;
+  overflow: hidden;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 68, 68, 0.08); /* Teinte rouge très discrète */
+  color: #ff5f5f; /* Texte qui s'illumine en rouge doux */
+  border-color: rgba(255, 95, 95, 0.4); /* Bordure rouge néon */
+  box-shadow: 0 0 15px rgba(255, 95, 95, 0.15); /* Glow extérieur */
+  transform: translateY(-2px);
+}
+
+.cancelBtn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Optionnel : petit reflet sur le bouton */
+.cancelBtn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.cancelBtn:hover::after {
+  left: 100%;
+}

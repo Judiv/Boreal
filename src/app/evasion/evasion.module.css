@@ -1,0 +1,257 @@
+.container {
+  min-height: 100vh;
+  background: #020205;
+  color: white;
+  padding: 120px 20px 60px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bgGlow {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 600px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* --- HEADER --- */
+.header {
+  text-align: center;
+  margin-bottom: 100px;
+  position: relative;
+}
+
+.preTitle {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: #a855f7;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.mainTitle {
+  font-size: clamp(4rem, 15vw, 9rem);
+  font-weight: 950;
+  line-height: 0.8;
+  letter-spacing: -5px;
+  margin: 0;
+}
+
+.mainTitle span {
+  color: #a855f7;
+}
+
+.compassContainer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.compassIcon {
+  color: rgba(255, 255, 255, 0.2);
+  animation: rotate 10s linear infinite;
+}
+
+/* --- CARDS --- */
+.destinationsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.destCard {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 650px;
+  border-radius: 40px;
+  overflow: hidden;
+  text-decoration: none;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.destCard:hover {
+  transform: translateY(-20px) scale(1.02);
+  border-color: var(--accent);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+}
+
+.cardImageArea {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 20%, #020205 95%);
+  z-index: 2;
+}
+
+.cardBg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.8) brightness(0.7);
+  transition: transform 0.8s ease;
+}
+
+.destCard:hover .cardBg {
+  transform: scale(1.1);
+  filter: saturate(1.1) brightness(0.9);
+}
+
+/* --- CONTENU CARTE --- */
+.cardInfo {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 50px;
+  z-index: 3;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.iconCircle {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+}
+
+.baseline {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+.destTitle {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin: 0 0 15px 0;
+  color: white;
+  line-height: 1;
+}
+
+.destDesc {
+  font-size: 1.1rem;
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  max-width: 90%;
+}
+
+.exploreTrigger {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.exploreText {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.arrowCircle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.destCard:hover .arrowCircle {
+  background: var(--accent);
+  color: white;
+  transform: translateX(10px) rotate(-45deg);
+  box-shadow: 0 0 20px var(--accent);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.footerInfo {
+  margin-top: 120px;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.infoLine {
+  width: 50px;
+  height: 2px;
+  background: #a855f7;
+  margin: 0 auto 20px;
+}
+
+.cardImageArea {
+  position: relative;
+  width: 100%;
+  height: 300px; /* À ajuster selon tes besoins */
+  overflow: hidden;
+  background-color: #000;
+}
+
+.videoBg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover; /* Important pour garder le ratio sans déformer */
+  z-index: 1;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+  z-index: 2; /* Devant la vidéo */
+}
+
+.cardInfo {
+  position: relative;
+  z-index: 3; /* Devant l'overlay */
+  padding: 1.5rem;
+}

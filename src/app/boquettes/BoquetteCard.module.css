@@ -1,0 +1,348 @@
+/* --- STRUCTURE PRINCIPALE DE LA CARTE --- */
+.card {
+  background: rgba(23, 23, 26, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px; /* Bords un peu plus arrondis */
+  overflow: visible;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* État quand la boquette est OUVERTE (Glow vert) */
+.cardOpen {
+  border-color: rgba(34, 197, 94, 0.4);
+  box-shadow: 
+    0 20px 40px -15px rgba(0, 0, 0, 0.6), 
+    0 0 20px -5px rgba(34, 197, 94, 0.15);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(30, 30, 35, 0.8);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+  z-index: 50;
+}
+
+/* --- LE CONTENEUR D'IMAGE --- */
+.imageWrapper {
+  height: 220px; /* ✅ Hauteur fixe pour l'uniformité */
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px 28px 0 0; /* ✅ Arrondis seulement le haut */
+  background: #121215;
+}
+
+/* --- L'IMAGE ELLE-MÊME --- */
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  object-position: center;
+  transition: transform 0.6s ease;
+}
+
+/* Petit effet sympa au survol */
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.statusBadge {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  backdrop-filter: blur(12px);
+  z-index: 2;
+  border: 1px solid;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.statusOpen {
+  background: rgba(34, 197, 94, 0.25);
+  border-color: #22c55e;
+  color: #4ade80;
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+.statusClosed {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #f87171;
+}
+
+/* --- CONTENU TEXTUEL --- */
+.content {
+  padding: 1.8rem;
+  flex-grow: 1;
+}
+
+.boquetteName {
+  font-size: 2rem; /* Plus grand pour l'impact */
+  font-weight: 950;
+  color: #fff;
+  margin-bottom: 0.4rem;
+  font-style: italic;
+  letter-spacing: -0.5px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+}
+
+.description {
+  color: #d4d4d8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+/* --- SECTION GÉRANTS (MANAGERS) --- */
+.managersSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.avatarGroup {
+  display: flex;
+  flex-direction: row-reverse; 
+  justify-content: flex-end;
+}
+
+.avatarWrapper {
+  position: relative;
+  margin-left: -12px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: 2px solid #121215;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.moreAvatar {
+  background: #3f3f46;
+}
+
+.avatarWrapper:hover .avatar {
+  transform: translateY(-5px) scale(1.1);
+  border-color: #3b82f6;
+  z-index: 10;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* --- TOOLTIP PREMIUM --- */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 15px); /* Un peu plus d'espace */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  
+  /* Couleurs plus vives */
+  background: #1e1e24; 
+  border: 2px solid #3b82f6; /* Bordure bleue plus épaisse */
+  color: #ffffff;
+  
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+  
+  /* Effet de mise en avant (Glow) */
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.5), 
+    0 0 15px rgba(59, 130, 246, 0.4); /* Halo bleu */
+    
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 9999; /* Au dessus de tout */
+}
+
+/* On rend la flèche plus visible aussi */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #3b82f6 transparent transparent transparent; /* Flèche bleue */
+}
+
+.avatarWrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.managerText {
+  font-size: 0.75rem;
+  color: #71717a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- ACTIONS ET BOUTONS --- */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.8rem;
+  gap: 0.8rem;
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.btnOpen {
+  background: #22c55e;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btnOpen:hover {
+  background: #16a34a;
+  transform: scale(1.02);
+}
+
+.btnClose {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btnClose:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #f87171;
+}
+
+.editBtn {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.7rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: rotate(15deg);
+}
+
+.deleteBtn {
+  background: rgba(239, 68, 68, 0.1); /* Fond rouge très léger */
+  color: #f87171; /* Rouge clair */
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 0.7rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteBtn:hover {
+  background: #ef4444; /* Rouge plein au survol */
+  color: #fff;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.actionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.rotanceBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.rotanceBtn:hover:not(:disabled) {
+  background: #f59e0b;
+  color: white;
+}
+
+.adminActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Optionnel : petite animation si tu veux que l'icône Beer bouge */
+@keyframes beerSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.spin {
+  animation: beerSpin 1s linear infinite;
+}

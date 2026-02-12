@@ -1,0 +1,1054 @@
+/* --- LAYOUT --- */
+.layout {
+  display: flex;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 90vh;
+}
+
+.sidebar { width: 280px; flex-shrink: 0; }
+.mainContent { flex: 1; min-width: 0; }
+
+/* --- GLASS CARD DETAIL --- */
+.detailWrapper {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.glassCard {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.backBtnFlat {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.backBtnFlat:hover { color: white; }
+
+.detailActionsBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 6px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.folderSelectStyled {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.actionsDivider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 4px;
+}
+
+.actionBtnIcon {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionBtnIcon:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+}
+
+.actionBtnIcon.danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+}
+
+/* --- TEXT CONTENT --- */
+.objetMainTitle {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.senderInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.avatarLarge {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: white;
+}
+
+.senderMeta { display: flex; flex-direction: column; }
+.senderBucque { font-weight: 700; color: #60a5fa; font-size: 1.1rem; }
+.sendDate { font-size: 0.85rem; color: #64748b; }
+
+.messageBody {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  margin-bottom: 3rem;
+}
+
+/* --- ATTACHMENTS GRID --- */
+.attachmentGallery {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1.5rem;
+}
+
+.galleryHeader {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.gridAttachments {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.fileCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s;
+}
+
+.fileCard:hover { background: rgba(255, 255, 255, 0.06); }
+
+.fileIcon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.fileInfo { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.fileNameSmall {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #f1f5f9;
+}
+.fileSizeSmall { font-size: 0.75rem; color: #64748b; }
+
+.fileDownloadBtn {
+  color: #94a3b8;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.fileDownloadBtn:hover {
+  background: white;
+  color: black;
+}
+
+/* --- SIDEBAR & LIST (Reste du code inchangé ou ajusté) --- */
+.composeBtn {
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #94a3b8;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.navActive { background: rgba(59, 130, 246, 0.1); color: #60a5fa; font-weight: 600; }
+
+.unreadItem { background: rgba(59, 130, 246, 0.05); border-left: 3px solid #3b82f6; }
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  background: #3b82f6;
+  border-radius: 50%;
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.messageItem {
+  position: relative;
+  background: rgba(30, 41, 59, 0.4);
+  padding: 1.25rem 1.25rem 1.25rem 2rem;
+  border-radius: 18px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.messageItem:hover { border-color: #3b82f6; }
+
+/* --- AMÉLIORATION SELECTEUR --- */
+.selectWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.selectWrapper:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.selectIcon {
+  color: #60a5fa;
+}
+
+.folderSelectStyled {
+  background: transparent;
+  border: none;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+}
+
+.folderSelectStyled option {
+  background: #1e293b;
+  color: white;
+}
+
+/* --- BOUTONS DOSSIERS --- */
+.navHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 14px 12px 14px;
+}
+
+.iconActionBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.iconActionBtn:hover {
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.1);
+}
+
+.delFolderBtn {
+  opacity: 0;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.navItem:hover .delFolderBtn {
+  opacity: 1;
+}
+
+.delFolderBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* --- LISTE PIÈCES JOINTES --- */
+.fileCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.fileCard:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+}
+
+.fileIcon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.fileDownloadBtn {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  padding: 8px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.fileDownloadBtn:hover {
+  background: white;
+  color: black;
+}
+
+/* --- MISC --- */
+.foldersList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.folderNameText {
+  flex: 1;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- ACTIONS FICHIERS --- */
+.fileActions {
+  display: flex;
+  gap: 8px;
+}
+
+.fileActionBtn {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fileActionBtn:hover {
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* On s'assure que le lien download se comporte comme le bouton */
+a.fileActionBtn {
+  text-decoration: none;
+}
+
+/* --- MISC --- */
+.fileCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.fileCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Ajustement pour que le nom de fichier ne pousse pas trop les boutons */
+.fileInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.fileNameSmall {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #f1f5f9;
+}
+
+/* --- TOAST NOTIFICATION --- */
+.toastNotification {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: #1e293b;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 280px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 9999;
+  animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toastContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.toastIcon {
+  color: #3b82f6;
+}
+
+.toastClose {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  transition: all 0.2s;
+}
+
+.toastClose:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+@keyframes toastSlideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- AJUSTEMENT DES BOUTONS DE DOSSIERS --- */
+.navHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 8px;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.iconActionBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  transition: all 0.2s;
+}
+
+.iconActionBtn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+/* --- AJUSTEMENT ACTIONS FICHIERS --- */
+.fileActions {
+  display: flex;
+  gap: 6px;
+}
+
+.fileActionBtn {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  border: none;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.fileActionBtn:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.toastNotification {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: #1e293b;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); /* Ombre plus forte */
+  border: 1px solid rgba(59, 130, 246, 0.3); /* Bordure bleutée */
+  z-index: 99999 !important; /* Force le passage au premier plan */
+  animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.emptyTrashBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.emptyTrashBtn:hover {
+    background: #ef4444;
+    color: white;
+}
+
+.undoBtn {
+  background: transparent;
+  border: 1px solid #60a5fa;
+  color: #60a5fa;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.undoBtn:hover {
+  background: #60a5fa;
+  color: #0f172a;
+}
+
+.emptyTrashBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* --- COMPOSITION PAGE --- */
+.glassCardCompose {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 0; /* On gère le padding par zones */
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.composeRow {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.composeLabel {
+  width: 80px;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.composeField {
+  flex: 1;
+}
+
+.composeInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  outline: none;
+}
+
+.composeInput::placeholder {
+  color: #475569;
+}
+
+.composeAreaWrapper {
+  padding: 1.5rem 2rem;
+}
+
+.composeArea {
+  width: 100%;
+  min-height: 350px;
+  background: transparent;
+  border: none;
+  color: #e2e8f0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  outline: none;
+  resize: vertical;
+}
+
+.composeFooter {
+  padding: 1.5rem 2rem;
+  background: rgba(15, 23, 42, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.attachBtnCompose {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.attachBtnCompose:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sendBtnPremium {
+  background: #3b82f6;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+.sendBtnPremium:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.sendBtnPremium:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- FILES PREVIEW --- */
+.attachmentGalleryCompose {
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fileCardSmall {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 6px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fileIconBlue { color: #60a5fa; }
+
+.fileNameTiny {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeFileBtn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+}
+
+.removeFileBtn:hover { color: #f87171; }
+
+.composeInfoCard {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.composeInfoCard h3 { font-size: 1rem; margin: 10px 0 5px 0; color: white; }
+.composeInfoCard p { font-size: 0.8rem; color: #64748b; line-height: 1.4; }
+
+/* --- RECIPIENT SEARCH (À & OBJET) --- */
+.recipientContainer {
+  position: relative;
+  width: 100%;
+}
+
+.recipientWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+
+.selectedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  align-items: center;
+}
+
+.recipientBadge {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+  padding: 4px 8px 4px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: badgeIn 0.2s ease-out;
+}
+
+@keyframes badgeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.badgeRemove {
+  background: transparent;
+  border: none;
+  color: #60a5fa;
+  cursor: pointer;
+  display: flex;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.badgeRemove:hover {
+  background: rgba(248, 113, 113, 0.2);
+  color: #f87171;
+}
+
+.recipientInput {
+  flex: 1;
+  min-width: 150px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  padding: 4px 0;
+}
+
+/* --- SEARCH DROPDOWN --- */
+.searchDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.searchResultItem {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.searchResultItem:hover {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.resultAvatar {
+  width: 32px;
+  height: 32px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.resultMeta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.resultBucque {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.resultName {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.resultPlus {
+  color: #475569;
+}
+
+.searchResultItem:hover .resultPlus {
+  color: #60a5fa;
+  transform: scale(1.2);
+}
+
+/* --- AMÉLIORATION LISTE DÉROULANTE (SELECT) --- */
+/* Pour ton sélecteur "Ranger dans..." */
+.folderSelectStyled {
+  appearance: none; /* Cache la flèche par défaut */
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  padding-right: 20px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* --- RICH EDITOR --- */
+.editorContainer {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.2);
+  overflow: visible; /* Important pour laisser dépasser le menu emoji */
+  transition: all 0.2s ease;
+  outline: none !important;
+}
+
+.editorContentArea :global(.ProseMirror) {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.editorContainer:focus-within {
+  border-color: #3b82f6; /* On garde juste une bordure de couleur propre */
+  outline: none !important;
+}
+
+.editorToolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px 16px 0 0;
+}
+
+.editorBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  transition: all 0.2s;
+}
+
+.editorBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.editorBtnActive {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 4px;
+}
+
+/* --- SUPPRESSION DU BORD BLANC --- */
+.editorContentArea {
+  padding: 1.5rem 2rem;
+  min-height: 350px;
+  color: #e2e8f0;
+}
+
+/* C'est ici qu'on enlève le contour blanc au focus */
+.ProseMirror {
+  outline: none !important; /* Enlève la bordure blanche */
+  min-height: 350px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #475569;
+  pointer-events: none;
+  height: 0;
+}
+
+/* --- EMOJI POPOVER --- */
+.emojiWrapper {
+  position: relative;
+}
+
+.emojiPopover {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Customisation du picker pour l'intégrer au thème */
+.emojiPopover :global(.epr-main) {
+  border: none !important;
+  background-color: #0f172a !important; /* Ton fond sombre */
+}
+
+.emojiPopover :global(.epr-category-nav) {
+  padding: 10px !important;
+}
+
+.tiptapEditorInside {
+  outline: none !important;
+  border: none !important;
+  min-height: 350px;
+}
+
+/* Pour l'aperçu propre dans la liste */
+.itemSnippet {
+  font-size: 0.85rem;
+  color: #64748b;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Coupe après 2 lignes */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 4px;
+}

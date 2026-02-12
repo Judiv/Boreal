@@ -1,0 +1,439 @@
+/* src/app/galerie/galerie.module.css */
+
+.container {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+
+/* --- DECORATIONS --- */
+.bgDecor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #050507;
+}
+
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.blob {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: pulse 10s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); opacity: 0.5; }
+  to { transform: scale(1.3); opacity: 0.8; }
+}
+
+/* --- HEADER --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.title span {
+  display: block;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #3b82f6;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.addBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+  background: #2563eb;
+}
+
+/* --- GRID --- */
+.gridSection {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.folderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.folderCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.folderCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-8px) scale(1.02);
+}
+
+.folderIconWrapper {
+  width: 70px;
+  height: 70px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.folderCard:hover .folderIconWrapper {
+  transform: rotate(-5deg);
+}
+
+.folderIcon {
+  color: #3b82f6;
+}
+
+.photoCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #3b82f6;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.folderName {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+.folderMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.viewLink {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.folderCard:hover .viewLink {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.empty {
+  text-align: center;
+  padding: 6rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 30px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  color: #475569;
+}
+
+.folderAffiche {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  transition: transform 0.5s ease;
+}
+
+.folderCard:hover .folderAffiche {
+  transform: scale(1.1);
+}
+
+.folderDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.folderDescription {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limite à 2 lignes */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.folderMeta span {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* Style spécifique pour l'icône dans l'en-tête de la modal (si besoin) */
+.iconTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.folderCard {
+  position: relative; /* Indispensable pour positionner le bouton delete */
+  /* ... reste de ton style ... */
+}
+
+.actionGroup {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+.folderCard:hover .actionGroup {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.editBtn, .deleteBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+/* Bouton Modifier (Bleu Néon) */
+.editBtn {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+.editBtn:hover {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+/* Bouton Supprimer (Rouge Néon) */
+.deleteBtn {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.deleteBtn:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+/* --- GRILLE DE PHOTOS DANS L'ALBUM --- */
+.photoGrid {
+  column-count: 4; /* Nombre de colonnes */
+  column-gap: 1.5rem;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.photoCard {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photoCard img {
+  width: 100%;
+  height: auto;
+  min-height: 150px; /* Force une hauteur minimale le temps du chargement */
+  display: block;
+  object-fit: cover;
+  background: #1e293b; /* Un fond gris pour voir la zone si l'image casse */
+}
+
+.photoCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.photoCard:hover img {
+  transform: scale(1.05);
+}
+
+/* Overlay au survol */
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+  opacity: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.photoCard:hover .photoOverlay {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) { .photoGrid { column-count: 3; } }
+@media (max-width: 768px) { .photoGrid { column-count: 2; } }
+@media (max-width: 480px) { .photoGrid { column-count: 1; } }
+
+/* Container de la carte photo */
+.photoCard {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  background: #1a1a1a;
+}
+
+/* Bouton de suppression rapide */
+.quickDeleteBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 20;
+  background: rgba(220, 38, 38, 0.9); /* Rouge semi-transparent */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  opacity: 0; /* Masqué par défaut */
+  transform: translateY(-5px);
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.quickDeleteBtn:hover {
+  background: #ef4444; /* Rouge plus vif au survol du bouton */
+  transform: scale(1.1);
+}
+
+/* Apparition du bouton au survol de la carte */
+.photoCard:hover .quickDeleteBtn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Image et Overlay habituel */
+.photoCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.photoCard:hover img {
+  transform: scale(1.08);
+}
+
+.photoOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.photoCard:hover .photoOverlay {
+  opacity: 1;
+}

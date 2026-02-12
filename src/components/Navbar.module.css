@@ -1,0 +1,259 @@
+/* src/components/Navbar.module.css */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  z-index: 1000;
+  
+  background-color: rgba(15, 15, 17, 0.8); /* Plus foncé */
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.container {
+  max-width: 1400px; /* Plus large pour respirer */
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 2rem;
+  
+  display: flex;
+  align-items: center;
+  /* On garde space-between pour séparer (Logo+Liens) de (Profil) */
+  justify-content: space-between; 
+}
+
+/* --- GROUPE GAUCHE (Logo + Liens) --- */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 3rem; /* Espace entre le logo et les liens */
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  font-style: italic;
+  text-decoration: none;
+  letter-spacing: -0.05em;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #71717a; /* Gris discret par défaut */
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.link:hover {
+  color: white;
+}
+
+.activeLink {
+  color: white;
+}
+/* Petit point bleu sous le lien actif */
+.activeLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3b82f6;
+  box-shadow: 0 0 8px #3b82f6;
+  border-radius: 2px;
+}
+
+/* --- GROUPE DROITE (Actions) --- */
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profileButton {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.profileButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #52525b;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* --- MOBILE --- */
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 70px);
+  background-color: #0f0f11;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.mobileMenuOpen {
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .navLinks, .userActions {
+    display: none;
+  }
+  .mobileToggle {
+    display: block;
+  }
+}
+
+.notifButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.notifButton:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.notifBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #3b82f6;
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.bellIconActive {
+  color: #3b82f6;
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.3));
+}
+
+
+.balanceBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid transparent;
+}
+
+.balanceBadge:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.notConnectedBadge {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.iconWarn { color: #ef4444; }
+.iconActive { color: #22c55e; }
+
+/* Navbar.module.css */
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: black;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loginButton:hover {
+  background: #a855f7; /* Violet Boreal au survol */
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+.loginButton svg {
+  transition: transform 0.3s ease;
+}
+
+.loginButton:hover svg {
+  transform: translateX(3px);
+}

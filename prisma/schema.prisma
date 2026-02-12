@@ -1,0 +1,337 @@
+// Configuration Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- MODULE 1 : UTILISATEURS & PERMISSIONS ---
+
+model User {
+  id               String      @id @default(cuid())
+  emailEnsam       String      @unique
+  password         String
+  liseId           String      @unique
+  nom              String?
+  prenom           String?
+  bucque           String?
+  numFams          String?
+  age              Int?
+  soldeBorgia      Float       @default(0.0)
+  
+  role             Role        @relation(fields: [roleId], references: [id])
+  roleId           Int
+  
+  permissionsPerso Permission[] @relation("UserPermissions")
+  tags             Tag[]        @relation("UserTags")
+  
+  newsPostees      News[]
+  eventsGeres      PlanningEvent[]
+  forumPosts       ForumPost[]
+  logs             Log[]
+  notifications    Notification[]
+  sports           Sport[]      @relation("UserSports")
+  
+  // Messagerie
+  messagesEnvoyes  Message[]    @relation("SentMessages")
+  messagesRecus    MessageRecipient[]
+  folders          Folder[]     // Dossiers de rangement personnalisés
+
+  dateInscription  DateTime     @default(now())
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  nom         String       @unique
+  users       User[]
+  permissions Permission[]
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  nom   String @unique
+  users User[] @relation("UserTags")
+}
+
+model Category {
+  id    Int     @id @default(autoincrement())
+  code  String  @unique
+  label String
+  color String?
+}
+
+model Permission {
+  id    Int    @id @default(autoincrement())
+  code  String @unique
+  roles Role[]
+  users User[] @relation("UserPermissions")
+}
+
+// --- MODULE 2 : VIE COLLECTIVE & PLANNINGS ---
+
+model News {
+  id        Int      @id @default(autoincrement())
+  titre     String
+  contenu   String   @db.Text
+  imageUrl  String?
+  pdfUrl    String?
+  categorie String 
+  
+  auteur    User     @relation(fields: [auteurId], references: [id])
+  auteurId  String   
+  
+  createdAt DateTime @default(now())
+}
+
+model PlanningEvent {
+  id             Int      @id @default(autoincrement())
+  titre          String
+  description    String?
+  dateDebut      DateTime
+  dateFin        DateTime
+  type           String
+  lieu           String?
+  autoreserv     Boolean  @default(false)
+  
+  gestionnaire   User     @relation(fields: [gestionnaireId], references: [id])
+  gestionnaireId String   
+}
+
+// --- MODULE 3 : COMMUNAUTÉ ---
+
+model ForumPost {
+  id        Int      @id @default(autoincrement())
+  titre     String
+  contenu   String   @db.Text
+  auteur    User     @relation(fields: [auteurId], references: [id])
+  auteurId  String   
+  createdAt DateTime @default(now())
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  action    String
+  details   String?
+  userId    String?  
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Boquette {
+  id          Int      @id @default(autoincrement())
+  nom         String   @unique
+  lieu        String
+  description String?  @db.Text
+  imageUrl    String?
+  isOpen      Boolean  @default(false)
+  requiredTag String
+  updatedAt   DateTime @updatedAt
+}
+
+model CategoryMapping {
+  id        Int      @id @default(autoincrement())
+  category  String
+  tag       String
+  createdAt DateTime @default(now())
+
+  @@unique([category, tag])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    String   
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   @default("INFO")
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// --- MODULE 4 : GALERIE & AUTRES ---
+
+model GalleryFolder {
+  id          Int      @id @default(autoincrement())
+  nom         String   @unique
+  auteur      String
+  description String?
+  photos      Photo[]
+  createdAt   DateTime @default(now())
+}
+
+model Photo {
+  id          Int           @id @default(autoincrement())
+  url         String
+  titre       String?
+  description String?
+  lieu        String?
+  auteur      String?
+  folderId    Int
+  folder      GalleryFolder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  createdAt   DateTime      @default(now())
+}
+
+model Thuysse {
+  id          Int      @id @default(autoincrement())
+  nom         String
+  description String?
+  url         String
+  categorie   String   @default("Général")
+  createdAt   DateTime @default(now())
+}
+
+model Event {
+  id              Int      @id @default(autoincrement())
+  titre           String
+  date            DateTime
+  dateFin         DateTime?
+  lieu            String
+  description     String?
+  imageUrl        String?
+  lienBilletterie String?
+  playlistUrl     String?
+  createdAt       DateTime @default(now())
+}
+
+model LoanObject {
+  id          Int      @id @default(autoincrement())
+  nom         String
+  description String?
+  lieu        String   @default("Cham's")
+  quantite    Int      @default(1)
+  disponible  Int      @default(1)
+  ownerId     String   
+  ownerName   String
+  createdAt   DateTime @default(now())
+} 
+
+model Ride {
+  id             Int                @id @default(autoincrement())
+  depart         String
+  destination    String
+  dateHeure      DateTime
+  places         Int
+  conducteurId   String             
+  conducteurName String
+  registrations  RideRegistration[]
+  createdAt      DateTime           @default(now())
+}
+
+model RideRegistration {
+  id            Int      @id @default(autoincrement())
+  rideId        Int
+  ride          Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  passengerId   String   
+  passengerName String
+  createdAt     DateTime @default(now())
+  @@unique([rideId, passengerId])
+}
+
+// --- MODULE 5 : SPORT ---
+
+model SportSession {
+  id          String   @id @default(cuid())
+  date        DateTime
+  endDate     DateTime
+  managers    String
+  description String?
+  lieu        String?
+  sportId     String
+  sport       Sport    @relation(fields: [sportId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Sport {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  imageUrl    String?
+  members     User[]         @relation("UserSports")
+  sessions    SportSession[]
+}
+
+model SportEvent {
+  id                 String   @id @default(cuid())
+  titre              String
+  lieu               String
+  dateDebut          DateTime
+  dateFin            DateTime
+  trailerUrl         String
+  externalTrailerUrl String?
+  billetterieUrl     String?
+  createdAt          DateTime @default(now())
+}
+
+// --- MODULE 6 : MESSAGERIE ---
+
+model Message {
+  id               String             @id @default(cuid())
+  objet            String
+  contenu          String             @db.Text
+  dateEnvoi        DateTime           @default(now())
+  
+  expediteur       User               @relation("SentMessages", fields: [expediteurId], references: [id])
+  expediteurId     String             
+  
+  destinataires    MessageRecipient[]
+  attachments      Attachment[]
+  supprimePourExpediteur Boolean  @default(false)
+
+  // Système de thread
+  parentMessageId  String?   
+  parentMessage    Message?           @relation("Thread", fields: [parentMessageId], references: [id])
+  replies          Message[]          @relation("Thread")
+}
+
+model Folder {
+  id        String   @id @default(cuid())
+  nom       String
+  color     String?  @default("#3b82f6")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  messages  MessageRecipient[] // Les messages rangés dans ce dossier
+  createdAt DateTime @default(now())
+}
+
+model MessageRecipient {
+  id         String    @id @default(cuid())
+  message    String?   @ignore // Placeholder pour éviter les conflits pendant la migration
+  msg        Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId  String    
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String    
+
+  supprime  Boolean  @default(false)
+  
+  // Status de lecture
+  lu         Boolean   @default(false)
+  isRead     DateTime? 
+
+  // Rangement
+  folderId   String?   
+  folder     Folder?   @relation(fields: [folderId], references: [id])
+}
+
+model Attachment {
+  id        String   @id @default(cuid())
+  url       String   // Chemin local (/uploads/...)
+  name      String
+  size      Int
+  type      String
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId String   
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  @@unique([email, token])
+}

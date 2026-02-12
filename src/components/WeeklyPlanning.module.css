@@ -1,0 +1,456 @@
+/* src/components/WeeklyPlanning.module.css */
+
+/* --- CONTENEUR GLOBAL --- */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* --- TOOLBAR (En-tête) --- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1a1a1e;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.monthTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.monthIcon { color: #3b82f6; }
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* --- BOUTONS --- */
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+.addButton:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+}
+
+.iconBtn, .todayBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #a1a1aa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.iconBtn { width: 36px; }
+
+.todayBtn {
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.iconBtn:hover, .todayBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.todayActive {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border-color: #3b82f6;
+}
+
+.syncBtn {
+  margin-left: 0.5rem;
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+  background-color: rgba(59, 130, 246, 0.05);
+}
+.syncBtn:hover {
+  background-color: rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* --- STRUCTURE GRILLE --- */
+.gridWrapper {
+  display: flex;
+  flex: 1;
+  background-color: #1a1a1e;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  min-height: 600px;
+}
+
+.timeColumn {
+  width: 60px;
+  background-color: #151518;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 20;
+}
+
+.timeSlotLabel {
+  position: absolute;
+  width: 100%;
+  text-align: right;
+  padding-right: 0.75rem;
+  color: #52525b;
+  font-size: 0.7rem;
+  font-weight: 600;
+  transform: translateY(-50%);
+}
+
+.mainZone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.daysHeader {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #151518;
+  height: 60px;
+}
+
+.dayCell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+  padding: 0.5rem;
+}
+.dayCell:last-child { border-right: none; }
+
+.dayName {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-bottom: 2px;
+}
+
+.dayNumber {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: white;
+}
+
+.todayCell .dayNumber { color: #3b82f6; }
+.todayCell .dayName { color: #3b82f6; }
+
+.eventScrollArea {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #333 #151518;
+}
+
+.columnsContainer {
+  display: flex;
+  position: relative;
+}
+
+.column {
+  flex: 1;
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+.column:last-child { border-right: none; }
+
+.hourLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.03);
+  z-index: 1;
+}
+
+.eventWrapper {
+  position: absolute;
+  padding: 2px;
+  transition: z-index 0.2s;
+}
+.eventWrapper:hover {
+  z-index: 50 !important;
+}
+
+/* --- MODALE DE BASE --- */
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+  background: #1a1a1e;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modalHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent);
+}
+
+.headerTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.closeButton {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: #a1a1aa;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.closeButton:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+  margin-top: 0.5rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Couleurs Badges */
+.badgeCM { background: rgba(59, 130, 246, 0.15); color: #fef08a;; border: 1px solid #eab308; }
+.badgeTP { background: rgba(16, 185, 129, 0.15); color: #dbeafe; border: 1px solid #3b82f6; }
+.badgeED{ background: rgba(239, 68, 68, 0.15); color: #f3e8ff; border: 1px solid #a855f7; }
+.badgeEXAM { background: rgba(249, 115, 22, 0.15); color: #fee2e2; border: 1px solid #f87171; }
+.badgePROJET { background: rgba(236, 72, 153, 0.15); color: #f1f5f9; border: 1px solid #cbd5e1; }
+.badgeAUTONOME { background: rgba(249, 115, 22, 0.15); color: #ccfbf1; border: 1px solid #14b8a6; }
+.badgeINDISP { background: rgba(236, 72, 153, 0.15); color: #9ca3af; border: 1px solid #4b5563; }
+.badgeDefault { background: rgba(113, 113, 122, 0.15); color: #d4d4d8; border: 1px solid rgba(113, 113, 122, 0.3); }
+
+.modalBody {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.infoRow {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.iconBox {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.03);
+  color: #a1a1aa;
+}
+
+/* Couleurs Icones de base */
+.iconBlue { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
+.iconGreen { color: #34d399; background: rgba(16, 185, 129, 0.1); }
+.iconPurple { color: #a78bfa; background: rgba(139, 92, 246, 0.1); }
+
+.infoLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-bottom: 2px;
+}
+.infoValue {
+  font-size: 0.95rem;
+  color: white;
+  font-weight: 500;
+}
+.infoSubValue {
+  font-size: 0.85rem;
+  color: #a1a1aa;
+}
+
+.modalFooter {
+  padding: 1rem 1.5rem;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  text-align: right;
+}
+.eventId {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #52525b;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+@media (max-width: 768px) {
+  .monthTitle { font-size: 1rem; }
+  .todayBtn span { display: none; }
+  .todayBtn { padding: 0 0.5rem; }
+  .gridWrapper { min-height: auto; height: calc(100vh - 200px); }
+}
+
+/* ================================================================= */
+/* STYLES THÉMATIQUES (MODALE & BADGES)                              */
+/* ================================================================= */
+
+/* --- 1. COMITS / SPECTACLE (ROUGE PIMPANT) --- */
+.badgeCOMITS {
+  background-color: rgba(220, 38, 38, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5);
+}
+.modalContentCOMITS {
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  box-shadow: 0 0 40px rgba(220, 38, 38, 0.15) !important;
+  background: linear-gradient(to bottom, #1a0505, #121214) !important;
+}
+.iconRed { background-color: rgba(220, 38, 38, 0.15); color: #ef4444; }
+.textRed { color: #fca5a5 !important; }
+.separatorRed { border-top-color: rgba(239, 68, 68, 0.2) !important; }
+.idRed { color: #ef4444 !important; }
+
+/* --- 2. ADMINISTRATIVE / BUREAU (JAUNE OR) --- */
+.badgeADMINISTRATIVE {
+  background-color: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.4);
+}
+.modalContentADMINISTRATIVE {
+  border: 1px solid rgba(234, 179, 8, 0.4) !important;
+  box-shadow: 0 0 40px rgba(234, 179, 8, 0.15) !important;
+  background: linear-gradient(to bottom, #1f1a05, #121214) !important;
+}
+.iconYellow { background-color: rgba(234, 179, 8, 0.15); color: #eab308; }
+.textYellow { color: #fde047 !important; }
+.separatorYellow { border-top-color: rgba(234, 179, 8, 0.2) !important; }
+.idYellow { color: #eab308 !important; }
+
+/* --- 3. SPORT / COMPÉTITION (ORANGE ÉNERGIQUE) --- */
+.badgeSPORT {
+  background-color: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4);
+}
+.modalContentSPORT {
+  border: 1px solid rgba(249, 115, 22, 0.4) !important;
+  box-shadow: 0 0 40px rgba(249, 115, 22, 0.15) !important;
+  background: linear-gradient(to bottom, #1f1205, #121214) !important;
+}
+.iconOrange { background-color: rgba(249, 115, 22, 0.15); color: #f97316; }
+.textOrange { color: #fdba74 !important; }
+.separatorOrange { border-top-color: rgba(249, 115, 22, 0.2) !important; }
+.idOrange { color: #f97316 !important; }
+
+/* --- 4. SOIRÉE / FÊTE (ROSE FESTIF) --- */
+.badgeFETE {
+  background-color: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.4);
+}
+.modalContentFETE {
+  border: 1px solid rgba(236, 72, 153, 0.4) !important;
+  box-shadow: 0 0 40px rgba(236, 72, 153, 0.15) !important;
+  background: linear-gradient(to bottom, #1f0515, #121214) !important;
+}
+.iconPink { background-color: rgba(236, 72, 153, 0.15); color: #ec4899; }
+.textPink { color: #fbcfe8 !important; }
+.separatorPink { border-top-color: rgba(236, 72, 153, 0.2) !important; }
+.idPink { color: #ec4899 !important; }
+
+/* --- 5. INFORMATION (BLEU STANDARD) --- */
+.badgeINFO {
+  background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);
+}
+.modalContentINFO {
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.15) !important;
+  background: linear-gradient(to bottom, #050f1f, #121214) !important;
+}
+.iconBlue { background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.textBlue { color: #93c5fd !important; }
+.separatorBlue { border-top-color: rgba(59, 130, 246, 0.2) !important; }
+.idBlue { color: #3b82f6 !important; }
+
+/* --- 6. AUTRE / GÉNÉRAL (GRIS CLASSE) --- */
+.badgeAUTRE {
+  background-color: rgba(113, 113, 122, 0.15); color: #d4d4d8; border: 1px solid rgba(113, 113, 122, 0.4);
+}
+.modalContentAUTRE {
+  border: 1px solid rgba(113, 113, 122, 0.4) !important;
+  box-shadow: 0 0 40px rgba(113, 113, 122, 0.15) !important;
+  background: linear-gradient(to bottom, #18181b, #121214) !important;
+}
+.iconGrey { background-color: rgba(113, 113, 122, 0.15); color: #a1a1aa; }
+.textGrey { color: #e4e4e7 !important; }
+.separatorGrey { border-top-color: rgba(113, 113, 122, 0.2) !important; }
+.idGrey { color: #a1a1aa !important; }

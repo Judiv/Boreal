@@ -1,0 +1,135 @@
+/* src/app/register/register.module.css */
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto; /* Permet le scroll si l'écran est petit */
+  background-color: #020617;
+}
+
+/* --- VIDÉO & FOND --- */
+.videoBackground {
+  position: fixed; /* Fixed pour que ça ne bouge pas au scroll */
+  top: 50%; left: 50%;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto;
+  z-index: 0;
+  transform: translateX(-50%) translateY(-50%);
+  object-fit: cover;
+}
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Un peu plus sombre pour la lisibilité */
+  z-index: 1;
+  backdrop-filter: blur(3px);
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* --- CARTE D'INSCRIPTION --- */
+.registerCard {
+  width: 100%;
+  max-width: 800px; /* Plus large que le login */
+  background-color: rgba(20, 20, 25, 0.85);
+  padding: 3rem;
+  border-radius: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+}
+
+/* --- CHAMPS --- */
+.inputGroup {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a1a1aa;
+  margin-bottom: 0.5rem;
+  margin-left: 0.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: white;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s;
+  text-align: center; /* On garde le style centré */
+}
+
+.input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.input::placeholder {
+  color: #52525b;
+  text-align: center;
+}
+
+/* --- INFO BOX --- */
+.infoBox {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 1rem;
+  border-radius: 16px;
+  color: #60a5fa;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+/* --- BOUTON --- */
+.submitBtn {
+  width: 100%;
+  padding: 1.25rem;
+  background: white;
+  color: black;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1.5rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.submitBtn:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+}

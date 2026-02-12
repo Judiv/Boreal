@@ -1,0 +1,22 @@
+.container { padding: 1.5rem; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.sectionTitle { display: flex; align-items: center; gap: 10px; font-weight: 800; text-transform: uppercase; font-size: 0.9rem; }
+.clearBtn { font-size: 0.7rem; font-weight: 700; color: #64748b; background: transparent; border: none; cursor: pointer; }
+.clearBtn:hover { color: #ef4444; }
+
+.item {
+  display: flex; gap: 1rem; padding: 1rem; border-radius: 16px; margin-bottom: 0.75rem;
+  transition: all 0.2s ease; cursor: pointer; position: relative;
+  background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.unread { background: rgba(59, 130, 246, 0.05); border-color: rgba(59, 130, 246, 0.2); }
+.item:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.04); }
+
+.iconWrapper { shrink-0; width: 40px; height: 40px; border-radius: 12px; background: rgba(0, 0, 0, 0.2); display: flex; align-items: center; justify-content: center; }
+.textData { flex: 1; min-width: 0; }
+.itemHeader { display: flex; justify-content: space-between; align-items: flex-start; }
+.itemTitle { font-weight: 700; font-size: 0.85rem; color: #f8fafc; }
+.time { font-size: 0.65rem; color: #64748b; }
+.message { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; line-height: 1.4; }
+.statusDot { padding-left: 10px; display: flex; align-items: center; }

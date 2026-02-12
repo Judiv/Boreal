@@ -1,0 +1,124 @@
+.container {
+  min-height: 100vh;
+  padding: 120px 2rem 5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  /* On s'assure que le contenu passe au dessus des effets */
+  z-index: 1;
+}
+
+/* --- LE NOUVEAU FOND DYNAMIQUE --- */
+.backgroundWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #050507; /* Un noir encore plus profond */
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Texture de grille subtile pour la profondeur */
+.gridPattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+}
+
+/* Blobs d'aurore animés */
+.auroraBlob {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  filter: blur(120px);
+  border-radius: 50%;
+  opacity: 0.15;
+  pointer-events: none;
+  animation: move 20s infinite alternate;
+}
+
+.blobBlue {
+  top: -100px;
+  left: -100px;
+  background: #3b82f6;
+}
+
+.blobPurple {
+  bottom: -100px;
+  right: -100px;
+  background: #8b5cf6;
+  animation-delay: -5s;
+}
+
+.blobCyan {
+  top: 40%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: #06b6d4;
+  animation-duration: 25s;
+}
+
+@keyframes move {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(100px, 50px) scale(1.1); }
+}
+
+/* --- AJUSTEMENT DU HEADER --- */
+.header {
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+/* Petite barre décorative sous le titre */
+.titleGroup::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #3b82f6;
+  margin-top: 1.5rem;
+  border-radius: 2px;
+}
+
+.headerFlex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.addBtn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+}
+
+.addBtn:hover {
+  background: #2563eb;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
+}
+
+@media (max-width: 768px) {
+  .headerFlex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@opentelemetry/api-logs": "^0.211.0",
+    "@prisma/client": "^6.19.2",
+    "@prisma/config": "^7.3.0",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@tanstack/react-query": "^5.90.20",
+    "@tiptap/extension-placeholder": "^3.19.0",
+    "@tiptap/react": "^3.19.0",
+    "@tiptap/starter-kit": "^3.19.0",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
+    "autoprefixer": "^10.4.24",
+    "axios": "^1.13.4",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cheerio": "^1.2.0",
+    "cloudinary": "^2.9.0",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
+    "emoji-picker-react": "^4.18.0",
+    "lucide-react": "^0.563.0",
+    "next": "^16.1.6",
+    "next-auth": "^5.0.0-beta.30",
+    "node-cron": "^4.2.1",
+    "node-ical": "^0.25.0",
+    "nodemailer": "^8.0.1",
+    "postcss": "^8.5.6",
+    "pusher": "^5.3.2",
+    "pusher-js": "^8.4.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "resend": "^6.9.1",
+    "tailwindcss": "^4.1.18",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^25.2.0",
+    "@types/node-cron": "^3.0.11",
+    "@types/react": "19.2.11",
+    "dotenv": "^17.2.3",
+    "prisma": "^6.19.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
+  }
+}

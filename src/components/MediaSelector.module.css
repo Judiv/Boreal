@@ -1,0 +1,176 @@
+/* --- CONTAINER PRINCIPAL --- */
+.mediaSelectorWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* --- LABEL --- */
+.label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #a855f7;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-left: 4px;
+}
+
+/* --- CHAMP DE SAISIE --- */
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 1rem;
+  height: 56px;
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inputContainer:focus-within {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.05);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+}
+
+.inputContainer input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.inputContainer input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.clearIcon {
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.clearIcon:hover {
+  opacity: 1;
+  color: #ef4444;
+}
+
+/* --- PRÉVISUALISATION (PREVIEW) --- */
+.previewBox {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #000;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.previewMedia {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5; /* Légèrement sombre pour faire ressortir le badge */
+  transition: opacity 0.3s;
+}
+
+.previewBox:hover .previewMedia {
+  opacity: 0.8;
+}
+
+.previewBadge {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.badgeText {
+  background: rgba(168, 85, 247, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: #a855f7;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.uploadTrigger {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.uploadTrigger:hover {
+  color: #fff;
+}
+
+.uploadTrigger span {
+  transition: color 0.2s;
+}
+
+.progressBarBg {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  transition: width 0.3s ease;
+}
+
+.successBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #22c55e;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.successWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+.clearBtn {
+  background: rgba(255,0,0,0.1);
+  color: #ff4444;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px;
+}

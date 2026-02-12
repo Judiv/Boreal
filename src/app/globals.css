@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 15, 15, 17; /* Noir Boreal */
+  --background-end-rgb: 15, 15, 17;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #0f0f11; /* Force le fond noir partout */
+  overflow-x: hidden; /* Évite le scroll horizontal */
+}
+
+/* On s'assure que Next.js ne rajoute pas de marge bizarre */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

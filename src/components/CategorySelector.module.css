@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.customSelect {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.trigger:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.triggerActive {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.placeholder { color: #52525b; font-size: 0.95rem; }
+.value { color: #fff; font-weight: 500; font-size: 0.95rem; }
+
+.icon { color: #3b82f6; transition: transform 0.3s ease; }
+.iconRotate { transform: rotate(180deg); }
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  animation: slideDown 0.2s ease-out;
+}
+
+.dropdownInner {
+  background: rgba(18, 18, 21, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 16px;
+  padding: 0.5rem;
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.option {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  color: #a1a1aa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.option:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.optionSelected {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar Style */
+.dropdownInner::-webkit-scrollbar { width: 4px; }
+.dropdownInner::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+}

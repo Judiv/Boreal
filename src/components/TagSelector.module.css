@@ -1,0 +1,121 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  position: relative;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.customSelect {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trigger:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.triggerActive {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.placeholder { color: #52525b; }
+.value { color: #fff; font-weight: 500; }
+
+.icon {
+  color: #3b82f6;
+  transition: transform 0.3s ease;
+}
+
+.iconRotate { transform: rotate(180deg); }
+
+/* --- LA LISTE DÉROULANTE (DROPDOWN) --- */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  animation: slideDown 0.2s ease-out;
+}
+
+.dropdownInner {
+  background: rgba(18, 18, 21, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 18px;
+  padding: 0.5rem;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.option {
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  color: #a1a1aa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.option:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #fff;
+}
+
+.optionSelected {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.checkIcon { color: #3b82f6; }
+
+.noOption {
+  padding: 1rem;
+  text-align: center;
+  color: #52525b;
+  font-size: 0.9rem;
+}
+
+/* Scrollbar personnalisée pour la liste */
+.dropdownInner::-webkit-scrollbar { width: 6px; }
+.dropdownInner::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

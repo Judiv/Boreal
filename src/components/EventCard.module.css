@@ -1,0 +1,212 @@
+/* src/components/EventCard.module.css */
+
+.card {
+  height: 100%;
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  box-sizing: border-box;
+  
+  /* Indispensable pour que l'overlay se place par rapport à la carte */
+  position: relative; 
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  
+  /* Coupe tout ce qui dépasse */
+  overflow: hidden; 
+  
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px) scale(1.01);
+  z-index: 50; 
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* --- TEXTES --- */
+.title {
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: inherit;
+  
+  /* Coupe après 3 lignes */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; 
+}
+
+.meta {
+  margin-top: auto; 
+  font-size: 9px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; 
+  overflow: hidden;
+}
+
+.meta p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* --- ACTIONS OVERLAY (Boutons Edit/Delete) --- */
+.actionsOverlay {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  gap: 3px;
+  opacity: 0; /* Caché par défaut */
+  transition: opacity 0.2s ease;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  z-index: 60; /* Au-dessus du texte */
+}
+
+/* Apparaît au survol de la carte */
+.card:hover .actionsOverlay {
+  opacity: 1;
+}
+
+.actionBtn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  background: white;
+  color: black;
+  transform: scale(1.1);
+}
+
+.deleteBtn:hover {
+  background: #ef4444; /* Rouge au survol */
+  color: white;
+}
+
+/* --- COULEURS --- */
+
+/* CM : Jaune */
+.typeCM {
+  background-color: rgba(234, 179, 8, 0.15);
+  border-color: #eab308;
+  color: #fef08a;
+  border-left-color: #eab308;
+}
+
+/* TP (TPF, TPS) : Bleu */
+.typeTP {
+  background-color: rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+  color: #dbeafe;
+  border-left-color: #3b82f6;
+}
+
+/* ED_TD : Violet */
+.typeED {
+  background-color: rgba(168, 85, 247, 0.15);
+  border-color: #a855f7;
+  color: #f3e8ff;
+  border-left-color: #a855f7;
+}
+
+/* PROJET : Gris Slate (Plus visible) */
+.typePROJET {
+  background-color: rgba(148, 163, 184, 0.25); 
+  border-color: #cbd5e1; 
+  color: #f1f5f9; 
+  border-left-color: #94a3b8;
+}
+
+/* EXAMEN : Rouge */
+.typeEXAM {
+  background-color: rgba(220, 38, 38, 0.25);
+  border-color: #f87171;
+  color: #fee2e2;
+  border-left-color: #dc2626;
+}
+
+/* AUTONOME : Vert Teal */
+.typeAUTONOME {
+  background-color: rgba(20, 184, 166, 0.15); 
+  border-color: #14b8a6;
+  color: #ccfbf1;
+  border-left-color: #14b8a6;
+  border-style: dashed; 
+}
+
+/* INDISP : Sombre */
+.typeINDISP {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-color: #4b5563;
+  color: #9ca3af;
+  border-left-color: #6b7280;
+}
+
+.typeDefault {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #cbd5e1;
+}
+
+/* SPORT : Orange Énergique */
+.typeSPORT {
+  background-color: rgba(249, 115, 22, 0.15); /* Orange-500 à 15% */
+  border-color: #f97316;
+  color: #ffedd5; /* Orange très clair pour le texte */
+  border-left-color: #f97316;
+}
+
+/* INFO : Cyan / Bleu Ciel (Distinct du bleu TP) */
+.typeINFO {
+  background-color: rgba(6, 182, 212, 0.15); /* Cyan-500 à 15% */
+  border-color: #06b6d4;
+  color: #cffafe; /* Cyan très clair */
+  border-left-color: #06b6d4;
+}
+
+/* COMITS : Rouge Pimpant / Théâtral */
+.typeCOMITS {
+  background-color: rgba(220, 38, 38, 0.2); /* Rouge vif transparent */
+  border-color: #ef4444; /* Rouge 500 */
+  color: #fca5a5; /* Rouge clair (texte lisible) */
+  border-left-color: #dc2626; /* Rouge 600 (Bordure gauche plus foncée) */
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.15); /* Petit effet de glow */
+}
+
+/* FÊTE / SOIRÉE : Festif (Dégradé Violet/Rose) */
+.typeFETE {
+  /* Petit dégradé subtil pour le côté festif */
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(236, 72, 153, 0.15)); 
+  border-color: #d946ef; /* Fuchsia */
+  color: #f5d0fe; /* Fuchsia très clair */
+  border-left-color: #c026d3; /* Fuchsia foncé */
+}
