@@ -127,7 +127,8 @@ model Boquette {
   description String?  @db.Text
   imageUrl    String?
   isOpen      Boolean  @default(false)
-  requiredTag String
+  requiredTag  String
+  allowedTags  String[]
   updatedAt   DateTime @updatedAt
 }
 
@@ -273,7 +274,7 @@ model Message {
   contenu          String             @db.Text
   dateEnvoi        DateTime           @default(now())
   
-  expediteur       User               @relation("SentMessages", fields: [expediteurId], references: [id])
+  expediteur       User               @relation("SentMessages", fields: [expediteurId], references: [id], onDelete: Cascade)
   expediteurId     String             
   
   destinataires    MessageRecipient[]

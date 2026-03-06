@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { 
   LayoutDashboard, Users, FileText, Hash, Activity, LayoutGrid,
   Terminal, GitMerge, Settings, Trash2, PlusCircle, Tag as TagIcon, X, Search,
-  Loader2, CheckCircle, Database
+  Loader2, CheckCircle, Database, ChevronLeft, ChevronRight, Menu
 } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react"; 
@@ -18,7 +18,8 @@ import {
   deleteCategoryMapping, 
   createCategory, 
   deleteCategory,
-  runStorageCleanup // ✅ Import de l'action de nettoyage
+  runStorageCleanup,
+  clearLogs 
 } from "@/app/admin/actions";
 import CategorySelector from "./CategorySelector";
 
@@ -26,11 +27,17 @@ export default function AdminDashboardClient({ data }: { data: any }) {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab") || "dashboard";
 
+  // Ajoute cet état en haut de ton composant avec les autres useState
+  const [isClearing, setIsClearing] = useState(false);
+
+  // États pour la rétractation de la sidebar
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   // États pour la validation du mapping
   const [mapCat, setMapCat] = useState("");
   const [mapTag, setMapTag] = useState("");
 
-  // ✅ États pour le bot de nettoyage
+  // États pour le bot de nettoyage
   const [isCleaning, setIsCleaning] = useState(false);
   const [cleanupResult, setCleanupResult] = useState<any>(null);
 
@@ -73,28 +80,50 @@ export default function AdminDashboardClient({ data }: { data: any }) {
   }, {});
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isCollapsed ? styles.collapsedLayout : ""}`}>
       <div className={styles.aurora} />
       
-      <aside className={styles.sidebar}>
-        <div className="px-6 space-y-8">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black italic">A</div>
-            <span className="text-sm font-black italic uppercase tracking-wider text-white">Admin Panel</span>
+      <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsedSidebar : ""}`}>
+        <div className="px-4 space-y-8">
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-3">
+              {!isCollapsed && <span className="text-sm font-black italic uppercase tracking-wider text-white">Admin</span>}
+            </div>
+            <button 
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className={styles.collapseToggle}
+            >
+              {isCollapsed ? <Menu size={16} /> : <ChevronLeft size={16} />}
+            </button>
           </div>
+
           <nav>
-            <p className={styles.navSectionTitle}>Général</p>
-            <Link href="/admin?tab=dashboard" className={`${styles.navLink} ${isActive("dashboard")}`}><LayoutDashboard size={16} /> <span>Dashboard</span></Link>
-            <Link href="/admin?tab=users" className={`${styles.navLink} ${isActive("users")}`}><Users size={16} /> <span>Utilisateurs</span></Link>
-            <Link href="/admin?tab=logs" className={`${styles.navLink} ${isActive("logs")}`}><FileText size={16} /> <span>Logs</span></Link>
+            <p className={styles.navSectionTitle}>{isCollapsed ? "•••" : "Général"}</p>
+            <Link href="/admin?tab=dashboard" title="Dashboard" className={`${styles.navLink} ${isActive("dashboard")}`}>
+              <LayoutDashboard size={18} /> <span>Dashboard</span>
+            </Link>
+            <Link href="/admin?tab=users" title="Utilisateurs" className={`${styles.navLink} ${isActive("users")}`}>
+              <Users size={18} /> <span>Utilisateurs</span>
+            </Link>
+            <Link href="/admin?tab=logs" title="Logs" className={`${styles.navLink} ${isActive("logs")}`}>
+              <FileText size={18} /> <span>Logs</span>
+            </Link>
             
-            <p className={styles.navSectionTitle}>Gestion</p>
-            <Link href="/admin?tab=tags" className={`${styles.navLink} ${isActive("tags")}`}><Hash size={16} /> <span>Tags</span></Link>
-            <Link href="/admin?tab=categories" className={`${styles.navLink} ${isActive("categories")}`}><LayoutGrid size={16} /> <span>Catégories</span></Link>
-            <Link href="/admin?tab=mappings" className={`${styles.navLink} ${isActive("mappings")}`}><GitMerge size={16} /> <span>Accès</span></Link>
+            <p className={styles.navSectionTitle}>{isCollapsed ? "•••" : "Gestion"}</p>
+            <Link href="/admin?tab=tags" title="Tags" className={`${styles.navLink} ${isActive("tags")}`}>
+              <Hash size={18} /> <span>Tags</span>
+            </Link>
+            <Link href="/admin?tab=categories" title="Catégories" className={`${styles.navLink} ${isActive("categories")}`}>
+              <LayoutGrid size={18} /> <span>Catégories</span>
+            </Link>
+            <Link href="/admin?tab=mappings" title="Accès" className={`${styles.navLink} ${isActive("mappings")}`}>
+              <GitMerge size={18} /> <span>Accès</span>
+            </Link>
             
-            <p className={styles.navSectionTitle}>Système</p>
-            <Link href="/admin?tab=maintenance" className={`${styles.navLink} ${isActive("maintenance")}`}><Database size={16} /> <span>Stockage</span></Link>
+            <p className={styles.navSectionTitle}>{isCollapsed ? "•••" : "Système"}</p>
+            <Link href="/admin?tab=maintenance" title="Stockage" className={`${styles.navLink} ${isActive("maintenance")}`}>
+              <Database size={18} /> <span>Stockage</span>
+            </Link>
           </nav>
         </div>
       </aside>
@@ -234,6 +263,28 @@ export default function AdminDashboardClient({ data }: { data: any }) {
                     <div className={styles.consoleHeader}>
                         <span className="text-xs font-mono font-bold uppercase text-slate-400">System.log</span>
                     </div>
+                    <button 
+                        disabled={isClearing}
+                        onClick={async () => {
+                            if(confirm("Voulez-vous vraiment vider TOUS les logs système ? Cette action est irréversible.")) {
+                                setIsClearing(true);
+                                try {
+                                    await clearLogs();
+                                    // Optionnel : tu peux ajouter une notification de succès ici
+                                } catch (error) {
+                                    alert("Erreur lors de la suppression des logs");
+                                } finally {
+                                    setIsClearing(false);
+                                }
+                            }
+                        }}
+                        className={styles.clearLogsBtn}
+                        style={{ opacity: isClearing ? 0.5 : 1, cursor: isClearing ? 'not-allowed' : 'pointer' }}
+                        title="Vider les logs"
+                    >
+                        <Trash2 size={14} className={isClearing ? "animate-spin" : ""} />
+                        <span>{isClearing ? "Suppression..." : "Vider le terminal"}</span>
+                    </button>
                     <div className={styles.consoleBody}>
                         {logs.map((log:any) => (
                             <div key={log.id} className={styles.logRow}>

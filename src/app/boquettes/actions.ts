@@ -38,8 +38,6 @@ export async function toggleBoquetteStatus(boquetteId: number) {
  */
 export async function createBoquette(formData: FormData) {
   const session = await getUserSession();
-  
-  // Vérification de la permission globale
   if (!session || (!session.isSuperAdmin && !checkPermission("manage_boquettes"))) {
     throw new Error("Action non autorisée");
   }
@@ -47,11 +45,16 @@ export async function createBoquette(formData: FormData) {
   const nom = formData.get("nom") as string;
   const lieu = formData.get("lieu") as string;
   const description = formData.get("description") as string;
+  
+  // Le TagSelector renvoie une string simple pour requiredTag
   const requiredTag = formData.get("requiredTag") as string;
   
+  // Le TagSelector renvoie un JSON stringifié pour multiple=true
+  const allowedTagsRaw = formData.get("allowedTags") as string;
+  const allowedTags = allowedTagsRaw ? JSON.parse(allowedTagsRaw) : [];
+
   const file = formData.get("imageFile") as File;
   const url = formData.get("imageUrl") as string;
-
   const finalImageUrl = await handleImageProcessing(file, url, "boquettes");
 
   await prisma.boquette.create({
@@ -60,42 +63,35 @@ export async function createBoquette(formData: FormData) {
       lieu,
       description,
       requiredTag,
+      allowedTags: { set: allowedTags }, // On suppose que le schéma Prisma est mis à jour en string[]
       imageUrl: finalImageUrl,
-      isOpen: false, // Fermé par défaut à la création
+      isOpen: false,
     },
   });
 
   revalidatePath("/boquettes");
 }
 
-/**
- * ACTION : MODIFIER UNE BOQUETTE
- */
 export async function updateBoquetteInfo(formData: FormData) {
   const session = await getUserSession();
   if (!session) throw new Error("Non connecté");
 
-  // Sécurité : Conversion propre de l'ID
-  const idRaw = formData.get("id");
-  if (!idRaw) throw new Error("ID de la boquette manquant");
-  const id = parseInt(idRaw as string);
-  
-  if (isNaN(id)) throw new Error("ID de boquette invalide");
-
+  const id = parseInt(formData.get("id") as string);
   const boquette = await prisma.boquette.findUnique({ where: { id } });
   if (!boquette) throw new Error("Boquette introuvable");
 
-  // Vérification des droits (SuperAdmin ou Permission + Tag)
-  const canManage = session.isSuperAdmin || 
-    (checkPermission("manage_boquettes") && session.allTags.includes(boquette.requiredTag));
+  // Sécurité
+  const canManage = session.isSuperAdmin || session.allTags.includes(boquette.requiredTag);
+  if (!canManage) throw new Error("Permission refusée");
 
-  if (!canManage) throw new Error("Permission refusée pour cette boquette");
+  // Traitement des tags
+  const requiredTag = formData.get("requiredTag") as string;
+  const allowedTagsRaw = formData.get("allowedTags") as string;
+  const allowedTags = allowedTagsRaw ? JSON.parse(allowedTagsRaw) : [];
 
   const file = formData.get("imageFile") as File;
   const url = formData.get("imageUrl") as string;
   let finalImageUrl = await handleImageProcessing(file, url, "boquettes");
-
-  // Si on n'a rien uploadé, on garde l'ancienne image
   if (!finalImageUrl) finalImageUrl = boquette.imageUrl;
 
   await prisma.boquette.update({
@@ -104,6 +100,8 @@ export async function updateBoquetteInfo(formData: FormData) {
       nom: formData.get("nom") as string,
       lieu: formData.get("lieu") as string,
       description: formData.get("description") as string,
+      requiredTag, // Permet maintenant de modifier le groupe responsable
+      allowedTags: { set: allowedTags },
       imageUrl: finalImageUrl,
     },
   });

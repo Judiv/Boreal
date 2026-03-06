@@ -7,33 +7,51 @@ import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import nodemailer from "nodemailer";
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 /**
  * CONNEXION UTILISATEUR
  */
+
 export async function loginUser(formData: FormData) {
   const email = formData.get("email") as string;
   const passwordSaisi = formData.get("password") as string;
+  // Récupère la valeur "on" si cochée, sinon null
+  const remember = formData.get("remember") === "on"; 
 
   const user = await prisma.user.findUnique({
     where: { emailEnsam: email.toLowerCase().trim() },
   });
 
+  // --- Sécurité : Délai d'attente ---
+  const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
   if (!user || !user.password) {
+    await sleep(1000);
     return { error: "Identifiants invalides" };
   }
 
   const isMatch = await bcrypt.compare(passwordSaisi, user.password);
   
   if (!isMatch) {
+    await sleep(1000);
     return { error: "Identifiants invalides" };
   }
 
+  // --- Gestion du Cookie "Remember Me" ---
   const cookieStore = await cookies();
+  
+  // Si "remember" est coché : 30 jours, sinon : 24 heures
+  const maxAge = remember 
+    ? 60 * 60 * 24 * 30  // 30 jours
+    : 60 * 60 * 24 * 1;  // 1 jour
+
   cookieStore.set("userId", user.id.toString(), {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "lax",
     path: "/",
+    maxAge: maxAge, 
   });
 
   redirect("/");

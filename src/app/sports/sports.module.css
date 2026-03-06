@@ -1,8 +1,14 @@
-/* --- LAYOUT --- */
+/* --- LAYOUT GLOBAL --- */
 .container {
-  padding: 2rem;
+  padding: 1.5rem; /* Ajusté pour mobile, passe à 2rem via @media plus bas */
   max-width: 1200px;
   margin: 0 auto;
+  overflow-x: hidden; /* Sécurité anti-débordement */
+}
+
+/* Espacement entre les sections */
+.container section {
+  margin-bottom: 5rem; 
 }
 
 .header {
@@ -12,20 +18,25 @@
   margin-bottom: 3rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .title {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 8vw, 3.5rem);
   font-weight: 900;
   letter-spacing: -3px;
   background: linear-gradient(to right, #fff, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  font-style: italic;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  /* Correction largeur mobile sans casser le minmax desktop */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
   gap: 2rem;
 }
 
@@ -46,7 +57,6 @@
   border-color: #a855f7;
 }
 
-/* FIX IMAGE : Container relatif avec hauteur fixe pour Next/Image fill */
 .imageWrapper {
   position: relative; 
   width: 100%;
@@ -161,7 +171,7 @@
 .deleteBtn:hover { background: #ef4444; color: white; border-color: #ef4444; }
 .actionIconBtn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
 
-/* --- MODAL SYSTEM (FIXED & CENTERED) --- */
+/* --- MODAL SYSTEM --- */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -179,11 +189,13 @@
   background: #0f0f13;
   border: 1px solid rgba(255, 255, 255, 0.1);
   width: 90%;
-  max-width: 460px;
+  max-width: 500px;
   border-radius: 28px;
   padding: 2.5rem;
   position: relative;
   box-shadow: 0 50px 100px rgba(0, 0, 0, 1);
+  max-height: 90vh;
+  overflow-y: auto;
   animation: slideUp 0.3s ease-out;
 }
 
@@ -248,67 +260,12 @@
   color: white;
 }
 
-/* --- ANIMATIONS --- */
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.spinning {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.heroEvent {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  border-radius: 2rem;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: flex-end;
-  padding: 3rem;
-}
-
-.videoBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  opacity: 0.6;
-}
-
-/* Effet d'image qui tourne lentement si pas de vidéo */
-.rotatingBg {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  object-fit: cover;
-  z-index: 0;
-  opacity: 0.4;
-  animation: slowRotate 60s linear infinite;
-}
-
-@keyframes slowRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* --- SECTION HERO COMPETITION --- */
 .heroEvent {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: auto;
+  min-height: 480px;
   border-radius: 2.5rem;
   overflow: hidden;
   background: #000;
@@ -319,7 +276,6 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-/* Lignes de scan pour le look rétro-futuriste */
 .heroEvent::before {
   content: "";
   position: absolute;
@@ -340,16 +296,12 @@
   object-fit: cover;
   z-index: 0;
   filter: brightness(0.7) contrast(1.1);
+  pointer-events: none;
 }
 
 .rotatingBg {
   scale: 1.2;
   animation: ultraSlowRotate 120s linear infinite;
-}
-
-@keyframes ultraSlowRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .heroOverlay {
@@ -359,245 +311,9 @@
   z-index: 1;
 }
 
-/* --- TYPOGRAPHIE HERO --- */
 .heroContent {
   position: relative;
   z-index: 10;
-  width: 100%;
-}
-
-.heroTitle {
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 900;
-  font-style: italic;
-  text-transform: uppercase;
-  line-height: 0.9;
-  letter-spacing: -4px;
-  color: #fff;
-  text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
-  margin-bottom: 1.5rem;
-}
-
-/* --- BOUTONS CUSTOM --- */
-.cyberBtn {
-  background: #fff;
-  color: #000;
-  font-weight: 900;
-  padding: 1.2rem 2.5rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-}
-
-.cyberBtn:hover {
-  background: #a855f7;
-  color: #fff;
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
-}
-
-.trailerLink {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  transition: 0.2s;
-}
-
-.trailerLink:hover {
-  color: #fff;
-}
-
-.playIconCircle {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(5px);
-}
-
-/* --- ESPACEMENT DES SECTIONS --- */
-.container section {
-  margin-bottom: 5rem; /* Augmente l'espace entre Compétitions et Nos Sports */
-}
-
-/* --- FIX DES BOUTONS ADMIN (HERO) --- */
-.heroEvent {
-  position: relative; /* Indispensable pour le placement absolu des boutons */
-  width: 100%;
-  height: 500px;
-  border-radius: 2.5rem;
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  align-items: flex-end;
-  padding: 4rem;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  margin-bottom: 3rem;
-}
-
-.adminActionsHero {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  z-index: 50; /* Doit être au-dessus de l'overlay */
-  display: flex;
-  gap: 0.75rem;
-}
-
-.iconBtn {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(15, 15, 20, 0.8); /* Fond plus sombre pour être cliquable */
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.iconBtn:hover {
-  border-color: #a855f7;
-  color: #a855f7;
-  transform: scale(1.1);
-}
-
-.deleteBtnHero:hover {
-  border-color: #ef4444 !important;
-  color: #ef4444 !important;
-}
-
-/* --- FIX DU CHEVAUCHEMENT TEXTE --- */
-.metaContainer {
-  display: flex;
-  gap: 3.5rem; /* Espace entre Localisation et Date */
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.metaItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem; /* Espace entre le label gris et la valeur blanche */
-}
-
-.metaLabel {
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 1.5px;
-}
-
-.metaValue {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  font-weight: 800;
-  font-style: italic;
-  font-size: 1.1rem;
-}
-
-/* --- LAYOUT GLOBAL --- */
-.container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Espacement entre la section Event et la section Sports */
-.container section {
-  margin-bottom: 6rem; 
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 2rem;
-}
-
-.title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  letter-spacing: -3px;
-  background: linear-gradient(to right, #fff, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-transform: uppercase;
-  font-style: italic;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2.5rem;
-}
-
-/* --- HERO EVENT (CORRECTED FOR CLICKS) --- */
-.heroEvent {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  border-radius: 2.5rem;
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  align-items: flex-end;
-  padding: 4rem;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-/* Scanlines look */
-.heroEvent::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-  background-size: 100% 4px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.videoBg, .rotatingBg {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  filter: brightness(0.6) contrast(1.1);
-}
-
-.heroOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(15, 15, 20, 0.9) 80%, #0f0f14 100%);
-  z-index: 1;
-}
-
-.heroContent {
-  position: relative;
-  z-index: 5; /* Sous les boutons admin mais sur l'overlay */
   width: 100%;
 }
 
@@ -613,12 +329,78 @@
   margin-bottom: 2rem;
 }
 
-/* --- ADMIN ACTIONS HERO (FIXED POSITION) --- */
+/* --- BOUTONS HERO --- */
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.cyberBtn {
+  background: #fff;
+  color: #000;
+  font-weight: 900;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.cyberBtn:hover {
+  background: #a855f7;
+  color: white;
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
+}
+
+.trailerBtn {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+.playIconWrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.trailerBtn:hover { color: #fff; }
+.trailerBtn:hover .playIconWrapper {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+  transform: scale(1.1);
+}
+
+/* --- ADMIN HERO --- */
 .adminActionsHero {
   position: absolute;
   top: 2rem;
   right: 2rem;
-  z-index: 100; /* Doit être la valeur la plus haute pour le clic */
+  z-index: 100;
   display: flex;
   gap: 1rem;
 }
@@ -634,24 +416,12 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: white;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.iconBtn:hover {
-  border-color: #a855f7;
-  color: #a855f7;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
-}
+.iconBtn:hover { border-color: #a855f7; color: #a855f7; transform: translateY(-3px); }
 
-.deleteBtnHero:hover {
-  border-color: #ef4444 !important;
-  color: #ef4444 !important;
-  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
-}
-
-/* --- META DATA (NO OVERLAP) --- */
+/* --- META DATA --- */
 .metaContainer {
   display: flex;
   gap: 4rem;
@@ -683,201 +453,58 @@
   color: #fff;
 }
 
-/* --- SPORT CARD --- */
-.card {
-  background: #18181b;
-  border-radius: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-  border-color: #a855f7;
-}
-
-.imageWrapper {
-  position: relative; 
-  width: 100%;
-  height: 220px; 
-  background: #27272a;
-}
-
-.image {
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* --- MODAL SYSTEM --- */
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-}
-
-.modalContent {
-  background: #0f0f13;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 95%;
-  max-width: 500px;
-  border-radius: 2rem;
-  padding: 3rem;
-  position: relative;
-  box-shadow: 0 50px 100px rgba(0, 0, 0, 1);
-}
-
-/* --- GROUPE D'ACTIONS --- */
-.actionGroup {
-  display: flex;
-  align-items: center;
-  gap: 2.5rem; /* Espace généreux entre les deux styles de boutons */
-  margin-top: 1rem;
-}
-
-/* --- BOUTON BILLETTERIE (CYBER BTN) --- */
-.cyberBtn {
-  position: relative;
-  background: #fff;
-  color: #000;
-  padding: 1rem 2.5rem;
-  border-radius: 12px;
-  font-weight: 900;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-}
-
-.cyberBtn:hover {
-  background: #a855f7;
-  color: #fff;
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
-}
-
-.cyberBtn svg {
-  transition: transform 0.3s ease;
-}
-
-.cyberBtn:hover svg {
-  transform: rotate(-15deg) scale(1.1);
-}
-
-/* --- BOUTON TRAILER --- */
-.trailerBtn {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.3s ease;
-  color: rgba(255, 255, 255, 0.5); /* Plus discret au repos */
-  text-decoration: none;
-}
-
-.playIconWrapper {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  color: white;
-}
-
-.trailerBtn span {
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
-  font-style: italic;
-  transition: color 0.3s ease;
-}
-
-/* EFFETS SUR LE TRAILER */
-.trailerBtn:hover {
-  color: #fff;
-}
-
-.trailerBtn:hover .playIconWrapper {
-  background: rgba(168, 85, 247, 0.1);
-  border-color: #a855f7;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-}
-
-.trailerBtn:hover span {
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-/* Animation de l'icône Play au hover */
-.trailerBtn:hover .playIconWrapper svg {
-  fill: #a855f7;
-  color: #a855f7;
-  animation: pulsePlay 1.5s infinite;
-}
-
-@keyframes pulsePlay {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.15); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
+/* --- BADGES STATUS --- */
 .statusBadge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(168, 85, 247, 0.15); /* Fond violet très transparent */
-  border: 1px solid rgba(168, 85, 247, 0.3); /* Bordure violette fine */
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
   padding: 4px 12px;
   border-radius: 8px;
-  outline: none; /* Supprime tout contour résiduel */
 }
 
 .statusBadge span {
-  color: #a855f7; /* Couleur du texte violette */
+  color: #a855f7;
   font-size: 10px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.zapIcon {
-  color: #a855f7;
-  fill: #a855f7;
+/* --- ANIMATIONS & DÉTAILS --- */
+@keyframes ultraSlowRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes slowRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes pulsePlay { 
+  0% { transform: scale(1); opacity: 1; } 
+  50% { transform: scale(1.15); opacity: 0.8; } 
+  100% { transform: scale(1); opacity: 1; } 
 }
 
-.videoBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Pour ne pas déformer la vidéo */
-  z-index: 0;
-  opacity: 0.6; /* Ajuste selon tes besoins */
-  pointer-events: none; /* Pour pouvoir cliquer sur les boutons devant */
+.spinning { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ============================================================
+   PATCH RESPONSIVE : CORRECTION LARGEUR TÉLÉPHONE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .container { padding: 1rem; }
+  .header { padding-bottom: 1rem; margin-bottom: 2rem; }
+  .title { letter-spacing: -1.5px; }
+
+  .heroEvent {
+    padding: 2rem;
+    min-height: 450px;
+    border-radius: 1.5rem;
+  }
+
+  .heroTitle { line-height: 1; letter-spacing: -2px; }
+  .metaContainer { gap: 1.5rem; margin-bottom: 1.5rem; }
+  .adminActionsHero { top: 1rem; right: 1rem; }
+  .iconBtn { width: 42px; height: 42px; border-radius: 10px; }
+  
+  .actionGroup { gap: 1.5rem; }
+  .cyberBtn { padding: 0.8rem 1.5rem; font-size: 0.8rem; }
 }

@@ -75,12 +75,13 @@ function NewMailForm() {
 
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar}>
+      <aside className={`${styles.sidebar} ${styles.sidebarCompose}`}>
         <button className={styles.backBtnFlat} onClick={() => router.back()}>
-          <ChevronLeft size={20} /> Retour au courrier
+          <ChevronLeft size={24} /> <span>Retour</span>
         </button>
         
-        <div className={styles.composeInfoCard}>
+        {/* On cache l'info card sur petit mobile pour gagner de la place */}
+        <div className={`${styles.composeInfoCard} ${styles.hideMobile}`}>
           <div className={styles.avatarLarge}>
             <PenLine size={24} />
           </div>

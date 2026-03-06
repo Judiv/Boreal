@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { format, startOfWeek, addDays, isSameDay, isBefore, startOfDay, endOfDay } from "date-fns";
 import { fr } from "date-fns/locale";
 import { 
@@ -85,7 +85,7 @@ const calculateLayout = (dayEvents: any[], hourHeight: number, startHour: number
           event: ev,
           style: { 
             top: ((s - startLimit) / 60) * hourHeight, 
-            height: Math.max(((e - s) / 60) * hourHeight, 25), 
+            height: Math.max(((e - s) / 60) * hourHeight, 30), 
             left: i * w, width: w, zIndex: 10 + i 
           },
         });
@@ -105,7 +105,7 @@ export default function WeeklyPlanning({ events, canEdit, tags, mapping }: { eve
   const currentMonday = addDays(baseDate, weekOffset * 7);
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(currentMonday, i));
 
-  const HOUR_HEIGHT = 70;
+  const HOUR_HEIGHT = 80; // ✅ Légèrement augmenté pour la lisibilité
   const START_HOUR = 7;
   const END_HOUR = 24;
   const timeSlots = Array.from({ length: END_HOUR - START_HOUR }, (_, i) => START_HOUR + i);
@@ -124,7 +124,6 @@ export default function WeeklyPlanning({ events, canEdit, tags, mapping }: { eve
     if (!ev) return "AUTRE";
     const t = (ev.typeCours || "").toUpperCase();
     const type = (ev.type || "").toUpperCase();
-    
     if (t.includes("COMITS") || type.includes("COMITS")) return "COMITS";
     if (t.includes("ADMIN") || t.includes("BUREAU") || type.includes("ADMINISTRATIVE")) return "ADMINISTRATIVE";
     if (t.includes("SPORT") || type.includes("SPORT")) return "SPORT";
@@ -143,19 +142,26 @@ export default function WeeklyPlanning({ events, canEdit, tags, mapping }: { eve
   const getTheme = (ev: any) => {
     const key = getTypeKey(ev);
     switch (key) {
-      case "COMITS": return { modal: styles.modalContentCOMITS, badge: styles.badgeCOMITS, icon: styles.iconRed, text: styles.textRed, border: styles.separatorRed, id: styles.idRed, IconComp: Drama };
-      case "ADMINISTRATIVE": return { modal: styles.modalContentADMINISTRATIVE, badge: styles.badgeADMINISTRATIVE, icon: styles.iconYellow, text: styles.textYellow, border: styles.separatorYellow, id: styles.idYellow, IconComp: Briefcase };
-      case "SPORT": return { modal: styles.modalContentSPORT, badge: styles.badgeSPORT, icon: styles.iconOrange, text: styles.textOrange, border: styles.separatorOrange, id: styles.idOrange, IconComp: Trophy };
-      case "FETE": return { modal: styles.modalContentFETE, badge: styles.badgeFETE, icon: styles.iconPink, text: styles.textPink, border: styles.separatorPink, id: styles.idPink, IconComp: PartyPopper };
-      case "INFO": return { modal: styles.modalContentINFO, badge: styles.badgeINFO, icon: styles.iconBlue, text: styles.textBlue, border: styles.separatorBlue, id: styles.idBlue, IconComp: Info };
-      case "CM": return { modal: "", badge: styles.badgeCM, icon: styles.iconBlue, text: "", border: "", id: "", IconComp: GraduationCap };
-      case "TP": return { modal: "", badge: styles.badgeTP, icon: styles.iconGreen, text: "", border: "", id: "", IconComp: GraduationCap };
-      case "EXAM": return { modal: "", badge: styles.badgeEXAM, icon: styles.iconRed, text: "", border: "", id: "", IconComp: GraduationCap };
-      case "ED": return { modal: "", badge: styles.badgeED, icon: styles.iconPurple, text: "", border: "", id: "", IconComp: GraduationCap };
-      case "PROJET": return { modal: "", badge: styles.badgePROJET, icon: styles.iconPurple, text: "", border: "", id: "", IconComp: GraduationCap };
-      case "AUTONOME": return { modal: "", badge: styles.badgeAUTONOME, icon: styles.iconTeal, text: "", border: "", id: "", IconComp: GraduationCap };
-      case "INDISP": return { modal: "", badge: styles.badgeINDISP, icon: styles.iconGrey, text: "", border: "", id: "", IconComp: GraduationCap };
-      default: return { modal: styles.modalContentAUTRE, badge: styles.badgeAUTRE, icon: styles.iconGrey, text: styles.textGrey, border: styles.separatorGrey, id: styles.idGrey, IconComp: Pin };
+      case "COMITS": 
+        return { badge: styles.badgeCOMITS, icon: styles.iconRed, text: styles.textRed, IconComp: Drama, modalBorder: styles.modalBorderRed };
+      case "SPORT": 
+        return { badge: styles.badgeSPORT, icon: styles.iconOrange, text: styles.textOrange, IconComp: Trophy, modalBorder: styles.modalBorderOrange };
+      case "FETE": 
+        return { badge: styles.badgeFETE, icon: styles.iconPink, text: styles.textPink, IconComp: PartyPopper, modalBorder: styles.modalBorderPink };
+      case "INFO": 
+        return { badge: styles.badgeINFO, icon: styles.iconBlue, text: styles.textBlue, IconComp: Info, modalBorder: styles.modalBorderBlue };
+      case "ADMINISTRATIVE": 
+        return { badge: styles.badgeADMIN, icon: styles.iconYellow, text: styles.textYellow, IconComp: Briefcase, modalBorder: styles.modalBorderYellow };
+      case "CM": 
+        return { badge: styles.badgeCM, icon: styles.iconBlueDark, text: styles.textBlueDark, IconComp: GraduationCap, modalBorder: styles.modalBorderBlueDark };
+      case "TP": 
+        return { badge: styles.badgeTP, icon: styles.iconGreen, text: styles.textGreen, IconComp: GraduationCap, modalBorder: styles.modalBorderGreen };
+      case "EXAM": 
+        return { badge: styles.badgeEXAM, icon: styles.iconRedVivid, text: styles.textRedVivid, IconComp: Info, modalBorder: styles.modalBorderRedVivid };
+      case "PROJET": case "ED":
+        return { badge: styles.badgeED, icon: styles.iconPurple, text: styles.textPurple, IconComp: Briefcase, modalBorder: styles.modalBorderPurple };
+      default: 
+        return { badge: styles.badgeDefault, icon: styles.iconGrey, text: styles.textGrey, IconComp: Pin, modalBorder: styles.modalBorderGrey };
     }
   };
 
@@ -163,30 +169,32 @@ export default function WeeklyPlanning({ events, canEdit, tags, mapping }: { eve
 
   return (
     <div className={styles.container}>
+      {/* TOOLBAR */}
       <div className={styles.toolbar}>
         <div className={styles.monthTitle}>
-          <CalendarDays size={24} className={styles.monthIcon} />
+          <CalendarDays size={20} className={styles.monthIcon} />
           {format(currentMonday, "MMMM yyyy", { locale: fr })}
         </div>
         <div className={styles.controls}>
-          {canEdit && <Link href="/planning/add" className={styles.addButton}><Plus size={18} /> Ajouter</Link>}
-          <button onClick={() => setWeekOffset(0)} className={styles.todayBtn}>Aujourd'hui</button>
-          <button onClick={() => setWeekOffset(p => p - 1)} className={styles.iconBtn}><ChevronLeft size={20}/></button>
-          <button onClick={() => setWeekOffset(p => p + 1)} className={styles.iconBtn}><ChevronRight size={20}/></button>
+          {(canEdit.isSuperAdmin || canEdit.canManage) && <Link href="/planning/add" className={styles.addButton}><Plus size={16} /> <span className={styles.hideMobile}>Ajouter</span></Link>}
+          <button onClick={() => setWeekOffset(0)} className={styles.todayBtn}><span className={styles.hideMobile}>Aujourd'hui</span><CalendarDays className={styles.showMobile} size={16}/></button>
+          <div className={styles.navGroup}>
+             <button onClick={() => setWeekOffset(p => p - 1)} className={styles.iconBtn}><ChevronLeft size={18}/></button>
+             <button onClick={() => setWeekOffset(p => p + 1)} className={styles.iconBtn}><ChevronRight size={18}/></button>
+          </div>
           <button onClick={handleRefresh} className={styles.iconBtn}>
-            <RefreshCw size={18} className={isRefreshing ? "animate-spin" : ""} />
+            <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
 
+      {/* GRILLE */}
       <div className={styles.gridWrapper}>
         <div className={styles.timeColumn}>
-          <div style={{ height: '60px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}></div>
-          <div style={{ position: 'relative' }}>
-            {timeSlots.map((hour) => (
-              <div key={hour} className={styles.timeSlotLabel} style={{ top: `${(hour - START_HOUR) * HOUR_HEIGHT}px` }}>{hour}:00</div>
-            ))}
-          </div>
+          <div className={styles.timeColumnHeader}></div>
+          {timeSlots.map((hour) => (
+            <div key={hour} className={styles.timeSlotLabel} style={{ top: `${(hour - START_HOUR) * HOUR_HEIGHT + 60}px` }}>{hour}:00</div>
+          ))}
         </div>
 
         <div className={styles.mainZone}>
@@ -201,100 +209,109 @@ export default function WeeklyPlanning({ events, canEdit, tags, mapping }: { eve
 
           <div className={styles.eventScrollArea}>
             <div className={styles.columnsContainer} style={{ height: timeSlots.length * HOUR_HEIGHT }}>
-              {weekDays.map(day => {
-                const dStr = format(day, "yyyy-MM-dd");
-                const dayEvs = processedEvents.filter(e => format(new Date(e.dateDebut), "yyyy-MM-dd") === dStr);
-                const layout = calculateLayout(dayEvs, HOUR_HEIGHT, START_HOUR, END_HOUR);
+              {/* Lignes d'heures en arrière-plan */}
+              {timeSlots.map((_, i) => <div key={i} className={styles.hourLine} style={{ top: i * HOUR_HEIGHT }} />)}
+              
+              <div className={styles.columnsFlex}>
+                {weekDays.map(day => {
+                  const dStr = format(day, "yyyy-MM-dd");
+                  const dayEvs = processedEvents.filter(e => format(new Date(e.dateDebut), "yyyy-MM-dd") === dStr);
+                  const layout = calculateLayout(dayEvs, HOUR_HEIGHT, START_HOUR, END_HOUR);
 
-                return (
-                  <div key={day.toString()} className={styles.column}>
-                    {timeSlots.map((_, i) => <div key={i} className={styles.hourLine} style={{ top: i * HOUR_HEIGHT }} />)}
-                    {layout.map(({ event, style }) => (
-                      <div key={`${event.id}-${dStr}`} className={styles.eventWrapper} style={{ ...style, left: `${style.left}%`, width: `${style.width}%` }}>
-                        <EventCard 
-                          event={event} 
-                          canEdit={canEdit} 
-                          tags={tags} 
-                          mapping={mapping} 
-                          onClick={() => setSelectedEvent(event)} 
-                        />
-                      </div>
-                    ))}
-                  </div>
-                );
-              })}
+                  return (
+                    <div key={day.toString()} className={styles.column}>
+                      {layout.map(({ event, style }) => (
+                        <div key={`${event.id}-${dStr}`} className={styles.eventWrapper} style={{ ...style, left: `${style.left}%`, width: `${style.width}%` }}>
+                          <EventCard event={event} canEdit={canEdit} tags={tags} mapping={mapping} onClick={() => setSelectedEvent(event)} />
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {selectedEvent && (
-        <div className={styles.modalOverlay} onClick={() => setSelectedEvent(null)}>
-          <div className={`${styles.modalContent} ${currentTheme.modal}`} onClick={e => e.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <div className={styles.headerTopRow}>
-                <div className="flex-1">
-                  <span className={`${styles.badge} ${currentTheme.badge}`}>{selectedEvent.typeCours || selectedEvent.type || "EVENT"}</span>
+      {/* MODALE DETAILS */}
+      {selectedEvent && (() => {
+        const theme = getTheme(selectedEvent);
+        const IconHeader = theme.IconComp;
+        
+        return (
+          <div className={styles.modalOverlay} onClick={() => setSelectedEvent(null)}>
+            <div className={`${styles.modalContent} ${theme.modalBorder}`} onClick={e => e.stopPropagation()}>
+              
+              {/* En-tête avec fond coloré dynamique */}
+              <div className={`${styles.modalHeaderNew} ${theme.badge}`}>
+                <div className={styles.headerIconCircle}>
+                  <IconHeader size={24} className={theme.text} />
+                </div>
+                <div className={styles.headerTitles}>
+                  <span className={`${styles.modalBadgeLabel} ${theme.text}`}>
+                    {selectedEvent.typeCours || selectedEvent.type || "Événement"}
+                  </span>
                   <h2 className={styles.modalTitle}>{selectedEvent.titre || selectedEvent.title}</h2>
                 </div>
-                <button onClick={() => setSelectedEvent(null)} className={styles.closeButton}><X size={18}/></button>
-              </div>
-            </div>
-            
-            <div className={styles.modalBody}>
-              <div className={styles.infoRow}>
-                <div className={`${styles.iconBox} ${currentTheme.icon}`}><Clock size={20}/></div>
-                <div>
-                  <p className={`${styles.infoLabel} ${currentTheme.text}`}>Horaire</p>
-                  <p className={styles.infoValue}>
-                    {format(new Date(selectedEvent.dateDebut), "HH:mm")} — {format(new Date(selectedEvent.dateFin), "HH:mm")}
-                  </p>
-                </div>
+                <button onClick={() => setSelectedEvent(null)} className={styles.closeButtonNew}>
+                  <X size={20}/>
+                </button>
               </div>
 
-              <div className={styles.infoRow}>
-                <div className={`${styles.iconBox} ${currentTheme.icon}`}><MapPin size={20}/></div>
-                <div>
-                  <p className={`${styles.infoLabel} ${currentTheme.text}`}>Lieu</p>
-                  <p className={styles.infoValue}>{selectedEvent.lieu || "Non spécifié"}</p>
-                </div>
-              </div>
-
-              <div className={styles.infoRow}>
-                <div className={`${styles.iconBox} ${currentTheme.icon}`}>
-                  {currentTheme.IconComp ? <currentTheme.IconComp size={20}/> : <Users size={20}/>}
-                </div>
-                <div>
-                  <p className={`${styles.infoLabel} ${currentTheme.text}`}>
-                    {isEnsamEvent(selectedEvent) ? "Enseignant" : "Gestionnaire"}
-                  </p>
-                  <p className={styles.infoValue}>
-                    {/* 1. Si c'est un cours ENSAM, on affiche 'prof' 
-                        2. Sinon, on cherche le nom/prenom dans l'objet gestionnaire 
-                        3. Sinon "Moi" ou "Non spécifié" */}
-                    {isEnsamEvent(selectedEvent) 
-                      ? (selectedEvent.prof || "Non spécifié")
-                      : selectedEvent.gestionnaire 
-                        ? `${selectedEvent.gestionnaire.prenom} ${selectedEvent.gestionnaire.nom}`
-                        : (selectedEvent.prof || "Moi")
-                    }
-                  </p>
-                </div>
-              </div>
-              
-              {selectedEvent.description && (
-                <div className={styles.infoRow}>
-                  <div className={`${styles.iconBox} ${currentTheme.badge}`}><Info size={20}/></div>
-                  <div>
-                    <p className={`${styles.infoLabel} ${currentTheme.text}`}>Détails</p>
-                    <p className={styles.infoValue}>{selectedEvent.description}</p>
+              <div className={styles.modalBodyNew}>
+                {/* Horaires */}
+                <div className={styles.infoBox}>
+                  <div className={`${styles.infoIconWrapper} ${theme.icon}`}>
+                    <Clock size={18} />
+                  </div>
+                  <div className={styles.infoText}>
+                    <span className={styles.infoLabel}>Horaire</span>
+                    <p>{format(new Date(selectedEvent.dateDebut), "HH:mm")} — {format(new Date(selectedEvent.dateFin), "HH:mm")}</p>
                   </div>
                 </div>
-              )}
+
+                {/* Lieu */}
+                <div className={styles.infoBox}>
+                  <div className={`${styles.infoIconWrapper} ${theme.icon}`}>
+                    <MapPin size={18} />
+                  </div>
+                  <div className={styles.infoText}>
+                    <span className={styles.infoLabel}>Localisation</span>
+                    <p>{selectedEvent.lieu || "Non spécifié"}</p>
+                  </div>
+                </div>
+
+                {/* Organisateur / Prof */}
+                <div className={styles.infoBox}>
+                  <div className={`${styles.infoIconWrapper} ${theme.icon}`}>
+                    <Users size={18} />
+                  </div>
+                  <div className={styles.infoText}>
+                    <span className={styles.infoLabel}>Organisateur</span>
+                    <p>
+                      {isEnsamEvent(selectedEvent) 
+                        ? (selectedEvent.prof || "Administration ENSAM") 
+                        : (selectedEvent.gestionnaire ? `${selectedEvent.gestionnaire.prenom} ${selectedEvent.gestionnaire.nom}` : "Moi")}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Description si elle existe */}
+                {selectedEvent.description && (
+                  <div className={styles.descriptionSection}>
+                    <div className={styles.descriptionHeader}>
+                      <Info size={16} className={theme.text} />
+                      <span>Description</span>
+                    </div>
+                    <p className={styles.descriptionContent}>{selectedEvent.description}</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }

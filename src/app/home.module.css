@@ -161,3 +161,127 @@
   .heroGrid, .folderGrid, .bottomLayout { grid-template-columns: 1fr; }
   .contentWrapper { gap: 5rem; }
 }
+
+
+
+
+
+/* ============================================================
+   PATCH RESPONSIVE : OPTIMISATION MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* 1. Ajustement global des espacements */
+  .contentWrapper {
+    padding: 2rem 1.2rem;
+    gap: 4rem; /* Réduit l'espace entre les sections */
+  }
+
+  /* 2. Hero Section : Le titre doit être lisible */
+  .mainTitle {
+    font-size: 3.2rem; /* Réduit la taille géante du texte */
+    text-align: left;
+    line-height: 1.1;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr; /* Force une seule colonne */
+    gap: 2.5rem;
+    align-items: flex-start;
+  }
+
+  .heroDetails {
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
+    gap: 1rem;
+  }
+
+  /* 3. Focus Widget : Moins imposant */
+  .focusWidget {
+    padding: 1.5rem;
+    border-radius: 24px;
+  }
+
+  .focusTime {
+    font-size: 1.1rem;
+  }
+
+  /* 4. Titres de sections (ModernHeader) */
+  .modernHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .sectionNumber {
+    font-size: 2rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  /* 5. Albums / Galerie : 1 seule colonne */
+  .folderGrid {
+    grid-template-columns: 1fr; 
+    gap: 1.5rem;
+  }
+
+  /* 6. Layout du bas (News & Services) */
+  .bottomLayout {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  /* 7. News Rows : On réduit les paddings */
+  .newsRow {
+    padding: 1.5rem 0;
+  }
+
+  .newsHeadline h3 {
+    font-size: 1.2rem;
+  }
+
+  /* 8. Bouton flottant (FAB) : Plus discret sur mobile */
+  .floatingActionsLeft {
+    bottom: 20px;
+    left: 20px;
+  }
+
+  .fab {
+    padding: 10px 20px;
+    font-size: 0.65rem;
+    gap: 8px;
+  }
+
+  /* 9. Halos (Aurora) : On réduit leur taille pour éviter de ralentir le téléphone */
+  .auroraBlue, .auroraPurple {
+    width: 80vw;
+    height: 30vh;
+    filter: blur(60px);
+  }
+
+  /* 10. Top Bar (Brand et Session) */
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  /* 11. Planning Card : On s'assure qu'elle ne déborde pas */
+  .planningCard {
+    padding: 1.2rem;
+    border-radius: 20px;
+    overflow-x: auto; /* Permet de scroller le calendrier si besoin */
+  }
+}
+
+/* Optionnel : Ajustement pour les très petits écrans (iPhone SE, etc.) */
+@media (max-width: 400px) {
+  .mainTitle {
+    font-size: 2.5rem;
+  }
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+}

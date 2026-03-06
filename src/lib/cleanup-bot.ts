@@ -110,3 +110,97 @@ export async function globalStorageCleanup() {
     };
   }
 }
+
+export async function runFullMaintenance() {
+  // On utilise des dates basées sur l'UTC pour éviter les décalages Serveur/Client
+  const now = new Date();
+  
+  // --- CALCUL DU LUNDI DE LA SEMAINE PASSÉE (00:00:00.000 UTC) ---
+  const lastMonday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const dayOfWeek = lastMonday.getUTCDay(); // 0 (Dim) à 6 (Sam)
+  const diffToThisMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  
+  // On recule jusqu'au lundi de cette semaine, puis -7 jours pour la semaine passée
+  lastMonday.setUTCDate(lastMonday.getUTCDate() - diffToThisMonday - 7);
+  lastMonday.setUTCHours(0, 0, 0, 0);
+
+  // --- CALCUL DU SEUIL POUR LES NOTIFICATIONS (7 jours pile en arrière UTC) ---
+  const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
+
+  try {
+    const report = await prisma.$transaction(async (tx) => {
+      
+      // 1. Suppression des Events & Planning (Semaine passée terminée)
+      const oldPlanning = await tx.planningEvent.deleteMany({
+        where: { dateFin: { lt: lastMonday } }
+      });
+
+      const oldEvents = await tx.event.deleteMany({
+        where: { date: { lt: lastMonday } }
+      });
+
+      // 2. Nettoyage Ride & Sport (Terminé à l'instant T UTC)
+      const oldRides = await tx.ride.deleteMany({
+        where: { dateHeure: { lt: now } }
+      });
+
+      const oldSportSessions = await tx.sportSession.deleteMany({
+        where: { endDate: { lt: now } }
+      });
+
+      // 3. Sécurité : Tokens de mot de passe expirés
+      const expiredTokens = await tx.passwordResetToken.deleteMany({
+        where: { expires: { lt: now } }
+      });
+
+      // 4. CORRECTION NOTIFICATIONS : 
+      // Si tu veux tout supprimer (même non lues), enlève "isRead: true"
+      const cleanedNotifs = await tx.notification.deleteMany({
+        where: { 
+          // On garde isRead: true si tu ne veux supprimer que les lues
+          isRead: true, 
+          createdAt: { lt: sevenDaysAgo } 
+        }
+      });
+
+      // 5. Purge des Logs (3 mois glissants UTC)
+      const ninetyDaysAgo = new Date(now.getTime() - (90 * 24 * 60 * 60 * 1000));
+      const deletedLogs = await tx.log.deleteMany({
+        where: { createdAt: { lt: ninetyDaysAgo } }
+      });
+
+      return {
+        planningDeleted: oldPlanning.count,
+        eventsDeleted: oldEvents.count,
+        ridesDeleted: oldRides.count,
+        sportsDeleted: oldSportSessions.count,
+        tokensCleared: expiredTokens.count,
+        logsCleared: deletedLogs.count,
+        notifsCleared: cleanedNotifs.count,
+        cutoffDateUTC: lastMonday.toUTCString()
+      };
+    });
+
+    console.log(`✅ Maintenance UTC terminée. Seuil : ${report.cutoffDateUTC}`);
+    return { success: true, report };
+  } catch (error) {
+    console.error("❌ Erreur Maintenance :", error);
+    return { success: false, error };
+  }
+}
+
+export async function runGlobalBotMaintenance() {
+  console.log("🤖 [BOT] Lancement de la maintenance globale...");
+  
+  // 1. Nettoyage des fichiers et vieux logs (30j)
+  const storageResult = await globalStorageCleanup();
+  
+  // 2. Nettoyage de la base de données (Events, Rides, Sports, etc.)
+  const dbResult = await runFullMaintenance();
+
+  return {
+    storage: storageResult,
+    database: dbResult,
+    completedAt: new Date().toISOString()
+  };
+}

@@ -1,4 +1,4 @@
-import { globalStorageCleanup } from "@/lib/cleanup-bot";
+import { runFullMaintenance } from "@/lib/cleanup-bot";
 import { NextResponse } from "next/server";
 import { getUserSession } from "@/lib/auth";
 
@@ -9,6 +9,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const report = await globalStorageCleanup();
+  const report = await runFullMaintenance();
   return NextResponse.json(report);
 }

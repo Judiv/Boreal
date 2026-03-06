@@ -115,11 +115,11 @@ export default function ChatBot() {
       speak(response);
 
     } catch (err) {
-      const errorMsg = "Désolé, Mistral ne répond pas à l'Usine...";
-      setMessages(prev => [...prev, { role: "assistant", content: errorMsg }]);
-      speak(errorMsg);
+        const errorMsg = "Désolé, l'IA de l'Usine est hors-ligne pour le moment. 🔌";
+        setMessages(prev => [...prev, { role: "assistant", content: errorMsg }]);
+        speak(errorMsg);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 

@@ -88,7 +88,7 @@ export default async function HomePage() {
       <div className={styles.floatingActionsLeft}>
         <Link href="/mail" className={styles.fab}>
           <MessageSquare size={20} />
-          <span>Besoin d'aide</span>
+          <span>Messages</span>
         </Link>
       </div>
 
@@ -134,7 +134,11 @@ export default async function HomePage() {
                       <p>{nextEvent.lieu || "Lieu à venir"}</p>
                     </div>
                     <div className={styles.focusTime}>
-                       {new Date(nextEvent.dateDebut).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                       {new Date(nextEvent.dateDebut).toLocaleTimeString('fr-FR', { 
+                            hour: '2-digit', 
+                            minute: '2-digit',
+                            timeZone: 'Europe/Paris' // <-- Force le fuseau horaire français
+                        })}
                     </div>
                   </>
                 ) : (

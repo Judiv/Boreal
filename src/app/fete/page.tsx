@@ -3,13 +3,16 @@ import { getUserSession, hasPermission, getUser } from "@/lib/auth";
 import FeteClient from "./FeteClient";
 import AuthGuard from "@/components/AuthGuard";
 
+// Force la page à se rafraîchir à chaque visite (évite le cache Docker)
+export const revalidate = 0;
+
 export default async function FetePage() {
   const user = await getUser().catch(() => null);
-  const session = await getUserSession();
   const canManage = await hasPermission("manage_events");
+  const today = new Date();
+
 
   // 1. Récupérer les news liées aux soirées
-  // Correction : On utilise "categorie" ou on filtre sur le titre si les tags n'existent pas
   const dejantesNews = await prisma.news.findMany({
     where: {
       OR: [
@@ -21,11 +24,11 @@ export default async function FetePage() {
     take: 3
   });
 
-  // 2. Récupérer les événements à venir
+  // 2. Récupérer les événements à venir (aujourd'hui inclus)
   const upcomingEvents = await prisma.event.findMany({
     where: {
       date: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0))
+        gte: today
       }
     },
     orderBy: { date: 'asc' }
@@ -34,13 +37,13 @@ export default async function FetePage() {
   // 3. Récupérer les événements passés (Archives)
   const pastEvents = await prisma.event.findMany({
     where: {
-      date: {
-        lt: new Date(new Date().setHours(0, 0, 0, 0))
+      dateFin: {
+        lte: today
       }
     },
-    orderBy: { date: 'desc' },
-    take: 10
+    orderBy: { date: 'desc' }
   });
+
 
   return (
     <AuthGuard user={user}>

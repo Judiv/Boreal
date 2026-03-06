@@ -94,13 +94,20 @@ export async function deleteSport(id: string) {
  * Inscrire / Désinscrire un utilisateur
  */
 export async function toggleRegistration(sportId: string) {
-  const session = await getAuthenticatedUser();
-  if (!session.user) return;
+  // On utilise getUserSession directement au lieu de getAuthenticatedUser
+  const session = await getUserSession();
+  
+  // Ici on vérifie juste s'il est loggé, peu importe son rôle
+  if (!session || !session.user) {
+    throw new Error("Vous devez être connecté pour vous inscrire.");
+  }
 
   const sport = await prisma.sport.findUnique({
     where: { id: sportId },
     include: { members: { where: { id: session.user.id } } }
   });
+
+  if (!sport) throw new Error("Sport introuvable.");
 
   const isRegistered = (sport?.members.length ?? 0) > 0;
 

@@ -190,7 +190,7 @@ export default function MailPage() {
           <div className={styles.detailWrapper}>
             <div className={styles.detailHeader}>
               <button className={styles.backBtnFlat} onClick={() => setSelectedMsg(null)}>
-                <ChevronLeft size={20} /> Retour
+                <ChevronLeft size={24} /> <span>Retour</span>
               </button>
               
               <div className={styles.detailActionsBar}>

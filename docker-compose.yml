@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # --- BASE DE DONNÉES ---
   db:
@@ -19,6 +17,14 @@ services:
       timeout: 5s
       retries: 5
 
+  # --- IA CHAT BOT ---
+  ollama:
+    image: ollama/ollama:latest
+    container_name: boreal-ollama
+    restart: always
+    volumes:
+      - ollama_storage:/root/.ollama
+
   # --- APPLICATION BOREAL ---
   app:
     build: .
@@ -26,8 +32,11 @@ services:
     restart: always
     ports:
       - "3000:3000"
+      - "3001:3001"
     env_file:
       - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       # Connexion DB interne au réseau Docker
       DATABASE_URL: "postgresql://admin_boreal:password_secret@db:5432/boreal_db?schema=public"
@@ -47,8 +56,12 @@ services:
       PUSHER_CLUSTER: ${NEXT_PUBLIC_PUSHER_CLUSTER}
       
       # Configuration URL
-      NEXTAUTH_URL: "http://localhost:3000"
-      NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+
+      # Modèle LLM
+      OLLAMA_URL: ${OLLAMA_URL}
+      OLLAMA_MODEL: ${OLLAMA_MODEL}
 
     depends_on:
       db:
@@ -60,3 +73,4 @@ services:
 
 volumes:
   db_data:
+  ollama_storage:

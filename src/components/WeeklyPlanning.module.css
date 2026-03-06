@@ -10,6 +10,7 @@
   flex-direction: column;
   gap: 1rem;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden; /* Empêche le scroll global de la page vers la droite */
 }
 
 /* --- TOOLBAR (En-tête) --- */
@@ -22,6 +23,7 @@
   padding: 0.75rem 1.5rem;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  gap: 15px;
 }
 
 .monthTitle {
@@ -33,14 +35,23 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  white-space: nowrap;
 }
 
-.monthIcon { color: #3b82f6; }
+.monthIcon { color: #3b82f6; flex-shrink: 0; }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  flex-shrink: 1;
+  min-width: 0; /* Permet aux boutons de ne pas forcer la largeur */
+}
+
+.navGroup {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 /* --- BOUTONS --- */
@@ -50,18 +61,21 @@
   gap: 0.5rem;
   background-color: #3b82f6;
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 12px;
   font-weight: 800;
   text-transform: uppercase;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   transition: all 0.2s;
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
 }
+
 .addButton:hover {
   background-color: #2563eb;
   transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
 }
 
 .iconBtn, .todayBtn {
@@ -75,40 +89,14 @@
   color: #a1a1aa;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
-
-.iconBtn { width: 36px; }
 
 .todayBtn {
   padding: 0 1rem;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.iconBtn:hover, .todayBtn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.todayActive {
-  background-color: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border-color: #3b82f6;
-}
-
-.syncBtn {
-  margin-left: 0.5rem;
-  color: #3b82f6;
-  border-color: rgba(59, 130, 246, 0.3);
-  background-color: rgba(59, 130, 246, 0.05);
-}
-.syncBtn:hover {
-  background-color: rgba(59, 130, 246, 0.15);
-  border-color: #3b82f6;
-  color: white;
 }
 
 /* --- STRUCTURE GRILLE --- */
@@ -118,9 +106,9 @@
   background-color: #1a1a1e;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  overflow: hidden;
+  overflow: hidden; /* Important pour que le scroll interne fonctionne */
   position: relative;
-  min-height: 600px;
+  height: 75vh;
 }
 
 .timeColumn {
@@ -129,7 +117,12 @@
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
   position: relative;
-  z-index: 20;
+  z-index: 30; /* Au dessus des events */
+}
+
+.timeColumnHeader {
+  height: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .timeSlotLabel {
@@ -138,8 +131,8 @@
   text-align: right;
   padding-right: 0.75rem;
   color: #52525b;
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.65rem;
+  font-weight: 700;
   transform: translateY(-50%);
 }
 
@@ -147,14 +140,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: auto; /* Scroll horizontal pour les jours */
+  overflow-y: hidden;
 }
 
 .daysHeader {
   display: flex;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 800px; /* Largeur mini pour ne pas écraser les colonnes */
   background-color: #151518;
   height: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .dayCell {
@@ -164,54 +159,44 @@
   align-items: center;
   justify-content: center;
   border-right: 1px solid rgba(255, 255, 255, 0.02);
-  padding: 0.5rem;
-}
-.dayCell:last-child { border-right: none; }
-
-.dayName {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #71717a;
-  margin-bottom: 2px;
 }
 
-.dayNumber {
-  font-size: 1.1rem;
-  font-weight: 900;
-  color: white;
-}
-
-.todayCell .dayNumber { color: #3b82f6; }
-.todayCell .dayName { color: #3b82f6; }
+.dayName { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: #71717a; }
+.dayNumber { font-size: 1rem; font-weight: 900; color: white; }
+.todayCell .dayNumber, .todayCell .dayName { color: #3b82f6; }
 
 .eventScrollArea {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto; /* Scroll vertical pour les heures */
   position: relative;
-  scrollbar-width: thin;
-  scrollbar-color: #333 #151518;
+  min-width: 800px;
 }
 
 .columnsContainer {
-  display: flex;
   position: relative;
+  width: 100%;
+}
+
+.hourLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.03);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.columnsFlex {
+  display: flex;
+  height: 100%;
 }
 
 .column {
   flex: 1;
   position: relative;
-  border-right: 1px solid rgba(255, 255, 255, 0.03);
-}
-.column:last-child { border-right: none; }
-
-.hourLine {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.03);
-  z-index: 1;
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+  z-index: 2;
 }
 
 .eventWrapper {
@@ -219,21 +204,18 @@
   padding: 2px;
   transition: z-index 0.2s;
 }
-.eventWrapper:hover {
-  z-index: 50 !important;
-}
 
-/* --- MODALE DE BASE --- */
+/* --- MODALE DETAILS --- */
 .modalOverlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.2s ease-out;
+  padding: 20px;
 }
 
 .modalContent {
@@ -242,215 +224,239 @@
   max-width: 450px;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 2rem;
+  position: relative;
+  animation: slideUp 0.3s ease;
 }
 
-.modalHeader {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent);
-}
-
-.headerTopRow {
+.infoRow {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 12px;
+  margin-bottom: 1rem;
+  color: #d4d4d8;
 }
 
-.closeButton {
-  background: rgba(255,255,255,0.05);
-  border: none;
-  color: #a1a1aa;
-  padding: 0.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
+/* ============================================================
+   PATCH RESPONSIVE : CORRECTION DES BOUTONS QUI DÉBORDENT
+   ============================================================ */
+
+.showMobile { display: none; }
+
+@media (max-width: 768px) {
+  .hideMobile { display: none; }
+  .showMobile { display: block; }
+
+  .toolbar {
+    padding: 0.5rem 1rem;
+    gap: 8px;
+    flex-wrap: wrap; /* Empile si l'écran est vraiment trop petit */
+  }
+
+  .monthTitle {
+    width: 100%;
+    justify-content: center;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+
+  .controls {
+    width: 100%;
+    justify-content: space-between; /* Espace entre flèches et boutons actions */
+  }
+
+  .gridWrapper {
+    height: 65vh; /* Hauteur réduite pour laisser voir la navbar/footer */
+  }
+
+  /* ✅ Time Column Sticky Fix */
+  .timeColumn {
+    position: sticky;
+    left: 0;
+    z-index: 50;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.5);
+  }
+
+  /* On force le conteneur à être assez large pour ne pas écraser les jours */
+  .mainZone {
+    min-width: unset; /* Laisse le scroll horizontal gérer */
+  }
+
+  .eventScrollArea, .daysHeader {
+    min-width: 850px; /* ✅ Largeur fixe pour autoriser le swipe sans débordement des boutons */
+  }
 }
-.closeButton:hover {
-  background: rgba(255,255,255,0.1);
-  color: white;
+
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+
+
+/* --- CONFIGURATION DES THÈMES PAR CATÉGORIE --- */
+
+/* 1. COMITS / ASSOS (Rouge) */
+.badgeCOMITS { background: rgba(239, 68, 68, 0.15) !important; color: #ef4444 !important; border: 1px solid rgba(239, 68, 68, 0.3) !important; }
+.textRed { color: #f87171; }
+.iconRed { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.modalBorderRed { border-top: 4px solid #ef4444; box-shadow: 0 10px 40px -10px rgba(239, 68, 68, 0.2); }
+
+/* 2. SPORT (Orange) */
+.badgeSPORT { background: rgba(249, 115, 22, 0.15) !important; color: #f97316 !important; border: 1px solid rgba(249, 115, 22, 0.3) !important; }
+.textOrange { color: #fb923c; }
+.iconOrange { background: rgba(249, 115, 22, 0.1); color: #f97316; }
+.modalBorderOrange { border-top: 4px solid #f97316; box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.2); }
+
+/* 3. FETE (Rose) */
+.badgeFETE { background: rgba(236, 72, 153, 0.15) !important; color: #ec4899 !important; border: 1px solid rgba(236, 72, 153, 0.3) !important; }
+.textPink { color: #f472b6; }
+.iconPink { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
+.modalBorderPink { border-top: 4px solid #ec4899; box-shadow: 0 10px 40px -10px rgba(236, 72, 153, 0.2); }
+
+/* 4. INFO / CONF (Cyan) */
+.badgeINFO { background: rgba(14, 165, 233, 0.15) !important; color: #0ea5e9 !important; border: 1px solid rgba(14, 165, 233, 0.3) !important; }
+.textBlue { color: #38bdf8; }
+.iconBlue { background: rgba(14, 165, 233, 0.1); color: #0ea5e9; }
+.modalBorderBlue { border-top: 4px solid #0ea5e9; box-shadow: 0 10px 40px -10px rgba(14, 165, 233, 0.2); }
+
+/* 5. ADMIN / BUREAU (Ambre) */
+.badgeADMIN { background: rgba(245, 158, 11, 0.15) !important; color: #f59e0b !important; border: 1px solid rgba(245, 158, 11, 0.3) !important; }
+.textYellow { color: #fbbf24; }
+.iconYellow { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.modalBorderYellow { border-top: 4px solid #f59e0b; box-shadow: 0 10px 40px -10px rgba(245, 158, 11, 0.2); }
+
+/* 6. CM (Bleu Royal) */
+.badgeCM { background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; border: 1px solid rgba(59, 130, 246, 0.3) !important; }
+.textBlueDark { color: #60a5fa; }
+.iconBlueDark { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.modalBorderBlueDark { border-top: 4px solid #3b82f6; box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.2); }
+
+/* 7. TP (Vert) */
+.badgeTP { background: rgba(34, 197, 94, 0.15) !important; color: #22c55e !important; border: 1px solid rgba(34, 197, 94, 0.3) !important; }
+.textGreen { color: #4ade80; }
+.iconGreen { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+.modalBorderGreen { border-top: 4px solid #22c55e; box-shadow: 0 10px 40px -10px rgba(34, 197, 94, 0.2); }
+
+/* 8. EXAM (Rouge Vif) */
+.badgeEXAM { background: #fee2e2 !important; color: #b91c1c !important; border: 1px solid #f87171 !important; font-weight: 900; }
+.textRedVivid { color: #ef4444; }
+.iconRedVivid { background: rgba(185, 28, 28, 0.1); color: #b91c1c; }
+.modalBorderRedVivid { border-top: 4px solid #b91c1c; box-shadow: 0 10px 50px -10px rgba(185, 28, 28, 0.3); }
+
+/* 9. PROJET / ED (Violet) */
+.badgeED { background: rgba(168, 85, 247, 0.15) !important; color: #a855f7 !important; border: 1px solid rgba(168, 85, 247, 0.3) !important; }
+.textPurple { color: #c084fc; }
+.iconPurple { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
+.modalBorderPurple { border-top: 4px solid #a855f7; box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.2); }
+
+/* 10. DEFAUT / AUTRE (Zinc) */
+.badgeDefault { background: rgba(161, 161, 170, 0.15) !important; color: #a1a1aa !important; border: 1px solid rgba(161, 161, 170, 0.3) !important; }
+.textGrey { color: #d1d5db; }
+.iconGrey { background: rgba(161, 161, 170, 0.1); color: #a1a1aa; }
+.modalBorderGrey { border-top: 4px solid #71717a; }
+
+/* --- STRUCTURE MODALE PROPRE --- */
+.modalContent {
+  background: #1a1a1e;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.modalHeaderNew {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  border-radius: 0; /* Override badge radius */
+}
+
+.headerIconCircle {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.headerTitles { flex: 1; }
+
+.modalBadgeLabel {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 2px;
 }
 
 .modalTitle {
   font-size: 1.25rem;
   font-weight: 800;
   color: white;
+  margin: 0;
   line-height: 1.2;
-  margin-top: 0.5rem;
 }
 
-.badge {
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  text-transform: uppercase;
-  display: inline-block;
+.closeButtonNew {
+  background: rgba(0, 0, 0, 0.15);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-/* Couleurs Badges */
-.badgeCM { background: rgba(59, 130, 246, 0.15); color: #fef08a;; border: 1px solid #eab308; }
-.badgeTP { background: rgba(16, 185, 129, 0.15); color: #dbeafe; border: 1px solid #3b82f6; }
-.badgeED{ background: rgba(239, 68, 68, 0.15); color: #f3e8ff; border: 1px solid #a855f7; }
-.badgeEXAM { background: rgba(249, 115, 22, 0.15); color: #fee2e2; border: 1px solid #f87171; }
-.badgePROJET { background: rgba(236, 72, 153, 0.15); color: #f1f5f9; border: 1px solid #cbd5e1; }
-.badgeAUTONOME { background: rgba(249, 115, 22, 0.15); color: #ccfbf1; border: 1px solid #14b8a6; }
-.badgeINDISP { background: rgba(236, 72, 153, 0.15); color: #9ca3af; border: 1px solid #4b5563; }
-.badgeDefault { background: rgba(113, 113, 122, 0.15); color: #d4d4d8; border: 1px solid rgba(113, 113, 122, 0.3); }
-
-.modalBody {
+.modalBodyNew {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.infoRow {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
+.infoBox { display: flex; align-items: center; gap: 16px; }
 
-.iconBox {
-  width: 40px; height: 40px;
+.infoIconWrapper {
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  background: rgba(255,255,255,0.03);
-  color: #a1a1aa;
 }
 
-/* Couleurs Icones de base */
-.iconBlue { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
-.iconGreen { color: #34d399; background: rgba(16, 185, 129, 0.1); }
-.iconPurple { color: #a78bfa; background: rgba(139, 92, 246, 0.1); }
+.infoText { display: flex; flex-direction: column; }
+.infoLabel { font-size: 0.7rem; color: #71717a; text-transform: uppercase; font-weight: 700; }
+.infoText p { margin: 0; color: #e4e4e7; font-weight: 500; font-size: 0.95rem; }
 
-.infoLabel {
-  font-size: 0.7rem;
+.descriptionSection {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.descriptionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
   font-weight: 700;
-  text-transform: uppercase;
-  color: #71717a;
-  margin-bottom: 2px;
-}
-.infoValue {
-  font-size: 0.95rem;
-  color: white;
-  font-weight: 500;
-}
-.infoSubValue {
-  font-size: 0.85rem;
   color: #a1a1aa;
+  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
-.modalFooter {
-  padding: 1rem 1.5rem;
-  background: rgba(0,0,0,0.2);
-  border-top: 1px solid rgba(255,255,255,0.05);
-  text-align: right;
-}
-.eventId {
-  font-family: monospace;
-  font-size: 0.7rem;
-  color: #52525b;
-}
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-@media (max-width: 768px) {
-  .monthTitle { font-size: 1rem; }
-  .todayBtn span { display: none; }
-  .todayBtn { padding: 0 0.5rem; }
-  .gridWrapper { min-height: auto; height: calc(100vh - 200px); }
-}
-
-/* ================================================================= */
-/* STYLES THÉMATIQUES (MODALE & BADGES)                              */
-/* ================================================================= */
-
-/* --- 1. COMITS / SPECTACLE (ROUGE PIMPANT) --- */
-.badgeCOMITS {
-  background-color: rgba(220, 38, 38, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5);
-}
-.modalContentCOMITS {
-  border: 1px solid rgba(239, 68, 68, 0.4) !important;
-  box-shadow: 0 0 40px rgba(220, 38, 38, 0.15) !important;
-  background: linear-gradient(to bottom, #1a0505, #121214) !important;
-}
-.iconRed { background-color: rgba(220, 38, 38, 0.15); color: #ef4444; }
-.textRed { color: #fca5a5 !important; }
-.separatorRed { border-top-color: rgba(239, 68, 68, 0.2) !important; }
-.idRed { color: #ef4444 !important; }
-
-/* --- 2. ADMINISTRATIVE / BUREAU (JAUNE OR) --- */
-.badgeADMINISTRATIVE {
-  background-color: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.4);
-}
-.modalContentADMINISTRATIVE {
-  border: 1px solid rgba(234, 179, 8, 0.4) !important;
-  box-shadow: 0 0 40px rgba(234, 179, 8, 0.15) !important;
-  background: linear-gradient(to bottom, #1f1a05, #121214) !important;
-}
-.iconYellow { background-color: rgba(234, 179, 8, 0.15); color: #eab308; }
-.textYellow { color: #fde047 !important; }
-.separatorYellow { border-top-color: rgba(234, 179, 8, 0.2) !important; }
-.idYellow { color: #eab308 !important; }
-
-/* --- 3. SPORT / COMPÉTITION (ORANGE ÉNERGIQUE) --- */
-.badgeSPORT {
-  background-color: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4);
-}
-.modalContentSPORT {
-  border: 1px solid rgba(249, 115, 22, 0.4) !important;
-  box-shadow: 0 0 40px rgba(249, 115, 22, 0.15) !important;
-  background: linear-gradient(to bottom, #1f1205, #121214) !important;
-}
-.iconOrange { background-color: rgba(249, 115, 22, 0.15); color: #f97316; }
-.textOrange { color: #fdba74 !important; }
-.separatorOrange { border-top-color: rgba(249, 115, 22, 0.2) !important; }
-.idOrange { color: #f97316 !important; }
-
-/* --- 4. SOIRÉE / FÊTE (ROSE FESTIF) --- */
-.badgeFETE {
-  background-color: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.4);
-}
-.modalContentFETE {
-  border: 1px solid rgba(236, 72, 153, 0.4) !important;
-  box-shadow: 0 0 40px rgba(236, 72, 153, 0.15) !important;
-  background: linear-gradient(to bottom, #1f0515, #121214) !important;
-}
-.iconPink { background-color: rgba(236, 72, 153, 0.15); color: #ec4899; }
-.textPink { color: #fbcfe8 !important; }
-.separatorPink { border-top-color: rgba(236, 72, 153, 0.2) !important; }
-.idPink { color: #ec4899 !important; }
-
-/* --- 5. INFORMATION (BLEU STANDARD) --- */
-.badgeINFO {
-  background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);
-}
-.modalContentINFO {
-  border: 1px solid rgba(59, 130, 246, 0.4) !important;
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.15) !important;
-  background: linear-gradient(to bottom, #050f1f, #121214) !important;
-}
-.iconBlue { background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-.textBlue { color: #93c5fd !important; }
-.separatorBlue { border-top-color: rgba(59, 130, 246, 0.2) !important; }
-.idBlue { color: #3b82f6 !important; }
-
-/* --- 6. AUTRE / GÉNÉRAL (GRIS CLASSE) --- */
-.badgeAUTRE {
-  background-color: rgba(113, 113, 122, 0.15); color: #d4d4d8; border: 1px solid rgba(113, 113, 122, 0.4);
-}
-.modalContentAUTRE {
-  border: 1px solid rgba(113, 113, 122, 0.4) !important;
-  box-shadow: 0 0 40px rgba(113, 113, 122, 0.15) !important;
-  background: linear-gradient(to bottom, #18181b, #121214) !important;
-}
-.iconGrey { background-color: rgba(113, 113, 122, 0.15); color: #a1a1aa; }
-.textGrey { color: #e4e4e7 !important; }
-.separatorGrey { border-top-color: rgba(113, 113, 122, 0.2) !important; }
-.idGrey { color: #a1a1aa !important; }
+.descriptionContent { color: #a1a1aa; font-size: 0.9rem; line-height: 1.5; margin: 0; }

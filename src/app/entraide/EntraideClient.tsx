@@ -140,7 +140,15 @@ export default function EntraideClient({ objects, rides, currentUserId }: any) {
                       <div className={styles.city}>{ride.destination}</div>
                     </div>
                     <div className={styles.rideTime}>
-                      <Clock size={14} /> {new Date(ride.dateHeure).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                      <Clock size={14} /> {
+                        new Date(ride.dateHeure).toLocaleString('fr-FR', { 
+                          day: 'numeric', 
+                          month: 'short', 
+                          hour: '2-digit', 
+                          minute: '2-digit', 
+                          timeZone: 'UTC'
+                        })
+                      }
                     </div>
                   </div>
                   
@@ -155,7 +163,6 @@ export default function EntraideClient({ objects, rides, currentUserId }: any) {
                     
                     <div className={styles.rideActionsRow}>
                       <div className={styles.driverTag}>
-                        <div className={styles.avatar}>{ride.conducteurName[0]}</div>
                         <span>{ride.conducteurName}</span>
                       </div>
 

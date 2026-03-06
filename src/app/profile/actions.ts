@@ -133,15 +133,72 @@ export async function deleteAccount() {
   const session = await getUserSession();
   if (!session) return { error: "Non autorisé" };
 
+  const GHOST_USER_ID = "ghost-user-system";
+  const userId = session.user.id;
+
   try {
-    await prisma.user.delete({
-      where: { id: session.user.id }
+    await prisma.$transaction(async (tx) => {
+      // 1. S'assurer que le Bot existe pour les contenus que l'on GARDE (News, Forum)
+      await tx.user.upsert({
+        where: { id: GHOST_USER_ID },
+        update: {},
+        create: {
+          id: GHOST_USER_ID,
+          emailEnsam: "bot.boreal@siberss.fr",
+          password: "system-locked-account",
+          liseId: "SYSTEM-BOT",
+          nom: "BOREAL",
+          prenom: "Bot",
+          roleId: 3,
+        },
+      });
+
+      // 2. TRANSFERT (Ce qu'on garde mais anonymise)
+      await tx.news.updateMany({ where: { auteurId: userId }, data: { auteurId: GHOST_USER_ID } });
+      await tx.forumPost.updateMany({ where: { auteurId: userId }, data: { auteurId: GHOST_USER_ID } });
+      await tx.planningEvent.updateMany({ where: { gestionnaireId: userId }, data: { gestionnaireId: GHOST_USER_ID } });
+      await tx.message.updateMany({ where: { expediteurId: userId }, data: { expediteurId: GHOST_USER_ID } });
+      await tx.log.updateMany({ where: { userId: userId }, data: { userId: GHOST_USER_ID } });
+
+      // 3. SUPPRESSION RADICALE (Ce que tu as demandé)
+      
+      // Supprimer les inscriptions aux trajets des autres et ses propres trajets
+      await tx.rideRegistration.deleteMany({ where: { passengerId: userId } });
+      await tx.ride.deleteMany({ where: { conducteurId: userId } });
+
+      // Supprimer les objets en prêt
+      await tx.loanObject.deleteMany({ where: { ownerId: userId } });
+
+      // Supprimer les notifications et dossiers
+      await tx.notification.deleteMany({ where: { userId: userId } });
+      await tx.folder.deleteMany({ where: { userId: userId } });
+
+      // Supprimer les réceptions de messages (laisse le message original mais l'enlève de la boîte de l'utilisateur)
+      await tx.messageRecipient.deleteMany({ where: { userId: userId } });
+
+      // 4. NETTOYAGE DES RELATIONS MANY-TO-MANY (Sport, Tags, etc.)
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          sports: { set: [] },
+          tags: { set: [] },
+          permissionsPerso: { set: [] }
+        }
+      });
+
+      // 5. SUPPRESSION FINALE DU COMPTE
+      // Maintenant que toutes les dépendances sont nettoyées, le delete ne fera plus d'erreur technique
+      await tx.user.delete({
+        where: { id: userId }
+      });
     });
-    
-    // On déconnecte l'utilisateur après suppression
-    await logout();
+
+    // IMPORTANT : Ne pas appeler logout() ici si tu es dans une Server Action Next.js 
+    // qui attend une réponse JSON, car le logout peut rediriger et casser la réponse.
     return { success: true };
+
   } catch (error) {
-    return { error: "Erreur lors de la suppression du compte." };
+    console.error("🔥 Erreur lors de la suppression du compte :", error);
+    return { error: "Erreur technique : impossible de supprimer toutes les dépendances." };
   }
 }

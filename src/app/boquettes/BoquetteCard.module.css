@@ -1,9 +1,11 @@
+/* src/components/BoquetteCard.module.css */
+
 /* --- STRUCTURE PRINCIPALE DE LA CARTE --- */
 .card {
   background: rgba(23, 23, 26, 0.7);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px; /* Bords un peu plus arrondis */
+  border-radius: 28px;
   overflow: visible;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
@@ -11,7 +13,6 @@
   flex-direction: column;
 }
 
-/* État quand la boquette est OUVERTE (Glow vert) */
 .cardOpen {
   border-color: rgba(34, 197, 94, 0.4);
   box-shadow: 
@@ -29,15 +30,14 @@
 
 /* --- LE CONTENEUR D'IMAGE --- */
 .imageWrapper {
-  height: 220px; /* ✅ Hauteur fixe pour l'uniformité */
+  height: 220px;
   width: 100%;
   position: relative;
   overflow: hidden;
-  border-radius: 28px 28px 0 0; /* ✅ Arrondis seulement le haut */
+  border-radius: 28px 28px 0 0;
   background: #121215;
 }
 
-/* --- L'IMAGE ELLE-MÊME --- */
 .image {
   width: 100%;
   height: 100%;
@@ -46,7 +46,6 @@
   transition: transform 0.6s ease;
 }
 
-/* Petit effet sympa au survol */
 .card:hover .image {
   transform: scale(1.05);
 }
@@ -87,7 +86,7 @@
 }
 
 .boquetteName {
-  font-size: 2rem; /* Plus grand pour l'impact */
+  font-size: 2rem;
   font-weight: 950;
   color: #fff;
   margin-bottom: 0.4rem;
@@ -162,39 +161,29 @@
   transform: translateY(-5px) scale(1.1);
   border-color: #3b82f6;
   z-index: 10;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
 /* --- TOOLTIP PREMIUM --- */
 .tooltip {
   position: absolute;
-  bottom: calc(100% + 15px); /* Un peu plus d'espace */
+  bottom: calc(100% + 15px);
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  
-  /* Couleurs plus vives */
   background: #1e1e24; 
-  border: 2px solid #3b82f6; /* Bordure bleue plus épaisse */
+  border: 2px solid #3b82f6;
   color: #ffffff;
-  
   padding: 8px 14px;
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 800;
   white-space: nowrap;
-  
-  /* Effet de mise en avant (Glow) */
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.5), 
-    0 0 15px rgba(59, 130, 246, 0.4); /* Halo bleu */
-    
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.4); 
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 9999; /* Au dessus de tout */
+  z-index: 9999;
 }
 
-/* On rend la flèche plus visible aussi */
 .tooltip::after {
   content: "";
   position: absolute;
@@ -203,7 +192,7 @@
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #3b82f6 transparent transparent transparent; /* Flèche bleue */
+  border-color: #3b82f6 transparent transparent transparent;
 }
 
 .avatarWrapper:hover .tooltip {
@@ -250,68 +239,28 @@
   box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
-.btnOpen:hover {
-  background: #16a34a;
-  transform: scale(1.02);
-}
-
 .btnClose {
   background: rgba(239, 68, 68, 0.1);
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-.btnClose:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: #f87171;
-}
-
-.editBtn {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+.editBtn, .deleteBtn {
+  padding: 0.7rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.7rem;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.editBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: rotate(15deg);
-}
+.editBtn { background: rgba(255, 255, 255, 0.05); color: #fff; }
+.deleteBtn { background: rgba(239, 68, 68, 0.1); color: #f87171; }
 
-.deleteBtn {
-  background: rgba(239, 68, 68, 0.1); /* Fond rouge très léger */
-  color: #f87171; /* Rouge clair */
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 0.7rem;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.deleteBtn:hover {
-  background: #ef4444; /* Rouge plein au survol */
-  color: #fff;
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-}
-
-.actionsWrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  gap: 10px;
-}
+.editBtn:hover { background: rgba(255, 255, 255, 0.1); transform: rotate(15deg); }
+.deleteBtn:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
 
 .rotanceBtn {
   display: flex;
@@ -328,21 +277,82 @@
   cursor: pointer;
 }
 
-.rotanceBtn:hover:not(:disabled) {
-  background: #f59e0b;
-  color: white;
-}
+/* ============================================================
+   MODALE & FIX MOBILE (BOUTONS QUI DÉBORDENT)
+   ============================================================ */
 
-.adminActions {
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-/* Optionnel : petite animation si tu veux que l'icône Beer bouge */
-@keyframes beerSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.modalContent {
+  background: #1a1a1e;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-.spin {
-  animation: beerSpin 1s linear infinite;
+
+.modalBody {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex-grow: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 transparent;
+}
+
+@media (max-width: 768px) {
+  /* Fix : On empile les boutons au lieu de les aligner */
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch; /* Les boutons prennent toute la largeur */
+  }
+
+  .toggleBtn {
+    width: 100%;
+    order: 1; /* Le bouton d'ouverture en premier */
+  }
+
+  /* Conteneur pour grouper Edit et Delete sur une ligne ou les empiler */
+  .adminActions {
+    display: flex;
+    gap: 10px;
+    order: 2;
+  }
+  
+  .editBtn, .deleteBtn {
+    flex: 1; /* Ils se partagent la largeur restante */
+  }
+
+  .modalContent {
+    max-height: 85vh;
+    margin-bottom: 20px;
+  }
+  
+  .boquetteName {
+    font-size: 1.6rem;
+  }
+
+  .imageWrapper {
+    height: 180px;
+  }
+
+  /* Pour éviter que le bouton "Rotance" ne sorte aussi */
+  .actionsWrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

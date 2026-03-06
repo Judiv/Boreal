@@ -1,26 +1,25 @@
+/* --- CONTENEUR GLOBAL & FOND --- */
 .container {
+  /* PATCH : On utilise min-height sans bloquer le scroll du layout */
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding: 120px 2rem 5rem;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
-  /* On s'assure que le contenu passe au dessus des effets */
   z-index: 1;
 }
 
-/* --- LE NOUVEAU FOND DYNAMIQUE --- */
 .backgroundWrapper {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #050507; /* Un noir encore plus profond */
-  z-index: -1;
+  inset: 0;
+  background: #050507;
+  z-index: -100; /* On le descend très bas */
   overflow: hidden;
+  pointer-events: none;
 }
 
-/* Texture de grille subtile pour la profondeur */
 .gridPattern {
   position: absolute;
   inset: 0;
@@ -31,60 +30,23 @@
   mask-image: radial-gradient(ellipse at center, black, transparent 80%);
 }
 
-/* Blobs d'aurore animés */
-.auroraBlob {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  filter: blur(120px);
-  border-radius: 50%;
-  opacity: 0.15;
-  pointer-events: none;
-  animation: move 20s infinite alternate;
+/* --- SECTION GRILLE (PATCH POUR LE FLUX) --- */
+.gridSection {
+  flex: 1; /* Permet de pousser le footer vers le bas si peu de contenu */
+  width: 100%;
 }
 
-.blobBlue {
-  top: -100px;
-  left: -100px;
-  background: #3b82f6;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
-.blobPurple {
-  bottom: -100px;
-  right: -100px;
-  background: #8b5cf6;
-  animation-delay: -5s;
-}
-
-.blobCyan {
-  top: 40%;
-  right: 10%;
-  width: 400px;
-  height: 400px;
-  background: #06b6d4;
-  animation-duration: 25s;
-}
-
-@keyframes move {
-  from { transform: translate(0, 0) scale(1); }
-  to { transform: translate(100px, 50px) scale(1.1); }
-}
-
-/* --- AJUSTEMENT DU HEADER --- */
+/* --- HEADER --- */
 .header {
-  margin-bottom: 4rem;
   position: relative;
-}
-
-/* Petite barre décorative sous le titre */
-.titleGroup::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #3b82f6;
-  margin-top: 1.5rem;
-  border-radius: 2px;
+  z-index: 10;
 }
 
 .headerFlex {
@@ -93,6 +55,168 @@
   align-items: flex-end;
   gap: 2rem;
   flex-wrap: wrap;
+}
+
+.titleGroup {
+  flex: 1;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.title span {
+  background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.titleIcon {
+  width: 40px;
+  height: 40px;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.subtitle {
+  color: #9ca3af;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* --- STYLES DE LA MODALE --- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal {
+  background: #0f1115;
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #9ca3af;
+  padding: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* --- LE FORMULAIRE & SCROLL --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.formBody {
+  padding: 2rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.05);
+}
+
+.formBody::-webkit-scrollbar { width: 6px; }
+.formBody::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input, .textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 0.9rem 1.1rem;
+  color: white;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.footer {
+  padding: 1.5rem 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.submitBtn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
 }
 
 .addBtn {
@@ -116,9 +240,17 @@
   box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
 }
 
-@media (max-width: 768px) {
-  .headerFlex {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* --- BLOBS --- */
+.auroraBlob {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  filter: blur(100px);
+  opacity: 0.15;
+  z-index: -1;
+  border-radius: 50%;
 }
+
+.blobBlue { top: -100px; right: -100px; background: #3b82f6; }
+.blobPurple { bottom: 20%; left: -200px; background: #8b5cf6; }
+.blobCyan { top: 20%; left: 10%; background: #2dd4bf; width: 400px; height: 400px; }

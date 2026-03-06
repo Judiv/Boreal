@@ -53,62 +53,65 @@ export default function EditEventModal({ event, onClose }: { event: any, onClose
           <button onClick={onClose} className={styles.closeBtn}><X size={20} /></button>
         </header>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          {/* Section Image */}
-          <div className={styles.inputGroup}>
-            <label><ImageIcon size={14} /> Changer l'affiche</label>
-            <ImageSelector 
-              onFilesSelected={(files) => setSelectedImage(files[0] || null)} 
-              multiple={false}
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>Nom de la fête</label>
-            <input name="titre" type="text" defaultValue={event.titre} placeholder="Titre de la soirée" required />
-          </div>
-
-          {/* Grille des dates : Début et Fin */}
-          <div className={styles.grid}>
+        {/* Zone Scrollable */}
+        <div className={styles.scrollArea}>
+          <form onSubmit={handleSubmit} id="edit-event-form" className={styles.form}>
+            {/* Section Image */}
             <div className={styles.inputGroup}>
-              <label><Calendar size={14} /> Début</label>
-              <input name="date" type="datetime-local" defaultValue={defaultDateDebut} required />
+              <label><ImageIcon size={14} /> Changer l'affiche</label>
+              <ImageSelector 
+                onFilesSelected={(files) => setSelectedImage(files[0] || null)} 
+                multiple={false}
+              />
             </div>
+
             <div className={styles.inputGroup}>
-              <label><Clock size={14} /> Fin</label>
-              <input name="dateFin" type="datetime-local" defaultValue={defaultDateFin} />
+              <label>Nom de la fête</label>
+              <input name="titre" type="text" defaultValue={event.titre} placeholder="Titre de la soirée" required />
             </div>
-          </div>
 
-          <div className={styles.inputGroup}>
-            <label><MapPin size={14} /> Lieu</label>
-            <input name="lieu" type="text" defaultValue={event.lieu} placeholder="Lieu" required />
-          </div>
+            {/* Grille des dates : Début et Fin */}
+            <div className={styles.grid}>
+              <div className={styles.inputGroup}>
+                <label><Calendar size={14} /> Début</label>
+                <input name="date" type="datetime-local" defaultValue={defaultDateDebut} required />
+              </div>
+              <div className={styles.inputGroup}>
+                <label><Clock size={14} /> Fin</label>
+                <input name="dateFin" type="datetime-local" defaultValue={defaultDateFin} />
+              </div>
+            </div>
 
-          <div className={styles.inputGroup}>
-            <label><AlignLeft size={14} /> Description</label>
-            <textarea name="description" defaultValue={event.description} rows={3} placeholder="Infos supplémentaires..." />
-          </div>
-
-          <div className={styles.linksGrid}>
             <div className={styles.inputGroup}>
-              <label><LinkIcon size={14} /> Billetterie</label>
-              <input name="lienBilletterie" type="url" defaultValue={event.lienBilletterie} placeholder="https://shotgun..." />
+              <label><MapPin size={14} /> Lieu</label>
+              <input name="lieu" type="text" defaultValue={event.lieu} placeholder="Lieu" required />
             </div>
-            <div className={styles.inputGroup}>
-              <label><Music size={14} /> Playlist</label>
-              <input name="playlistUrl" type="url" defaultValue={event.playlistUrl} placeholder="https://spotify..." />
-            </div>
-          </div>
 
-          <div className={styles.footer}>
-            <button type="button" onClick={onClose} className={styles.cancelBtn}>Annuler</button>
-            <button type="submit" className={styles.submitBtn} disabled={loading}>
-              {loading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
-              {loading ? "Mise à jour..." : "Enregistrer les modifications"}
-            </button>
-          </div>
-        </form>
+            <div className={styles.inputGroup}>
+              <label><AlignLeft size={14} /> Description</label>
+              <textarea name="description" defaultValue={event.description} rows={3} placeholder="Infos supplémentaires..." />
+            </div>
+
+            <div className={styles.linksGrid}>
+              <div className={styles.inputGroup}>
+                <label><LinkIcon size={14} /> Billetterie</label>
+                <input name="lienBilletterie" type="url" defaultValue={event.lienBilletterie} placeholder="https://shotgun..." />
+              </div>
+              <div className={styles.inputGroup}>
+                <label><Music size={14} /> Playlist</label>
+                <input name="playlistUrl" type="url" defaultValue={event.playlistUrl} placeholder="https://spotify..." />
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer className={styles.footer}>
+          <button type="button" onClick={onClose} className={styles.cancelBtn}>Annuler</button>
+          <button form="edit-event-form" type="submit" className={styles.submitBtn} disabled={loading}>
+            {loading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
+            {loading ? "Mise à jour..." : "Enregistrer"}
+          </button>
+        </footer>
       </div>
     </div>
   );

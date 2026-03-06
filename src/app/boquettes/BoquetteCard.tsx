@@ -7,7 +7,7 @@ import Image from "next/image";
 import { deleteBoquette, toggleBoquetteStatus, sendRotanceRequest } from "./actions"; // ✅ Ajout de sendRotanceRequest
 import EditBoquetteModal from "./EditBoquetteModal";
 
-export default function BoquetteCard({ boquette, canManage }: any) {
+export default function BoquetteCard({ boquette, canManage, availableTags }: any) {
   const [isOpen, setIsOpen] = useState(boquette.isOpen);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRotanceLoading, setIsRotanceLoading] = useState(false); // ✅ État pour le bouton Rotance
@@ -132,7 +132,8 @@ export default function BoquetteCard({ boquette, canManage }: any) {
 
       {isEditOpen && (
         <EditBoquetteModal 
-          boquette={boquette} 
+          boquette={boquette}
+          availableTags={availableTags} 
           onClose={() => setIsEditOpen(false)} 
         />
       )}

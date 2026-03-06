@@ -5,6 +5,7 @@
   color: #e2e8f0;
   display: flex;
   overflow-x: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .aurora {
@@ -22,15 +23,73 @@
 /* --- SIDEBAR --- */
 .sidebar {
   width: 280px;
-  background: rgba(10, 10, 12, 0.4);
+  background: rgba(10, 10, 12, 0.8);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   height: 100vh;
   position: fixed;
   padding-top: 6rem;
   backdrop-filter: blur(30px);
   z-index: 40;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
+/* Version Rétractée */
+.collapsedSidebar {
+  width: 80px;
+}
+
+.collapsedSidebar .navLink {
+  justify-content: center;
+  margin: 4px 12px;
+  padding: 12px 0;
+}
+
+.collapsedSidebar .navLink span {
+  display: none;
+}
+
+.collapsedSidebar .navSectionTitle {
+  text-align: center;
+  margin-left: 0;
+  padding: 0;
+  opacity: 0.5;
+}
+
+.collapseToggle {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.collapseToggle:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+/* --- MAIN CONTENT --- */
+.main {
+  flex: 1; 
+  margin-left: 280px; 
+  padding: 6rem 3rem 3rem; 
+  position: relative; 
+  z-index: 1;
+  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collapsedLayout .main {
+  margin-left: 80px;
+}
+
+/* --- NAV ELEMENTS --- */
 .navSectionTitle {
   padding: 0 0.75rem;
   font-size: 10px;
@@ -39,257 +98,169 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin: 1.5rem 0 0.5rem 1rem;
+  white-space: nowrap;
 }
 
 .navLink {
-  display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin: 4px 16px;
-  border-radius: 14px; color: #94a3b8; font-size: 0.85rem; transition: 0.3s;
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 12px 16px; 
+  margin: 4px 16px;
+  border-radius: 14px; 
+  color: #94a3b8; 
+  font-size: 0.85rem; 
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
 }
 
 .activeLink {
-  background: rgba(59, 130, 246, 0.1);
-  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.1) !important;
+  color: #60a5fa !important;
   border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-.main {
-  flex: 1; margin-left: 280px; padding: 6rem 3rem 3rem; position: relative; z-index: 1;
-}
+/* --- LE RESTE DU CSS (Inchangé pour ne rien casser) --- */
+.searchWrapper { position: relative; width: 320px; }
+.searchIcon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #475569; pointer-events: none; transition: color 0.2s; }
+.searchInput { width: 100%; background: rgba(255, 255, 255, 0.03) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 12px; padding: 10px 14px 10px 42px; color: white; font-size: 0.85rem; outline: none; transition: all 0.2s; }
+.searchInput:focus { border-color: #3b82f6 !important; background: rgba(255, 255, 255, 0.05) !important; }
+.searchInput:focus + .searchIcon { color: #3b82f6; }
 
-/* --- BARRE DE RECHERCHE (UTILISATEURS) --- */
-.searchWrapper {
-  position: relative;
-  width: 320px;
-}
-
-.searchIcon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #475569;
-  pointer-events: none;
-  transition: color 0.2s;
-}
-
-.searchInput {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.03) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 12px;
-  padding: 10px 14px 10px 42px;
-  color: white;
-  font-size: 0.85rem;
-  outline: none;
-  transition: all 0.2s;
-}
-
-.searchInput:focus {
-  border-color: #3b82f6 !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-}
-
-.searchInput:focus + .searchIcon {
-  color: #3b82f6;
-}
-
-/* --- LE PANNEAU D'ACTION --- */
-.addTagPanel {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 24px;
-  padding: 2rem;
-  margin-bottom: 3rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  /* ✅ Crucial pour que les menus déroulants ne soient pas coupés */
-  overflow: visible !important;
-  position: relative;
-  z-index: 50;
-}
-
-.addInputWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.addInput {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  padding: 0.8rem;
-  color: white;
-  outline: none;
-}
-
+.addTagPanel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 24px; padding: 2rem; margin-bottom: 3rem; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); overflow: visible !important; position: relative; z-index: 50; }
+.addInputWrapper { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1.5rem; align-items: center; }
+.addInput { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 0.8rem; color: white; outline: none; }
 .selectField { display: flex; flex-direction: column; gap: 0.5rem; }
+.selectLabel { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b; padding-left: 0.5rem; }
+.addButton { align-self: flex-end; height: 48px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; font-weight: 800; font-size: 0.75rem; padding: 0 1.5rem; border-radius: 12px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 0.75rem; }
+.addButton:disabled { background: #1e293b; color: #475569; cursor: not-allowed; opacity: 0.5; }
+.serverCard { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 1.5rem; display: flex; gap: 1.25rem; align-items: center; }
 
-.selectLabel {
-  font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b; padding-left: 0.5rem;
-}
-
-.addButton {
-  align-self: flex-end; height: 48px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white; border: none; font-weight: 800; font-size: 0.75rem;
-  padding: 0 1.5rem; border-radius: 12px; cursor: pointer; transition: 0.3s;
-  display: flex; align-items: center; gap: 0.75rem;
-}
-
-.addButton:disabled {
-  background: #1e293b;
-  color: #475569;
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.serverCard {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 1.5rem;
-  display: flex; gap: 1.25rem; align-items: center;
-}
-
-/* --- CONSOLE / TERMINAL (LOGS) --- */
-.consoleWindow {
-  background: rgba(5, 5, 8, 0.7);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.consoleHeader {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  display: flex; justify-content: space-between; align-items: center;
-}
-
-.consoleBody { 
-  flex: 1; 
-  overflow-y: auto; 
-  padding: 1.25rem; 
-  font-family: monospace; 
-  font-size: 0.75rem; 
-  line-height: 1.6; 
-}
-
-.logRow { 
-  display: flex; 
-  gap: 12px; 
-  padding: 6px 0; 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.02); 
-}
-
+.consoleWindow { background: rgba(5, 5, 8, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; }
+.consoleHeader { background: rgba(255, 255, 255, 0.03); padding: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; }
+.consoleBody { flex: 1; overflow-y: auto; padding: 1.25rem; font-family: monospace; font-size: 0.75rem; line-height: 1.6; }
+.logRow { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
 .seeAllLink { font-size: 0.6rem; color: #3b82f6; text-transform: uppercase; font-weight: 800; }
 
-/* --- TABLEAUX --- */
-.tableCard {
-  background: rgba(20, 20, 25, 0.3);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  overflow: hidden;
-}
-
+.tableCard { background: rgba(20, 20, 25, 0.3); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; overflow: hidden; }
 .tableHeader th { padding: 1.25rem; color: #64748b; font-size: 0.65rem; text-transform: uppercase; }
 .tableRow { border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
-
 .avatarBox { width: 32px; height: 32px; background: #1e293b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.7rem; }
 .roleBadge { font-size: 0.6rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 4px 8px; border-radius: 6px; }
 .tagBadge { font-size: 0.6rem; color: #94a3b8; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
 .manageButton { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; font-weight: 700; color: #94a3b8; }
 
-/* --- GROUPED MAPPING CARDS --- */
-.groupedMappingCard {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 1.5rem;
-  overflow: visible !important;
-}
-
-.mappingHeader {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
+.groupedMappingCard { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 1.5rem; overflow: visible !important; }
+.mappingHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 .mappingCatLabel { font-size: 0.8rem; font-weight: 800; color: #60a5fa; text-transform: uppercase; }
 .tagCount { font-size: 0.6rem; color: #475569; background: rgba(0, 0, 0, 0.2); padding: 2px 8px; border-radius: 20px; }
 .tagCloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.mappingTagPill { display: flex; align-items: center; gap: 8px; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 6px 10px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; }
 
-.mappingTagPill {
-  display: flex; align-items: center; gap: 8px;
-  background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2);
-  color: #60a5fa; padding: 6px 10px; border-radius: 10px; font-size: 0.85rem; font-weight: 600;
-}
+.deleteBtn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; color: #64748b; background: transparent; border: none; border-radius: 8px; cursor: pointer; transition: color 0.2s ease; }
+.deleteBtn:hover { color: #ef4444; }
+.pillDeleteBtn { background: transparent; color: rgba(255, 255, 255, 0.3); border: none; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color 0.2s ease; }
+.pillDeleteBtn:hover { color: #ef4444; }
 
-/* --- BOUTONS SUPPRIMER (NETTOYÉS - PAS DE RELIEF) --- */
-.deleteBtn { 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  color: #64748b; 
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.deleteBtn:hover { 
-  color: #ef4444; 
-}
-
-.pillDeleteBtn {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.3);
-  border: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.pillDeleteBtn:hover { 
-  color: #ef4444; 
-}
-
-/* --- TAGS / RUBRIQUES VIEW --- */
-.rubriqueCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 1.25rem;
-  border-radius: 16px;
-  transition: all 0.3s ease;
-}
-
-.rubriqueCard:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(59, 130, 246, 0.2);
-}
-
+.rubriqueCard { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 16px; transition: all 0.3s ease; }
+.rubriqueCard:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(59, 130, 246, 0.2); }
 .tagName { font-weight: 700; font-size: 0.9rem; }
 .hashSymbol { color: #3b82f6; margin-right: 4px; }
+.dropdownInner { z-index: 1000 !important; }
 
-/* --- CUSTOM DROPDOWN Z-INDEX --- */
-.dropdownInner {
-  z-index: 1000 !important;
+
+
+
+/* --- ADAPTATION MOBILE --- */
+@media (max-width: 768px) {
+  /* La sidebar devient un panneau flottant */
+  .sidebar {
+    width: 280px;
+    left: -280px; /* Cachée par défaut à gauche */
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+  }
+
+  /* Quand on clique sur le bouton, elle glisse sur l'écran */
+  .collapsedSidebar {
+    left: 0;
+    width: 280px; /* On garde la largeur pleine sur mobile */
+  }
+
+  /* Le contenu principal prend toute la largeur sur mobile */
+  .main {
+    margin-left: 0 !important;
+    padding: 5rem 1rem 2rem; /* Réduction des paddings */
+  }
+
+  /* On repositionne le bouton de toggle pour qu'il soit toujours visible */
+  .collapseToggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    background: #3b82f6; /* Plus visible sur mobile */
+    color: white;
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Ajustements des formulaires pour mobile */
+  .addInputWrapper {
+    grid-template-columns: 1fr; /* On empile les champs */
+    gap: 1rem;
+  }
+
+  .addButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Tableaux scrollables horizontalement pour éviter de casser le design */
+  .tableCard {
+    overflow-x: auto;
+  }
+}
+
+
+.clearLogsBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.05); /* Rouge très subtil */
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: #f87171;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearLogsBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);
+}
+
+.clearLogsBtn:active {
+  transform: scale(0.95);
+}
+
+/* Adaptation mobile pour le bouton */
+@media (max-width: 768px) {
+  .clearLogsBtn span {
+    display: none; /* On ne garde que l'icône sur mobile pour gagner de la place */
+  }
+  .clearLogsBtn {
+    padding: 6px;
+  }
 }

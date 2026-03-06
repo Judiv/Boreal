@@ -79,9 +79,9 @@ export default function RegisterPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
-                  <Mail size={14} className="text-blue-500" /> Email Ensam
+                  <Mail size={14} className="text-blue-500" /> Email
                 </label>
-                <input name="email" type="email" required placeholder="prenom.nom@ensam.eu" className={styles.input} />
+                <input name="email" type="email" required placeholder="your email" className={styles.input} />
               </div>
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
@@ -110,7 +110,7 @@ export default function RegisterPage() {
 
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
-                  <Lock size={14} className="text-blue-500" /> Mot de passe
+                  <Lock size={14} className="text-blue-500" /> Mot de passe (pas forcément le même que LISE)
                 </label>
                 <input name="password" type="password" required placeholder="••••••••" className={styles.input} />
               </div>

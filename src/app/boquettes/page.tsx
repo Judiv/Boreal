@@ -25,11 +25,26 @@ export default async function BoquettesPage() {
   });
 
   // 4. Récupération des managers
+    // 1. On récupère TOUS les tags concernés (Propriétaires et Autorisés) pour toutes les boquettes
+  const allRequiredTags = boquettes.flatMap(b => b.requiredTag || []);
+  const allAllowedTags = boquettes.flatMap(b => b.allowedTags || []);
+  const uniqueTags = Array.from(new Set([...allRequiredTags, ...allAllowedTags]));
+
+    // 2. Récupération des managers via Prisma
   const allManagers = await prisma.user.findMany({
     where: {
-      tags: { some: { nom: { in: boquettes.map(b => b.requiredTag) } } }
+      tags: {
+        some: {
+          nom: { in: uniqueTags } // Récupère si le tag est dans la liste globale
+        }
+      }
     },
-    select: { id: true, prenom: true, nom: true, tags: true }
+    select: { 
+      id: true, 
+      prenom: true, 
+      nom: true, 
+      tags: { select: { nom: true } } // On ne récupère que le nom du tag pour la performance
+    }
   });
 
   // 5. Mapping avec logique de droits ET redirection d'URL pour l'API
@@ -44,8 +59,15 @@ export default async function BoquettesPage() {
     return {
       ...b,
       imageFullUrl: safeImageFullUrl,
-      canManage: isSuperAdmin || (hasGlobalManagePermission && allTags.includes(b.requiredTag)),
-      managers: allManagers.filter(u => u.tags.some(t => t.nom === b.requiredTag))
+      canManage: isSuperAdmin || (hasGlobalManagePermission && (
+        session?.allTags.some(tag => b.requiredTag.includes(tag)) ||
+        session?.allTags.some(tag => b.allowedTags.includes(tag))
+      )),
+      managers: allManagers.filter(u => 
+        u.tags.some(t => 
+          b.requiredTag.includes(t.nom) || b.allowedTags.includes(t.nom)
+        )
+      )
     };
   });
 
@@ -81,7 +103,7 @@ export default async function BoquettesPage() {
         <section className={styles.gridSection}>
           <div className={styles.grid}>
             {boquettesWithData.map(b => (
-              <BoquetteCard key={b.id} boquette={b} canManage={b.canManage} />
+              <BoquetteCard key={b.id} boquette={b} canManage={b.canManage} availableTags={publishingTags.map(t => ({ id: t.nom, label: `#${t.nom}` }))}/>
             ))}
           </div>
         </section>

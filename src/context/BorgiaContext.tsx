@@ -1,4 +1,3 @@
-// src/context/BorgiaContext.tsx
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
@@ -17,14 +16,14 @@ const BorgiaContext = createContext<BorgiaContextType | undefined>(undefined);
 export function BorgiaProvider({ children, user }: { children: React.ReactNode, user: any }) {
   const [balance, setBalance] = useState<number | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // On commence à false pour éviter un flash bloquant
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openBorgia = () => setIsModalOpen(true);
 
   const refreshBalance = useCallback(async () => {
-    // Si pas d'utilisateur Boreal, on reset tout et on arrête
-    if (!user) {
+    // Sécurité renforcée : si l'objet user n'est pas complet, on ne fetch pas
+    if (!user || !user.id) {
       setBalance(null);
       setIsConnected(false);
       setIsLoading(false);
@@ -34,42 +33,54 @@ export function BorgiaProvider({ children, user }: { children: React.ReactNode, 
     setIsLoading(true);
     try {
       const res = await fetch("/api/borgia/balance");
-      const data = await res.json();
-
-      if (res.ok) {
-        // On synchronise l'état avec la réponse de l'API (qui contient isConnected)
-        setIsConnected(data.isConnected);
-        setBalance(data.isConnected ? data.balance : null); // null si déconnecté pour éviter le "0"
+      
+      // On vérifie que la réponse est bien du JSON avant de parser
+      const contentType = res.headers.get("content-type");
+      if (res.ok && contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+        setIsConnected(!!data.isConnected);
+        setBalance(data.isConnected ? data.balance : null);
       } else {
-        setIsConnected(false);
-        setBalance(null);
+        throw new Error("Réponse API invalide");
       }
     } catch (error) {
+      console.error("Erreur Borgia Context:", error);
       setIsConnected(false);
       setBalance(null);
     } finally {
       setIsLoading(false);
     }
-  }, [user]); // Dépendance sur user pour refresh lors d'un changement de compte
+  }, [user?.id]); // On ne dépend que de l'ID pour éviter les rafraîchissements inutiles
 
   useEffect(() => {
-    refreshBalance();
+    // On attend un petit délai pour laisser la session se stabiliser
+    const timer = setTimeout(() => {
+        refreshBalance();
+    }, 100);
+    return () => clearTimeout(timer);
   }, [refreshBalance]);
 
   return (
     <BorgiaContext.Provider value={{ balance, isConnected, isLoading, openBorgia, refreshBalance }}>
       {children}
-      <BorgiaModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onLoginSuccess={refreshBalance} 
-      />
+      {/* On ne rend la modale que si l'utilisateur est au moins loggé sur Boreal */}
+      {user && (
+        <BorgiaModal 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+            onLoginSuccess={refreshBalance} 
+        />
+      )}
     </BorgiaContext.Provider>
   );
 }
 
 export const useBorgia = () => {
   const context = useContext(BorgiaContext);
-  if (!context) throw new Error("useBorgia must be used within a BorgiaProvider");
+  // Au lieu de crash, on renvoie un objet vide ou on gère l'erreur plus bas
+  if (!context) {
+    console.warn("useBorgia utilisé en dehors du provider");
+    return { balance: null, isConnected: false, isLoading: false, openBorgia: () => {}, refreshBalance: async () => {} };
+  }
   return context;
 };

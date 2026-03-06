@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { getUser } from "@/lib/auth";
+import Footer from "@/components/Footer";
+import { getUserSession } from "@/lib/auth";
 import { LoginModalProvider } from "@/context/LoginModalContext";
 import { BorgiaProvider } from "@/context/BorgiaContext";
 import NotificationObserver from "@/components/NotificationObserver";
 import ChatBot from "@/components/ChatBot/ChatBot"; 
+import AuthContext from "@/context/AuthContext"; 
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,45 +28,30 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // On récupère l'utilisateur. Si ça échoue ou si pas de cookie, user = null.
-  const user = await getUser().catch(() => null);
+  // Récupération de la session complète côté serveur
+  const session = await getUserSession().catch(() => null);
 
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <NotificationObserver />
-        <LoginModalProvider>
-          <BorgiaProvider user={user}> 
-            <Navbar user={user} />
-            <div style={{ paddingTop: "70px" }}>
-                {children}
-            </div>
-            <ChatBot />
-          </BorgiaProvider>
-        </LoginModalProvider>
+        <AuthContext session={session}> 
+          <NotificationObserver />
+          <LoginModalProvider>
+            <BorgiaProvider user={session?.user || null}> 
+              <Navbar user={session?.user || null} />
+              
+              <main style={{ minHeight: "calc(100vh - 70px)", paddingTop: "70px" }}>
+                  {children}
+              </main>
+              
+              <footer style={{ position: 'relative', zIndex: 1000, background: '#050507' }}>
+                <Footer />
+              </footer>
 
-        {/* 🛡️ PROTECTION CLIENT SIMPLE
-            On injecte ce script uniquement si l'utilisateur n'est pas authentifié côté serveur.
-            Le JS vérifie l'URL du navigateur pour éviter de boucler sur /login.
-        */}
-        {!user && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function() {
-                  const p = window.location.pathname;
-                  const publicRoutes = ['/login', '/registration', '/reset-password'];
-                  const isPublic = publicRoutes.some(route => p.startsWith(route));
-                  
-                  // Si on n'est pas sur une route publique et qu'on n'est pas connecté
-                  if (!isPublic) {
-                    window.location.replace('/login');
-                  }
-                })();
-              `,
-            }}
-          />
-        )}
+              <ChatBot />
+            </BorgiaProvider>
+          </LoginModalProvider>
+        </AuthContext>
       </body>
     </html>
   );

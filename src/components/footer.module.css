@@ -1,0 +1,133 @@
+/* src/lib/footer.module.css */
+
+.footer {
+  width: 100%;
+  background-color: #09090b; /* Noir profond style Boreal */
+  border-top: 1px solid #27272a; /* Bordure discrète */
+  padding-top: 3rem;
+  padding-bottom: 1.5rem;
+  margin-top: 5rem;
+  color: #a1a1aa; /* Gris clair pour le texte secondaire */
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Tablette et Desktop */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  color: #2563eb; /* Bleu Boreal */
+}
+
+.text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  color: #a1a1aa;
+}
+
+.link:hover {
+  color: #ffffff;
+}
+
+.licenseLink {
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: opacity 0.2s;
+}
+
+.licenseLink:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* Barre de fin */
+.bottomBar {
+  border-top: 1px solid #18181b;
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .bottomBar {
+    flex-direction: row;
+  }
+}
+
+.copyright {
+  font-size: 0.75rem;
+}
+
+.copyright strong {
+  color: #e4e4e7;
+}
+
+.badgeGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.versionBadge {
+  font-size: 10px;
+  padding: 0.25rem 0.5rem;
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 4px;
+  color: #71717a;
+}
+
+.motto {
+  font-size: 10px;
+  font-style: italic;
+  color: #52525b;
+}

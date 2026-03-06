@@ -128,9 +128,9 @@ export default function LoginPage() {
                   <div className={styles.inputGroup}>
                     <label className={styles.label}>
                       <Mail size={10} className="inline mr-2 opacity-50" />
-                      Email Ensam
+                      Email
                     </label>
-                    <input name="email" type="email" required placeholder="nom.prenom@ensam.eu" className={styles.input} />
+                    <input name="email" type="email" required placeholder="your mail" className={styles.input} />
                   </div>
 
                   <div className={styles.inputGroup}>
@@ -178,13 +178,13 @@ export default function LoginPage() {
                 {!resetSent ? (
                   <form onSubmit={handleResetSubmit}>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Email Ensam</label>
+                      <label className={styles.label}>Email</label>
                       <input 
                         type="email" 
                         required 
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
-                        placeholder="nom.prenom@ensam.eu" 
+                        placeholder="your email" 
                         className={styles.input} 
                       />
                     </div>

@@ -1,3 +1,5 @@
+/* src/components/EditBoquetteModal.module.css */
+
 /* --- L'ARRIÈRE-PLAN (ISOLATION) --- */
 .overlay {
   position: fixed;
@@ -5,7 +7,7 @@
   background: rgba(0, 0, 0, 0.9); /* Fond quasi-noir pour isoler le contenu */
   backdrop-filter: blur(15px);   /* Flou intense sur le site en arrière-plan */
   display: flex;
-  align-items: center;
+  align-items: center; /* Centre verticalement sur PC */
   justify-content: center;
   z-index: 99999; /* Priorité absolue au-dessus de tout */
   padding: 2rem;
@@ -18,6 +20,7 @@
   border: 1px solid rgba(59, 130, 246, 0.3); /* Bordure bleue Boreal lumineuse */
   width: 100%;
   max-width: 550px;
+  max-height: 90vh; /* ✅ Empêche la modale de sortir de l'écran */
   border-radius: 32px;
   padding: 2.5rem;
   /* Double ombre : une pour la profondeur (noir), une pour l'éclat (bleu) */
@@ -25,8 +28,29 @@
     0 50px 100px -20px rgba(0, 0, 0, 1),
     0 0 20px rgba(59, 130, 246, 0.1);
   position: relative;
-  /* Animation d'apparition : zoom léger et montée */
+  display: flex;
+  flex-direction: column; /* Organise le contenu en colonne (Header, Body, Footer) */
   animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden; /* Garantit que le scroll ne casse pas les arrondis */
+}
+
+/* --- SECTION SCROLLABLE INTERNE --- */
+.formBody {
+  overflow-y: auto; /* ✅ Active le scroll interne */
+  flex-grow: 1;     /* Prend tout l'espace disponible entre header et footer */
+  padding-right: 8px; /* Espace pour la scrollbar */
+  margin-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 transparent;
+}
+
+/* Scrollbar stylisée pour Chrome/Safari/Edge */
+.formBody::-webkit-scrollbar {
+  width: 5px;
+}
+.formBody::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
 }
 
 /* --- HEADER & TITRE --- */
@@ -34,7 +58,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  flex-shrink: 0; /* Empêche le header de s'écraser */
 }
 
 .title {
@@ -42,6 +67,7 @@
   font-weight: 900;
   font-style: italic;
   color: #fff;
+  margin: 0;
 }
 
 .title span { 
@@ -57,6 +83,9 @@
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .closeBtn:hover {
@@ -84,7 +113,10 @@
   letter-spacing: 0.5px;
 }
 
-.input, .textarea {
+/* Utilisation de :global pour éviter les erreurs de build CSS Modules */
+.modal :global(input), 
+.modal :global(textarea), 
+.modal :global(select) {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
@@ -93,19 +125,37 @@
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
-.input:focus, .textarea:focus { 
+.modal :global(input:focus), 
+.modal :global(textarea:focus) { 
   border-color: #3b82f6;
   background: rgba(59, 130, 246, 0.05);
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
 }
 
-/* --- BOUTONS --- */
+/* --- AFFICHAGE TAG VERROUILLÉ --- */
+.disabledTagDisplay {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #52525b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: monospace;
+}
+
+/* --- FOOTER & BOUTONS --- */
 .footer {
   display: flex;
   gap: 1.2rem;
-  margin-top: 2.5rem;
+  margin-top: auto; /* Pousse vers le bas */
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0; /* Reste visible même si on scrolle le body */
 }
 
 .cancelBtn {
@@ -149,13 +199,53 @@
   box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
 }
 
-/* --- ANIMATIONS --- */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* ============================================================
+   PATCH RESPONSIVE MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .overlay {
+    padding: 1rem;
+    align-items: flex-start; /* Aligne en haut pour laisser de la place au clavier */
+  }
+
+  .modal {
+    padding: 1.5rem;
+    border-radius: 24px;
+    max-height: 85vh; /* Plus court pour voir le contexte */
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Optimisation des inputs pour mobile (évite l'auto-zoom iPhone) */
+  .modal :global(input), 
+  .modal :global(textarea) {
+    font-size: 16px !important; 
+    padding: 0.8rem;
+  }
+
+  .footer {
+    flex-direction: column-reverse; /* Soumettre (plus important) au dessus de Annuler */
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .submitBtn, .cancelBtn {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 14px;
+  }
 }
 
-@keyframes modalPop {
-  from { opacity: 0; transform: scale(0.9) translateY(30px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+/* --- ANIMATIONS --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modalPop { 
+  from { opacity: 0; transform: scale(0.9) translateY(30px); } 
+  to { opacity: 1; transform: scale(1) translateY(0); } 
 }

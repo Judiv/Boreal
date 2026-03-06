@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getUserSession } from "@/lib/auth";
-import { globalStorageCleanup } from "@/lib/cleanup-bot";
+import { runGlobalBotMaintenance } from "@/lib/cleanup-bot";
 
 // --- SÉCURITÉ ---
 async function checkAdminAccess() {
@@ -15,7 +15,6 @@ async function checkAdminAccess() {
   if (!userId) redirect("/login");
   
   const user = await prisma.user.findUnique({ 
-    // ✅ FIX : userId est déjà un string, on enlève parseInt
     where: { id: userId }, 
     include: { role: true } 
   });
@@ -61,6 +60,36 @@ export async function getAdminDashboardData(search?: string) {
   return { logs, users, stats, allTags, categories, categoryMappings };
 }
 
+// --- ACTIONS LOGS ---
+
+/**
+ * Vide tous les logs de la base de données
+ * Laisse une trace de l'action de suppression
+ */
+export async function clearLogs() {
+  const admin = await checkAdminAccess();
+
+  try {
+    // On vide la table
+    await prisma.log.deleteMany({});
+
+    // On crée un log de "re-initialisation" pour savoir qui a vidé le terminal
+    await prisma.log.create({
+      data: {
+        action: "CLEAR_LOGS",
+        details: `Historique des logs vidé par ${admin.prenom} ${admin.nom}`,
+        userId: admin.id
+      }
+    });
+
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (e) {
+    console.error("Erreur lors du vidage des logs", e);
+    return { success: false, error: "Erreur technique lors de la suppression" };
+  }
+}
+
 // --- ACTIONS TAGS ---
 export async function createTag(formData: FormData) {
   const admin = await checkAdminAccess();
@@ -83,8 +112,6 @@ export async function createTag(formData: FormData) {
   }
 }
 
-// ✅ NOTE: L'ID des Tags, Catégories et Notifications reste un Int dans ton schéma
-// Seul l'ID User a changé en String. On garde donc 'number' ici.
 export async function deleteTag(id: number) {
   const admin = await checkAdminAccess();
 
@@ -111,13 +138,14 @@ export async function deleteTag(id: number) {
   }
 }
 
+// --- ACTIONS CATÉGORIES ---
+
 export async function getAuthorizedCategories() {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId")?.value;
   if (!userId) return [];
 
   const user = await prisma.user.findUnique({
-    // ✅ FIX : On utilise String(userId)
     where: { id: userId },
     include: { tags: true, role: true }
   });
@@ -178,6 +206,8 @@ export async function deleteCategory(id: number) {
   } catch (e) { console.error(e); }
 }
 
+// --- MAPPINGS ---
+
 export async function addCategoryMapping(category: string, tag: string) {
   const admin = await checkAdminAccess();
   try {
@@ -192,7 +222,6 @@ export async function addCategoryMapping(category: string, tag: string) {
 export async function deleteCategoryMapping(id: number) {
   const admin = await checkAdminAccess();
   try {
-    const mapping = await prisma.categoryMapping.findUnique({ where: { id } });
     await prisma.categoryMapping.delete({ where: { id } });
     await prisma.log.create({
       data: { action: "DELETE_MAPPING", details: `Mapping supprimé`, userId: admin.id }
@@ -201,13 +230,14 @@ export async function deleteCategoryMapping(id: number) {
   } catch (e) { console.error(e); }
 }
 
+// --- AUTRES ---
+
 export async function getPublishingTags() {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId")?.value;
   if (!userId) return [];
 
   const user = await prisma.user.findUnique({
-    // ✅ FIX : userId est un String
     where: { id: userId },
     include: { tags: true, role: true }
   });
@@ -251,10 +281,23 @@ export async function clearNotifications() {
 export async function runStorageCleanup() {
   const session = await getUserSession();
   
-  // 1 = Ton ancien code, 2 = Ton roleId admin actuel détecté par les logs
   if (!session || Number(session.user.roleId) !== 2) {
     return { success: false, error: "Droit administrateur requis" };
   }
 
-  return await globalStorageCleanup();
+  try {
+    const results = await runGlobalBotMaintenance();
+    
+    // Le type "layout" indique à Next.js de rafraîchir la racine et tous ses enfants
+    revalidatePath("/", "layout");
+
+    return { 
+      success: true, 
+      message: "Maintenance globale effectuée et cache purgé.",
+      results 
+    };
+  } catch (err) {
+    console.error("Erreur Action Bot:", err);
+    return { success: false, error: "Échec de la maintenance." };
+  }
 }

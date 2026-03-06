@@ -2,7 +2,7 @@
 
 import { createContext, useContext, ReactNode } from "react";
 
-// Structure de notre session client
+// 1. DÉFINITION DE LA STRUCTURE
 type AuthState = {
   isAuthenticated: boolean;
   isSuperAdmin: boolean;
@@ -10,43 +10,57 @@ type AuthState = {
   user: any | null;
 };
 
-const AuthContext = createContext<AuthState>({
+const AuthPermissionsContext = createContext<AuthState>({
   isAuthenticated: false,
   isSuperAdmin: false,
   permissions: [],
   user: null,
 });
 
-// 1. LE PROVIDER (À mettre dans le layout)
-export function AuthProvider({ 
+// 2. LE PROVIDER UNIFIÉ (SANS NEXT-AUTH)
+export default function AuthContext({ 
   session, 
   children 
 }: { 
   session: any, 
   children: ReactNode 
 }) {
+  // session correspond ici à ce que renvoie getUserSession() dans ton layout
   const value = session 
-    ? { isAuthenticated: true, ...session }
-    : { isAuthenticated: false, isSuperAdmin: false, permissions: [], user: null };
+    ? { 
+        isAuthenticated: true, 
+        isSuperAdmin: session.isSuperAdmin || false, 
+        permissions: session.permissions || [], 
+        user: session.user 
+      }
+    : { 
+        isAuthenticated: false, 
+        isSuperAdmin: false, 
+        permissions: [], 
+        user: null 
+      };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthPermissionsContext.Provider value={value}>
+      {children}
+    </AuthPermissionsContext.Provider>
+  );
 }
 
-// 2. LE HOOK (Pour la logique JS : if (can('edit')) ...)
+// 3. LE HOOK useAuth
 export function useAuth() {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthPermissionsContext);
   
   const can = (permissionCode: string) => {
-    if (!context.isAuthenticated) return false;
-    if (context.isSuperAdmin) return true; // Le chef peut tout faire
+    if (!context || !context.isAuthenticated) return false;
+    if (context.isSuperAdmin) return true; 
     return context.permissions.includes(permissionCode);
   };
 
   return { ...context, can };
 }
 
-// 3. LE COMPOSANT D'AFFICHAGE (Pour le JSX)
-// Affiche les enfants SEULEMENT si la permission est validée
+// 4. LE COMPOSANT Protect
 export function Protect({ 
   code, 
   children, 

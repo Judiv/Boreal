@@ -1052,3 +1052,221 @@ a.fileActionBtn {
   overflow: hidden;
   margin-top: 4px;
 }
+
+
+/* --- RESPONSIVE MOBILE --- */
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column; /* Sidebar au dessus ou cachée, contenu en dessous */
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .sidebar {
+    width: 100%;
+    order: 2; /* Place la barre de navigation en bas ou après sur mobile si besoin */
+  }
+
+  .mainContent {
+    width: 100%;
+    order: 1;
+  }
+
+  /* Ajustement des cartes de messages */
+  .glassCard {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .objetMainTitle {
+    font-size: 1.5rem; /* Titre plus petit sur mobile */
+  }
+
+  .messageItem {
+    padding: 1rem 1rem 1rem 1.5rem;
+  }
+
+  /* Cache les snippets trop longs sur mobile pour gagner de la place */
+  .itemSnippet {
+    -webkit-line-clamp: 1;
+  }
+
+  /* Grille de fichiers joints sur une seule colonne */
+  .gridAttachments {
+    grid-template-columns: 1fr;
+  }
+
+  /* Barre d'actions du message (Ranger, Répondre, Supprimer) */
+  .detailActionsBar {
+    width: 100%;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  /* On cache les labels texte des boutons de navigation pour gagner de la place si besoin */
+  /* Ou on réduit la taille des polices */
+  .navItem {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  /* Toast notification centrée en bas sur mobile */
+  .toastNotification {
+    left: 10px;
+    right: 10px;
+    bottom: 20px;
+    min-width: auto;
+  }
+
+  /* Header de composition (À, Objet) */
+  .composeRow {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.8rem 1rem;
+  }
+
+  .composeLabel {
+    width: 100%;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+  }
+
+  .composeAreaWrapper {
+    padding: 1rem;
+  }
+}
+
+/* --- OPTIMISATION TRÈS PETITS ÉCRANS --- */
+@media (max-width: 480px) {
+  .detailHeader {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .detailActionsBar {
+    flex-wrap: wrap;
+  }
+
+  .senderInfo {
+    gap: 0.5rem;
+  }
+
+  .avatarLarge {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+
+
+
+/* --- RESPONSIVE NEW MAIL PAGE --- */
+
+@media (max-width: 768px) {
+  /* On empile la sidebar et le contenu */
+  .layout {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  /* La sidebar de composition devient une barre de retour en haut */
+  .sidebarCompose {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .hideMobile {
+    display: none;
+  }
+
+  /* La carte de composition prend tout l'espace */
+  .glassCardCompose {
+    border-radius: 16px;
+    border: none;
+    background: rgba(30, 41, 59, 0.6);
+  }
+
+  /* Champs "À" et "Objet" en colonne */
+  .composeRow {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 15px;
+  }
+
+  .composeLabel {
+    width: 100%;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    color: #60a5fa;
+  }
+
+  .composeField {
+    width: 100%;
+  }
+
+  /* Editeur de texte : on réduit les paddings */
+  .editorContentArea {
+    padding: 1rem;
+    min-height: 250px; /* Un peu plus petit sur mobile */
+  }
+
+  .editorToolbar {
+    flex-wrap: wrap; /* Les outils reviennent à la ligne si besoin */
+    gap: 4px;
+    padding: 8px;
+  }
+
+  /* Footer (Pièces jointes et Envoyer) */
+  .composeFooter {
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .attachBtnCompose, .sendBtnPremium {
+    width: 100%; /* Boutons pleine largeur pour le pouce */
+    justify-content: center;
+  }
+
+  /* Dropdown de recherche de destinataires */
+  .searchDropdown {
+    width: 100%;
+    position: fixed; /* Prend tout le bas de l'écran sur mobile */
+    top: auto;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px 20px 0 0;
+    max-height: 50vh;
+  }
+
+  /* Emoji picker : on le force à s'adapter */
+  .emojiPopover {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    z-index: 10000;
+  }
+  
+  .emojiPopover :global(.epr-main) {
+    width: 100% !important;
+  }
+}
+
+/* Ajustements pour les badges de destinataires */
+@media (max-width: 480px) {
+  .recipientBadge {
+    max-width: 120px;
+    font-size: 0.75rem;
+  }
+  
+  .title {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+}
